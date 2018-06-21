@@ -1,16 +1,14 @@
 package mol.model.curso.turma;
 
-import java.util.List;
-
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import mol.model.Entidade;
 import mol.model.curso.disciplina.Disciplina;
-import mol.model.user.Aluno;
 import mol.model.user.Professor;
 
 @Entity
@@ -29,10 +27,10 @@ public class TurmaDisciplina extends Entidade {
 	@JoinColumn(name="professor_id")
 	private Professor professor;
 	
-	@ManyToMany
-	private List<Aluno> alunos;
-
 	
+	
+	@Enumerated(EnumType.STRING)
+	private TipoCalculo tipoCalculo;
 	
 	public Turma getTurma() {
 		return turma;
@@ -56,14 +54,6 @@ public class TurmaDisciplina extends Entidade {
 
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
-	}
-
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
 	}
 	
 }

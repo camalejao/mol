@@ -9,7 +9,7 @@ public enum TurnoTurma {
 		turno = t;
 	}
 
-	public String getDescricao() {
+	public String getTurno() {
 		return turno;
 	}
 }

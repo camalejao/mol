@@ -27,7 +27,6 @@ public class Topico extends Entidade {
 	private List<MaterialDidatico> materiaisDidaticos;
 
 	
-	
 	public Sumario getSumario() {
 		return sumario;
 	}

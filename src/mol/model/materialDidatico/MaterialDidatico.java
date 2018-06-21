@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import mol.model.Entidade;
@@ -15,8 +16,9 @@ public class MaterialDidatico extends Entidade {
 	@Column(length=40, nullable=false)
 	private String titulo;
 	
-	@Column(nullable=false)
-	private String documento;
+	@Lob
+	@Column(nullable=false, columnDefinition="mediumblob")
+	private byte[] documento;
 	
 	private String descricao;
 	
@@ -33,11 +35,11 @@ public class MaterialDidatico extends Entidade {
 		this.titulo = titulo;
 	}
 
-	public String getDocumento() {
+	public byte[] getDocumento() {
 		return documento;
 	}
 
-	public void setDocumento(String documento) {
+	public void setDocumento(byte[] documento) {
 		this.documento = documento;
 	}
 

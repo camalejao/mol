@@ -1,6 +1,6 @@
 package mol.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -9,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import mol.model.user.Usuario;
 
@@ -23,11 +26,16 @@ public abstract class Entidade {
 	@Enumerated(EnumType.STRING)
 	private StatusEntidade status;
 	
-	//@Temporal(TemporalType.DATE)
-	@Column(name="data_ultima_alteracao")
-	private LocalDate dataUltimaAlteracao;
+	@CreationTimestamp
+	@Column(name="data_cadastro")
+	private LocalDateTime dataCadastro;
 	
-	@OneToOne
+	//@Temporal(TemporalType.DATE)
+	@UpdateTimestamp
+	@Column(name="data_ultima_alteracao")
+	private LocalDateTime dataUltimaAlteracao;
+	
+	@ManyToOne
 	@JoinColumn(name="usuario_logado")
 	private Usuario usuarioLogado;
 	
@@ -48,11 +56,19 @@ public abstract class Entidade {
 		this.status = status;
 	}
 
-	public LocalDate getDataUltimaAlteracao() {
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataUltimaAlteracao = dataCadastro;
+	}
+	
+	public LocalDateTime getDataUltimaAlteracao() {
 		return dataUltimaAlteracao;
 	}
 
-	public void setDataUltimaAlteracao(LocalDate dataUltimaAlteracao) {
+	public void setDataUltimaAlteracao(LocalDateTime dataUltimaAlteracao) {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
 	}
 
