@@ -24,7 +24,7 @@ public class CadastroController {
 		return "formProfessor";
 	}
 	
-	@RequestMapping("insereAluno")
+	@RequestMapping("cadastraAluno")
 	public String insereAlnuo(Aluno aluno) {
 		aluno.setStatus(StatusEntidade.ATIVO);
 		aluno.setTipo(TipoUsuario.ALUNO);
@@ -34,7 +34,7 @@ public class CadastroController {
 		return "redirect:login";
 	}
 	
-	@RequestMapping("insereProfessor")
+	@RequestMapping("cadastraProfessor")
 	public String insereProfessor(Professor professor) {
 		professor.setStatus(StatusEntidade.ATIVO);
 		professor.setTipo(TipoUsuario.PROFESSOR);

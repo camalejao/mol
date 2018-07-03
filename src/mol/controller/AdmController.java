@@ -108,7 +108,7 @@ public class AdmController {
 		return mav;
 	}
 
-	@RequestMapping("salvaAluno")
+	@RequestMapping("insereAluno")
 	public String insereAluno(@ModelAttribute("aluno") Aluno aluno) {
 
 		aluno.setSenha(aluno.senhaSHA());
@@ -152,7 +152,7 @@ public class AdmController {
 		return mav;
 	}
 
-	@RequestMapping("salvaProfessor")
+	@RequestMapping("insereProfessor")
 	public String insereProfessor(@ModelAttribute("professor") Professor professor) {
 
 		professor.setSenha(professor.senhaSHA());
@@ -185,16 +185,19 @@ public class AdmController {
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
+		IMonitorDAO monitorDAO = DAOFactory.getMonitorDAO();
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
-		
-		monitor.setAluno(alunoDAO.consultarPorId(monitor.getAluno().getId()));
-		monitor.setDisciplina(discDAO.consultarPorId(monitor.getDisciplina().getId()));
+		Aluno aluno = alunoDAO.consultarPorMatricula(monitor.getAluno().getMatricula());
+				
+		monitor.setAluno(aluno);
+		monitor.setDisciplina(discDAO.consultarPorSigla(monitor.getDisciplina().getSigla()));
 		monitor.setUsuarioLogado(uDAO.consultarPorId(user.getId()));
-
-		IMonitorDAO monitorDAO = DAOFactory.getMonitorDAO();
 		monitorDAO.inserir(monitor);
-
+		
+		aluno.setTipo(TipoUsuario.MONITOR);
+		alunoDAO.alterar(aluno);
+				
 		return "adm/sucesso";
 	}
 	
