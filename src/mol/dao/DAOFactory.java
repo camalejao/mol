@@ -24,7 +24,7 @@ public abstract class DAOFactory {
     
     
     static {
-        emf = Persistence.createEntityManagerFactory("mol_local");
+        emf = Persistence.createEntityManagerFactory("mol_remoto");
     }
     
     public static IDisciplinaDAO getDisciplinaDAO() {

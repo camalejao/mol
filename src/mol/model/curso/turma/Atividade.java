@@ -10,6 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import mol.model.Entidade;
 
@@ -40,12 +44,22 @@ public class Atividade extends Entidade {
 	@Column(columnDefinition="mediumblob")
 	private byte[] documento;
 	
+	@Column(length=50, name="nome_documento")
+	private String nomeDocumento;
+	
+	@Column(length=20, name="tipo_documento")
+	private String tipoDocumento;
+	
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
 	@Column(name="data_expiracao", nullable=false)
 	private LocalDateTime dataExpiracao;
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="valor_aprendizagem", nullable=false)
 	private NivelAprendizagem nivel;
+	
+	@Transient
+	private CommonsMultipartFile upload;
 	
 	
 	
@@ -104,6 +118,22 @@ public class Atividade extends Entidade {
 	public void setDocumento(byte[] documento) {
 		this.documento = documento;
 	}
+	
+	public String getNomeDocumento() {
+		return nomeDocumento;
+	}
+
+	public void setNomeDocumento(String nomeDocumento) {
+		this.nomeDocumento = nomeDocumento;
+	}
+		
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
 
 	public LocalDateTime getDataExpiracao() {
 		return dataExpiracao;
@@ -119,6 +149,14 @@ public class Atividade extends Entidade {
 
 	public void setNivel(NivelAprendizagem nivel) {
 		this.nivel = nivel;
+	}
+
+	public CommonsMultipartFile getUpload() {
+		return upload;
+	}
+
+	public void setUpload(CommonsMultipartFile upload) {
+		this.upload = upload;
 	}
 	
 }

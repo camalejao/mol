@@ -13,7 +13,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Atividades</title>
+<title>MOL - Editar Atividades</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -89,32 +89,31 @@
 					<i class="fa fa-file-text"></i> Adicionar Atividade
 				</div>
 				<div class="card-body">
-					<form:form modelAttribute="novaAtividade"
-						action="cadastraAtividade" method="POST"
-						enctype="multipart/form-data">
+					<form:form modelAttribute="atividade"
+						action="editaAtividade-{atividade.id}" method="POST">
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-md-3">
 									<label for="inputTitulo">Título</label>
-									<form:input path="titulo" class="form-control" id="inputTitulo"
+									<form:input path="titulo" value="${atividade.titulo}"class="form-control" id="inputTitulo"
 										type="text" aria-describedby="tituloHelp"
 										placeholder="Título da Atividade" />
 								</div>
 								<div class="col-md-2">
 									<label for="inputvalorMaximo">Valor Máximo</label>
 									<form:input path="valorMaximo" class="form-control"
-										id="inputvalorMaximo" type="number" step="0.25" min="0.25"
+										id="inputvalorMaximo" type="number" value="${atividade.valorMaximo}" step="0.25" min="0.25"
 										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
 								</div>
 								<div class="col-md-2">
 									<label for="inputPeso">Peso</label>
 									<form:input path="peso" class="form-control" id="inputPeso"
-										type="number" min="1" max="10" aria-describedby="pesoHelp"
+										type="number" value="${atividade.peso}" min="1" max="10" aria-describedby="pesoHelp"
 										placeholder="Ex: 2" />
 								</div>
 								<div class="col-md-1">
 									<label for="selectUnidade">Unidade</label>
-									<form:select path="unidade" class="form-control"
+									<form:select path="unidade" value="${atividade.unidade}" class="form-control"
 										id="selectUnidade">
 										<c:forEach items="${unidades}" var="unidade">
 											<form:option value="${unidade}">${unidade.unidade}</form:option>
@@ -126,7 +125,7 @@
 						<div class="form-group">
 							<div>
 								<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-								<form:select path="turmaDisciplina.id" class="form-control"
+								<form:select path="turmaDisciplina.id" value="${atividade.turmaDisciplina.id}" class="form-control"
 									id="selectTurmaDisciplina">
 									<c:forEach items="${turmaDisciplinas}" var="td">
 										<form:option value="${td.id}">${td.turma.identificacao} / ${td.disciplina.sigla}</form:option>
@@ -138,7 +137,7 @@
 							<div class="form-row">
 								<div class="col-md-6">
 									<label for="inputDescricao">Descricao</label>
-									<form:input class="form-control" path="descricao"
+									<form:input class="form-control" path="descricao" value="${atividade.descricao}"
 										id="inputDescricao" rows="5" type="text" />
 								</div>
 							</div>
@@ -147,12 +146,12 @@
 							<div class="form-row">
 								<div class="col-md-6">
 									<label for="inputData">Data Expiração</label>
-									<form:input class="form-control" path="dataExpiracao"
+									<form:input class="form-control" path="dataExpiracao" value="${atividade.dataExpiracao}"
 										id="inputData" rows="5" type="text" />
 								</div>
 								<div class="col-md-6">
 									<label for="selectNivel">Nível de Aprendizagem</label>
-									<form:select path="nivel" class="form-control" id="selectNivel">
+									<form:select path="nivel" value="${atividade.nivel}" class="form-control" id="selectNivel">
 										<c:forEach items="${niveis}" var="n">
 											<form:option value="${n}">${n.nivel}</form:option>
 										</c:forEach>
@@ -160,72 +159,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="uploadArquivo">Selecione o arquivo</label>
-									<form:input class="form-control-file" path="upload"
-										id="uploadArquivo" type="file" />
-								</div>
-							</div>
-						</div>
-						<button class="btn btn-primary btn-block" type="submit">Adicionar</button>
+						<button class="btn btn-primary btn-block" type="submit">Salvar</button>
 					</form:form>
-				</div>
-			</div>
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-file-text"></i> Editar Atividades
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-
-						<table class="table table-bordered" id="dataTable" width="100%"
-							cellspacing="0">
-							<thead>
-								<tr>
-									<th>Título</th>
-									<th>Turma/Disciplina</th>
-									<th>Arquivo</th>
-									<th>Status</th>
-									<th>Nível</th>
-									<th>Data Expiração</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>Título</th>
-									<th>Turma/Disciplina</th>
-									<th>Arquivo</th>
-									<th>Status</th>
-									<th>Nível</th>
-									<th>Data Expiração</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<c:forEach items="${atividades}" var="atividade">
-									<tr>
-										<td>${atividade.titulo}-<a
-											class="btn btn-secondary btn-sm" href="#"> <i
-												class="fa fa-pencil-square "></i> Editar
-										</a> <a class="btn btn-secondary btn-sm"
-											href="download-${atividade.id}"> <i
-												class="fa fa-download "></i> Baixar
-										</a></td>
-										<td>${atividade.turmaDisciplina.turma.identificacao}-
-											${atividade.turmaDisciplina.disciplina.sigla}</td>
-										<td>${atividade.documento.titulo}</td>
-										<td>${atividade.status}</td>
-										<td>${atividade.nivel.nivel}</td>
-										<fmt:parseDate value="${atividade.dataExpiracao}"
-											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-										<td><fmt:formatDate value="${parsedDateTime}"
-												pattern="dd/MM/yyyy HH:mm" /></td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
 				</div>
 			</div>
 		</div>

@@ -19,12 +19,20 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 	
-	<mvc:resources location="/webjars/" mapping="/webjars/**"/>
+	<mvc:resources location="/webjars/" mapping="/webjars/**"></mvc:resources>
 	
 	<!-- <mvc:interceptors>
     	<bean class="mol.interceptor.AutorizadorInterceptor" />
     </mvc:interceptors> -->
-    	
+    
+   <bean id="typeConverter" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+   <property name="customEditors">
+      <map>
+         <entry key="java.time.LocalDateTime" value="mol.typeConverter.LocalDateTimeConverter" />
+      </map>
+   </property>
+</bean>
+    
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- one of the several properties available; the maximum file size in bytes -->
         <property name="maxUploadSizePerFile" value="16777216"/>

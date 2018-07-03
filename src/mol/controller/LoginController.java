@@ -25,6 +25,11 @@ public class LoginController {
 	public String telaLogin() {
 		return "index";
 	}
+	
+	@RequestMapping("acessoNaoAutorizado")
+	public String naoAutorizado() {
+		return "naoAutorizado";
+	}
 
 	@RequestMapping("efetuaLogin")
 	public String efetuaLogin(Usuario usuario, HttpSession session) {

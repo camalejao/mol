@@ -5,6 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import mol.dao.DAOFactory;
+import mol.dao.IPermissoesDAO;
+import mol.model.user.Usuario;
+
 
 public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	
@@ -13,17 +17,25 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		String uri = request.getRequestURI();
-		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.contains("resources")) {
+		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.endsWith("logout") || uri.contains("resources")) {
 			return true;
 		}
 		
+		if (uri.endsWith("cadastroAluno") || uri.endsWith("cadastroProfessor") || uri.endsWith("cadastraAluno") || uri.endsWith("cadastraProfessor")) {
+			return true;
+		}
 		
-
 		if (request.getSession().getAttribute("usuarioLogado") != null) {
-			return true;
+			Usuario u = (Usuario)request.getSession().getAttribute("usuarioLogado");
+			IPermissoesDAO pDAO = DAOFactory.getPermissoesDAO();
+			for(Permissoes p : pDAO.consultarPorTipoUsuario(u.getTipo())) {
+				if(uri.endsWith(p.getServico())) {
+					return true;
+				}
+			}
 		}
-
-		response.sendRedirect("index");
+		
+		response.sendRedirect("acessoNaoAutorizado");
 		return false;
 	}
 } 

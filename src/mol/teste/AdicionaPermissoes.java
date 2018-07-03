@@ -27,7 +27,12 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("insereProfessor", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("cadastrarMonitor", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("insereMonitor", TipoUsuario.ADMINISTRADOR));
-		lp.add(new Permissoes("cadastrarDisciplina", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("homeProfessor", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("gerenciarAtividades", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("cadastraAtividade", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("downloadDocumento-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editarAtividade-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editaAtividade-{id}", TipoUsuario.PROFESSOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);
