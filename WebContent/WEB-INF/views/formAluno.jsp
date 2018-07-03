@@ -27,7 +27,7 @@
 		<div class="card card-register mx-auto mt-5">
 			<div class="card-header">Cadastro de aluno(a)</div>
 			<div class="card-body">
-				<form action="insereAluno" method="POST">
+				<form action="cadastraAluno" method="POST">
 					<div class="form-group">
 						<div class="form-row">
 							<div class="col-md-6">

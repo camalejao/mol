@@ -27,7 +27,7 @@
 		<div class="card card-register mx-auto mt-5">
 			<div class="card-header">Cadastro de professor(a)</div>
 			<div class="card-body">
-				<form action="insereProfessor" method="POST">
+				<form action="cadastraProfessor" method="POST">
 					<div class="form-group">
 						<div class="form-row">
 							<div class="col-md-6">
