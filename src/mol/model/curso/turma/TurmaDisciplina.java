@@ -1,5 +1,6 @@
 package mol.model.curso.turma;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 
 import mol.model.Entidade;
 import mol.model.curso.disciplina.Disciplina;
+import mol.model.curso.disciplina.Sumario;
 import mol.model.user.Professor;
 
 @Entity
@@ -27,10 +29,17 @@ public class TurmaDisciplina extends Entidade {
 	@JoinColumn(name="professor_id")
 	private Professor professor;
 	
-	
+	@Column(name="carga_horaria")
+	private int cargaHoraria;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoCalculo tipoCalculo;
+	
+	@ManyToOne
+	@JoinColumn(name="sumario_id")
+	private Sumario sumarioTurma;
+	
+	
 	
 	public Turma getTurma() {
 		return turma;
@@ -55,5 +64,29 @@ public class TurmaDisciplina extends Entidade {
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
 	}
-	
+
+	public int getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(int cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+
+	public TipoCalculo getTipoCalculo() {
+		return tipoCalculo;
+	}
+
+	public void setTipoCalculo(TipoCalculo tipoCalculo) {
+		this.tipoCalculo = tipoCalculo;
+	}
+
+	public Sumario getSumarioTurma() {
+		return sumarioTurma;
+	}
+
+	public void setSumarioTurma(Sumario sumarioTurma) {
+		this.sumarioTurma = sumarioTurma;
+	}
+		
 }

@@ -2,6 +2,7 @@ package mol.model.curso.disciplina;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +24,9 @@ public class Topico extends Entidade {
 	@JoinColumn(name="topico_pai_id")
 	private Topico topico;
 	
+	@Column(length=30, nullable=false)
+	private String descricao;
+	
 	@OneToMany
 	private List<MaterialDidatico> materiaisDidaticos;
 
@@ -41,6 +45,14 @@ public class Topico extends Entidade {
 
 	public void setTopico(Topico topico) {
 		this.topico = topico;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public List<MaterialDidatico> getMateriaisDidaticos() {

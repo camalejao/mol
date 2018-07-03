@@ -30,7 +30,6 @@ public abstract class Entidade {
 	@Column(name="data_cadastro")
 	private LocalDateTime dataCadastro;
 	
-	//@Temporal(TemporalType.DATE)
 	@UpdateTimestamp
 	@Column(name="data_ultima_alteracao")
 	private LocalDateTime dataUltimaAlteracao;

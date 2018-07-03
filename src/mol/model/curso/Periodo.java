@@ -20,11 +20,9 @@ public class Periodo extends Entidade {
 	private EntradaPeriodo entrada;
 	
 	@Column(name="data_inicio")
-    //@Temporal(TemporalType.DATE)
 	private LocalDate dataIncio;
 	
 	@Column(name="data_fim")
-    //@Temporal(TemporalType.DATE)
 	private LocalDate dataFim;
 	
 	

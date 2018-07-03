@@ -1,10 +1,13 @@
 package mol.model.curso.turma;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,7 +18,7 @@ import mol.model.Entidade;
 public class Atividade extends Entidade {
 	
 	@Column(length=40, nullable=false)
-	private String nome;
+	private String titulo;
 	
 	@Column(name="valor_maximo", nullable=false)
 	private double valorMaximo;
@@ -30,13 +33,28 @@ public class Atividade extends Entidade {
 	@Enumerated(EnumType.ORDINAL)
 	private Unidades unidade;
 	
+	@Column(length=300)
+	private String descricao;
 	
-	public String getNome() {
-		return nome;
+	@Lob
+	@Column(columnDefinition="mediumblob")
+	private byte[] documento;
+	
+	@Column(name="data_expiracao", nullable=false)
+	private LocalDateTime dataExpiracao;
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name="valor_aprendizagem", nullable=false)
+	private NivelAprendizagem nivel;
+	
+	
+	
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public double getValorMaximo() {
@@ -71,4 +89,36 @@ public class Atividade extends Entidade {
 		this.unidade = unidade;
 	}
 		
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public byte[] getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(byte[] documento) {
+		this.documento = documento;
+	}
+
+	public LocalDateTime getDataExpiracao() {
+		return dataExpiracao;
+	}
+
+	public void setDataExpiracao(LocalDateTime dataExpiracao) {
+		this.dataExpiracao = dataExpiracao;
+	}
+
+	public NivelAprendizagem getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(NivelAprendizagem nivel) {
+		this.nivel = nivel;
+	}
+	
 }

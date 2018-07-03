@@ -16,7 +16,7 @@ import mol.model.curso.Periodo;
 @Table(name="t_turma")
 public class Turma extends Entidade {
 	
-	@Column(nullable=false)
+	@Column(length=8, nullable=false)
 	private String identificacao;
 	
 	@ManyToOne

@@ -17,9 +17,10 @@ public class MaterialDidatico extends Entidade {
 	private String titulo;
 	
 	@Lob
-	@Column(nullable=false, columnDefinition="mediumblob")
+	@Column(columnDefinition="mediumblob")
 	private byte[] documento;
 	
+	@Column(length=100, nullable=false)
 	private String descricao;
 	
 	@Enumerated(EnumType.STRING)

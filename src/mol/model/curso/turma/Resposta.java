@@ -3,6 +3,7 @@ package mol.model.curso.turma;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,7 +26,10 @@ public class Resposta extends Entidade {
 	
 	@Column(length=500)
 	private String observacoes;
-
+	
+	@Lob
+	@Column(columnDefinition="mediumblob", name="doc_resposta")
+	private byte[] documentoResposta;
 	
 	public Atividade getAtividade() {
 		return atividade;
@@ -57,6 +61,14 @@ public class Resposta extends Entidade {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
+	}
+
+	public byte[] getDocumentoResposta() {
+		return documentoResposta;
+	}
+
+	public void setDocumentoResposta(byte[] documentoResposta) {
+		this.documentoResposta = documentoResposta;
 	}
 	
 }

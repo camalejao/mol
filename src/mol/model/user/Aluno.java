@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="id")
 public class Aluno extends Usuario {
 	
-	@Column(length=9, nullable=false)
+	@Column(length=8, nullable=false, unique = true)
 	private String matricula;
 	
 	

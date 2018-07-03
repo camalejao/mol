@@ -15,7 +15,7 @@ public class Disciplina extends Entidade{
 	@Column(length=40, nullable=false)
 	private String nome;
 	
-	@Column(length=5, nullable=false)
+	@Column(length=5, nullable=false, unique=true)
 	private String sigla;
 	
 	@OneToOne
