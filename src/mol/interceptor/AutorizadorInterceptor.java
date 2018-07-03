@@ -1,4 +1,4 @@
-/* package mol.interceptor;
+ package mol.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +16,8 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.contains("resources")) {
 			return true;
 		}
+		
+		
 
 		if (request.getSession().getAttribute("usuarioLogado") != null) {
 			return true;
@@ -24,4 +26,4 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 		response.sendRedirect("index");
 		return false;
 	}
-} */
+} 
