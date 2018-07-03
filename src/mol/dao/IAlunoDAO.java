@@ -10,4 +10,5 @@ public interface IAlunoDAO extends IDAOGenerico<Aluno> {
 	 
 	 public List<Aluno> consultarPorNome(String nome);
 	 
+	 public List<Aluno> consultarPossiveisMonitores();
 }

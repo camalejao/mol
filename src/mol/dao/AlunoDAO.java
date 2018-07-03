@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import mol.model.StatusEntidade;
 import mol.model.user.Aluno;
+import mol.model.user.TipoUsuario;
 
 public class AlunoDAO extends DAOGenerico<Aluno> implements IAlunoDAO{
 
@@ -31,6 +33,20 @@ public class AlunoDAO extends DAOGenerico<Aluno> implements IAlunoDAO{
 		try {
 			TypedQuery<Aluno> query = getEntityManager().createQuery("select a from Aluno a where a.nome like :nome", Aluno.class);
 			query.setParameter("nome", "%" + nome + "%");
+            return query.getResultList();
+            		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
+
+	@Override
+	public List<Aluno> consultarPossiveisMonitores() {
+		try {
+			TypedQuery<Aluno> query = getEntityManager().createQuery("select a from Aluno a where a.status = :s and a.tipo =:t", Aluno.class);
+			query.setParameter("s", StatusEntidade.ATIVO);
+			query.setParameter("t", TipoUsuario.ALUNO);
             return query.getResultList();
             		
         } catch (RuntimeException re) {
