@@ -44,7 +44,7 @@
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
@@ -79,7 +79,7 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="homeAdm">Página
 						Inicial</a></li>
-				<li class="breadcrumb-item active">Cadastro de usuário</li>
+				<li class="breadcrumb-item active">Cadastro de Usuário</li>
 			</ol>
 			<div class="row">
 				<div class="col-12">
@@ -93,7 +93,7 @@
 										<label for="selectTipo">Tipo de Usuário</label>
 										<form:select path="tipo" class="form-control" id="selectTipo">
 											<c:forEach items="${tipos}" var="tipo">
-												<form:option value="${tipo}">${tipo}</form:option>
+												<form:option value="${tipo}">${tipo.tipoUsuario}</form:option>
 											</c:forEach>
 										</form:select>
 									</div>

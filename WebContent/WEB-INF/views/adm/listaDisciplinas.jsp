@@ -21,6 +21,10 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
@@ -44,7 +48,7 @@
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
@@ -87,43 +91,39 @@
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
-						<c:choose>
-							<c:when test="${not empty disciplinas}">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<thead>
-										<tr>
-											<th>Id</th>
-											<th>Nome</th>
-											<th>Sigla</th>
-											<th>Data de cadastro</th>
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Id</th>
-											<th>Nome</th>
-											<th>Sigla</th>
-											<th>Data de cadastro</th>
-										</tr>
-									</tfoot>
-									<tbody>
-										<c:forEach items="${disciplinas}" var="disciplina">
-											<tr>
-												<td>${disciplina.id}</td>
-												<td>${disciplina.nome}</td>
-												<td>${disciplina.sigla}</td>
-												<fmt:parseDate value="${disciplina.dataCadastro}"
-													pattern="yyyy-MM-dd" var="parsedDate" type="date" />
-												<td><fmt:formatDate value="${parsedDate}"
-														pattern="dd/MM/yyyy" /></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-							</c:when>
-							<c:otherwise> Não há disciplinas cadastradas.</c:otherwise>
-						</c:choose>
+
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Nome</th>
+									<th>Sigla</th>
+									<th>Data de cadastro</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Id</th>
+									<th>Nome</th>
+									<th>Sigla</th>
+									<th>Data de cadastro</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<c:forEach items="${disciplinas}" var="disciplina">
+									<tr>
+										<td>${disciplina.id}</td>
+										<td>${disciplina.nome}</td>
+										<td>${disciplina.sigla}</td>
+										<fmt:parseDate value="${disciplina.dataCadastro}"
+											pattern="yyyy-MM-dd" var="parsedDate" type="date" />
+										<td><fmt:formatDate value="${parsedDate}"
+												pattern="dd/MM/yyyy" /></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -172,9 +172,16 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- Custom scripts for this page-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
 	</div>
 </body>
-
 </html>

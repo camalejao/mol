@@ -1,5 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 <meta charset="utf-8">
@@ -40,7 +42,7 @@
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>

@@ -3,15 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
 <title>MOL - Administrador</title>
 <!-- Bootstrap core CSS-->
 <link
@@ -21,9 +18,14 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -44,7 +46,7 @@
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
@@ -95,6 +97,7 @@
 									<th>Nome</th>
 									<th>Email</th>
 									<th>Tipo</th>
+									<th>Status</th>
 									<th>Data de cadastro</th>
 								</tr>
 							</thead>
@@ -104,6 +107,7 @@
 									<th>Nome</th>
 									<th>Email</th>
 									<th>Tipo</th>
+									<th>Status</th>
 									<th>Data de cadastro</th>
 								</tr>
 							</tfoot>
@@ -114,6 +118,7 @@
 										<td>${usuario.nome}</td>
 										<td>${usuario.email}</td>
 										<td>${usuario.tipo}</td>
+										<td>${usuario.status}</td>
 										<fmt:parseDate value="${usuario.dataCadastro}"
 											pattern="yyyy-MM-dd" var="parsedDate" type="date" />
 										<td><fmt:formatDate value="${parsedDate}"
@@ -152,7 +157,8 @@
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
-					<div class="modal-body">Selecione "Sair" se deseja encerrar a sessão atual.</div>
+					<div class="modal-body">Selecione "Sair" se deseja encerrar a
+						sessão atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
@@ -169,9 +175,16 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- Custom scripts for this page-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
 	</div>
 </body>
-
 </html>

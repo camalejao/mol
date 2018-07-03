@@ -40,7 +40,7 @@
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>

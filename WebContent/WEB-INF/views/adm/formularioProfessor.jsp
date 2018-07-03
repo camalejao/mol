@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -44,7 +44,7 @@
 				title="Cadastros"><a
 				class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 				href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-					class="fa fa-fw fa-file"></i> <span class="nav-link-text">Cadastros
+					class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 				</span></a>
 				<ul class="sidenav-second-level collapse" id="collapseCadastros">
 					<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
@@ -79,14 +79,15 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="homeAdm">Página
 						Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item"><a href="cadastrarUsuario">Cadastro de Usuário</a></li>
+				<li class="breadcrumb-item active">Cadastro de Professor</li>
 			</ol>
 			<div class="row">
 				<div class="col-12">
 					<div class="card card-register mx-auto mt-5">
 						<div class="card-header">Cadastro de Professor</div>
 						<div class="card-body">
-							<form:form modelAttribute="professor" action="salvaProfessor"
+							<form:form modelAttribute="professor" action="insereProfessor"
 								method="POST">
 								<div class="form-group">
 									<div class="form-row">
