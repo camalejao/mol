@@ -32,6 +32,7 @@ public class TurmaDisciplina extends Entidade {
 	@Column(name="carga_horaria")
 	private int cargaHoraria;
 	
+	@Column(name="tipo_calculo")
 	@Enumerated(EnumType.STRING)
 	private TipoCalculo tipoCalculo;
 	

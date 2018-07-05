@@ -28,7 +28,7 @@ public class Resposta extends Entidade {
 	private String observacoes;
 	
 	@Lob
-	@Column(columnDefinition="mediumblob", name="doc_resposta")
+	@Column(name="doc_resposta")
 	private byte[] documentoResposta;
 	
 	public Atividade getAtividade() {

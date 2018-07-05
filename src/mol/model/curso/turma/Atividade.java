@@ -41,13 +41,12 @@ public class Atividade extends Entidade {
 	private String descricao;
 	
 	@Lob
-	@Column(columnDefinition="mediumblob")
 	private byte[] documento;
 	
 	@Column(length=50, name="nome_documento")
 	private String nomeDocumento;
 	
-	@Column(length=20, name="tipo_documento")
+	@Column(length=160, name="tipo_documento")
 	private String tipoDocumento;
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
