@@ -10,6 +10,7 @@ import mol.model.*;
 import mol.model.curso.*;
 import mol.model.curso.disciplina.*;
 import mol.model.curso.turma.Atividade;
+import mol.model.curso.turma.NivelAprendizagem;
 import mol.model.curso.turma.Resposta;
 import mol.model.curso.turma.TipoCalculo;
 import mol.model.curso.turma.Turma;
@@ -254,6 +255,7 @@ public class Teste {
 		atv1.setPeso(1);
 		atv1.setStatus(StatusEntidade.ATIVO);
 		atv1.setUnidade(Unidades.UM);
+		atv1.setNivel(NivelAprendizagem.FACIL);
 		atv1.setDataExpiracao(LocalDateTime.of(2018, 07, 05, 22, 00));
 		
 		Atividade atv2 = new Atividade();
@@ -262,6 +264,7 @@ public class Teste {
 		atv2.setPeso(2);
 		atv2.setStatus(StatusEntidade.ATIVO);
 		atv2.setUnidade(Unidades.DOIS);
+		atv2.setNivel(NivelAprendizagem.FACIL);
 		atv2.setDataExpiracao(LocalDateTime.of(2018, 07, 15, 19, 00));
 		
 		Resposta r = new Resposta();

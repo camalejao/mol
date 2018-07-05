@@ -18,12 +18,15 @@ public class Permissoes {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length=20,nullable=false)
+	@Column(length=50,nullable=false)
 	private String servico;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoUsuario tipo;
 	
+	public Permissoes() {
+		
+	}
 	
 	public Permissoes(String s, TipoUsuario t) {
 		servico = s;

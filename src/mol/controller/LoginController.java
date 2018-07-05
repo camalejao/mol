@@ -20,6 +20,14 @@ public class LoginController {
 		} else
 			return "index";
 	}
+	
+	@RequestMapping("index")
+	public String index(HttpSession session) {
+		if (session.getAttribute("usuarioLogado") != null) {
+			return "redirect:home";
+		} else
+			return "redirect:login";
+	}
 
 	@RequestMapping("login")
 	public String telaLogin() {
