@@ -42,6 +42,7 @@ public class ProfessorController {
 		mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 		mav.addObject("unidades", Arrays.asList(Unidades.values()));
 		mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 
 		return mav;
 	}
@@ -66,7 +67,7 @@ public class ProfessorController {
 	}
 
 	@RequestMapping(value = { "downloadDocumento-{id}" }, method = RequestMethod.GET)
-	public String downloadDocument(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
+	public void downloadDocument(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
 
 		if (id != null && id > 0) {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
@@ -76,17 +77,21 @@ public class ProfessorController {
 			resp.setHeader("Content-Disposition", "attachment; filename=\"" + atividade.getNomeDocumento() + "\"");
 			FileCopyUtils.copy(atividade.getDocumento(), resp.getOutputStream());
 		}
-
-		return "professor/gerenciarAtividades";
 	}
 
 	@RequestMapping("editarAtividade-{id}")
-	public ModelAndView editarAtividade(@PathVariable Integer id) {
+	public ModelAndView editarAtividade(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav;
 		if (id != null && id > 0) {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-			mav = new ModelAndView("professor/editarAtividade");
+			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+			Professor p = (Professor) session.getAttribute("usuarioLogado");
+			mav = new ModelAndView("professor/edicaoAtividade");
 			mav.addObject("atividade", aDAO.consultarPorId(id));
+			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
+			mav.addObject("unidades", Arrays.asList(Unidades.values()));
+			mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 			return mav;
 		}
 		mav = new ModelAndView("professor/gerenciarAtividades");
@@ -94,20 +99,30 @@ public class ProfessorController {
 	}
 
 	@RequestMapping("editaAtividade-{id}")
-	public ModelAndView editaAtividade(@PathVariable Integer id, Atividade atividade) {
-		ModelAndView mav = new ModelAndView("professor/gerenciarAtividades");
+	public ModelAndView editaAtividade(@PathVariable Integer id, Atividade atividade, HttpSession session) {
+		ModelAndView mav = new ModelAndView("redirect:gerenciarAtividades");
 		if (id != null && id > 0) {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 			Atividade antiga = aDAO.consultarPorId(id);
+			Usuario u = (Usuario) session.getAttribute("usuarioLogado");
 			antiga.setTitulo(atividade.getTitulo());
 			antiga.setDescricao(atividade.getDescricao());
 			antiga.setValorMaximo(atividade.getValorMaximo());
 			antiga.setPeso(atividade.getPeso());
 			antiga.setUnidade(atividade.getUnidade());
 			antiga.setNivel(atividade.getNivel());
+			antiga.setStatus(atividade.getStatus());
+			antiga.setDataExpiracao(atividade.getDataExpiracao());
 			antiga.setTurmaDisciplina(tdDAO.consultarPorId(atividade.getTurmaDisciplina().getId()));
-			
+			antiga.setUsuarioLogado(u);
+
+			if (!atividade.getUpload().isEmpty()) {
+				antiga.setDocumento(atividade.getUpload().getBytes());
+				antiga.setTipoDocumento(atividade.getUpload().getContentType());
+				antiga.setNomeDocumento(atividade.getUpload().getOriginalFilename());
+			}
+
 			aDAO.alterar(antiga);
 		}
 		return mav;

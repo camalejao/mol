@@ -35,7 +35,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand" href="homeAdm">Monitoria On-line</a>
+		<a class="navbar-brand" href="home">Monitoria On-line</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"
@@ -80,82 +80,100 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="homeAdm">Página
-						Inicial</a></li>
-				<li class="breadcrumb-item active">Gerenciar Atividades</li>
+				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
+				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
+						Atividades</a></li>
+				<li class="breadcrumb-item active">Editar Atividade</li>
 			</ol>
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-file-text"></i> Adicionar Atividade
+					<i class="fa fa-file-text"></i> Editar Atividade
 				</div>
 				<div class="card-body">
 					<form:form modelAttribute="atividade"
-						action="editaAtividade-{atividade.id}" method="POST">
+						action="editaAtividade-${atividade.id}" method="POST"
+						enctype="multipart/form-data">
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-md-3">
 									<label for="inputTitulo">Título</label>
-									<form:input path="titulo" value="${atividade.titulo}"class="form-control" id="inputTitulo"
-										type="text" aria-describedby="tituloHelp"
+									<form:input path="titulo" class="form-control" id="inputTitulo"
+										value="${atividade.titulo}" type="text"
+										aria-describedby="tituloHelp"
 										placeholder="Título da Atividade" />
 								</div>
-								<div class="col-md-2">
-									<label for="inputvalorMaximo">Valor Máximo</label>
+								<div class="col-md-1">
+									<label for="inputvalorMaximo">Valor</label>
 									<form:input path="valorMaximo" class="form-control"
-										id="inputvalorMaximo" type="number" value="${atividade.valorMaximo}" step="0.25" min="0.25"
+										id="inputvalorMaximo" value="${atividade.valorMaximo}"
+										type="number" step="0.25" min="0.25"
 										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-1">
 									<label for="inputPeso">Peso</label>
 									<form:input path="peso" class="form-control" id="inputPeso"
-										type="number" value="${atividade.peso}" min="1" max="10" aria-describedby="pesoHelp"
-										placeholder="Ex: 2" />
+										type="number" min="1" max="10" aria-describedby="pesoHelp"
+										value="${atividade.peso}" placeholder="Ex: 2" />
 								</div>
 								<div class="col-md-1">
 									<label for="selectUnidade">Unidade</label>
-									<form:select path="unidade" value="${atividade.unidade}" class="form-control"
-										id="selectUnidade">
+									<form:select path="unidade" class="form-control"
+										value="${atividade.unidade}" id="selectUnidade">
 										<c:forEach items="${unidades}" var="unidade">
 											<form:option value="${unidade}">${unidade.unidade}</form:option>
 										</c:forEach>
 									</form:select>
 								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div>
-								<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-								<form:select path="turmaDisciplina.id" value="${atividade.turmaDisciplina.id}" class="form-control"
-									id="selectTurmaDisciplina">
-									<c:forEach items="${turmaDisciplinas}" var="td">
-										<form:option value="${td.id}">${td.turma.identificacao} / ${td.disciplina.sigla}</form:option>
-									</c:forEach>
-								</form:select>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputDescricao">Descricao</label>
-									<form:input class="form-control" path="descricao" value="${atividade.descricao}"
-										id="inputDescricao" rows="5" type="text" />
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputData">Data Expiração</label>
-									<form:input class="form-control" path="dataExpiracao" value="${atividade.dataExpiracao}"
-										id="inputData" rows="5" type="text" />
-								</div>
-								<div class="col-md-6">
+								<div class="col-md-2">
 									<label for="selectNivel">Nível de Aprendizagem</label>
-									<form:select path="nivel" value="${atividade.nivel}" class="form-control" id="selectNivel">
+									<form:select path="nivel" value="${atividade.nivel.nivel}"
+										class="form-control" id="selectNivel">
 										<c:forEach items="${niveis}" var="n">
 											<form:option value="${n}">${n.nivel}</form:option>
 										</c:forEach>
 									</form:select>
+								</div>
+								<div class="col-md-2">
+									<label for="selectStatus">Status</label>
+									<form:select path="status" value="${atividade.status}" class="form-control" id="selectStatus">
+										<c:forEach items="${status}" var="s">
+											<form:option value="${s}">${s}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="selectTurmaDisciplina">Turma/Disciplina</label>
+									<form:select value="${atividade.turmaDisciplina.id}"
+										path="turmaDisciplina.id" class="form-control"
+										id="selectTurmaDisciplina">
+										<c:forEach items="${turmaDisciplinas}" var="td">
+											<form:option value="${td.id}">${td.turma.identificacao} / ${td.disciplina.sigla}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
+								<div class="col-md-3">
+									<label for="inputData">Data e Hora de Expiração</label>
+									<form:input value="${atividade.dataExpiracao}" class="form-control" path="dataExpiracao"
+										id="inputData" type="text" placeholder="dd/MM/aaaa HH:mm" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="inputDescricao">Descrição</label>
+									<form:textarea value="${atividade.descricao}"
+										class="form-control" path="descricao" id="inputDescricao"
+										rows="3" type="text" />
+								</div>
+								<div class="col-md-6">
+									<label for="uploadArquivo">Modificar arquivo:</label>
+									<form:input class="form-control-file" path="upload"
+										id="uploadArquivo" type="file" />
 								</div>
 							</div>
 						</div>

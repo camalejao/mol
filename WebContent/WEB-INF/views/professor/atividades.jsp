@@ -35,7 +35,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand" href="homeAdm">Monitoria On-line</a>
+		<a class="navbar-brand" href="home">Monitoria On-line</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"
@@ -80,7 +80,7 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="homeAdm">Página
+				<li class="breadcrumb-item"><a href="home">Página
 						Inicial</a></li>
 				<li class="breadcrumb-item active">Gerenciar Atividades</li>
 			</ol>
@@ -100,13 +100,13 @@
 										type="text" aria-describedby="tituloHelp"
 										placeholder="Título da Atividade" />
 								</div>
-								<div class="col-md-2">
-									<label for="inputvalorMaximo">Valor Máximo</label>
+								<div class="col-md-1">
+									<label for="inputvalorMaximo">Valor</label>
 									<form:input path="valorMaximo" class="form-control"
 										id="inputvalorMaximo" type="number" step="0.25" min="0.25"
 										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-1">
 									<label for="inputPeso">Peso</label>
 									<form:input path="peso" class="form-control" id="inputPeso"
 										type="number" min="1" max="10" aria-describedby="pesoHelp"
@@ -121,36 +121,7 @@
 										</c:forEach>
 									</form:select>
 								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div>
-								<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-								<form:select path="turmaDisciplina.id" class="form-control"
-									id="selectTurmaDisciplina">
-									<c:forEach items="${turmaDisciplinas}" var="td">
-										<form:option value="${td.id}">${td.turma.identificacao} / ${td.disciplina.sigla}</form:option>
-									</c:forEach>
-								</form:select>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputDescricao">Descricao</label>
-									<form:input class="form-control" path="descricao"
-										id="inputDescricao" rows="5" type="text" />
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputData">Data Expiração</label>
-									<form:input class="form-control" path="dataExpiracao"
-										id="inputData" rows="5" type="text" />
-								</div>
-								<div class="col-md-6">
+								<div class="col-md-2">
 									<label for="selectNivel">Nível de Aprendizagem</label>
 									<form:select path="nivel" class="form-control" id="selectNivel">
 										<c:forEach items="${niveis}" var="n">
@@ -158,10 +129,41 @@
 										</c:forEach>
 									</form:select>
 								</div>
+								<div class="col-md-2">
+									<label for="selectStatus">Status</label>
+									<form:select path="status" class="form-control" id="selectStatus">
+										<c:forEach items="${status}" var="s">
+											<form:option value="${s}">${s}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-row">
+								<div class="col-md-6">
+									<label for="selectTurmaDisciplina">Turma/Disciplina</label>
+									<form:select path="turmaDisciplina.id" class="form-control"
+										id="selectTurmaDisciplina">
+										<c:forEach items="${turmaDisciplinas}" var="td">
+											<form:option value="${td.id}">${td.turma.identificacao} / ${td.disciplina.sigla}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
+								<div class="col-md-3">
+									<label for="inputData">Data e Hora de Expiração</label>
+									<form:input class="form-control" path="dataExpiracao"
+										id="inputData" type="text" placeholder="dd/MM/aaaa HH:mm" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="inputDescricao">Descrição</label>
+									<form:textarea class="form-control" path="descricao"
+										id="inputDescricao" rows="3" type="text" />
+								</div>
 								<div class="col-md-6">
 									<label for="uploadArquivo">Selecione o arquivo</label>
 									<form:input class="form-control-file" path="upload"
@@ -188,6 +190,7 @@
 									<th>Turma/Disciplina</th>
 									<th>Arquivo</th>
 									<th>Status</th>
+									<th>Unidade</th>
 									<th>Nível</th>
 									<th>Data Expiração</th>
 								</tr>
@@ -198,6 +201,7 @@
 									<th>Turma/Disciplina</th>
 									<th>Arquivo</th>
 									<th>Status</th>
+									<th>Unidade</th>
 									<th>Nível</th>
 									<th>Data Expiração</th>
 								</tr>
@@ -205,17 +209,27 @@
 							<tbody>
 								<c:forEach items="${atividades}" var="atividade">
 									<tr>
-										<td>${atividade.titulo}-<a
-											class="btn btn-secondary btn-sm" href="#"> <i
+										<td>${atividade.titulo} <a
+											class="btn btn-secondary btn-sm" href="editarAtividade-${atividade.id}"> <i
 												class="fa fa-pencil-square "></i> Editar
-										</a> <a class="btn btn-secondary btn-sm"
-											href="download-${atividade.id}"> <i
-												class="fa fa-download "></i> Baixar
-										</a></td>
-										<td>${atividade.turmaDisciplina.turma.identificacao}-
+										</a>
+										</td>
+										<td>${atividade.turmaDisciplina.turma.identificacao} -
 											${atividade.turmaDisciplina.disciplina.sigla}</td>
-										<td>${atividade.documento.titulo}</td>
+										<c:choose>
+											<c:when test="${not empty atividade.nomeDocumento}">
+												<td>${atividade.nomeDocumento} <a
+													class="btn btn-secondary btn-sm"
+													href="downloadDocumento-${atividade.id}"> <i
+														class="fa fa-download "></i> Baixar
+												</a></td>
+											</c:when>
+											<c:otherwise>
+												<td>-</td>
+											</c:otherwise>
+										</c:choose>
 										<td>${atividade.status}</td>
+										<td>${atividade.unidade.unidade}</td>
 										<td>${atividade.nivel.nivel}</td>
 										<fmt:parseDate value="${atividade.dataExpiracao}"
 											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
