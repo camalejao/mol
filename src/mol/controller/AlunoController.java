@@ -1,13 +1,17 @@
 package mol.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
@@ -54,6 +58,8 @@ public class AlunoController {
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		session.setAttribute("idAtv", id);
 		mav.addObject("atividade", atvDAO.consultarPorId(id));
+		mav.addObject("resposta", new Resposta());
+		
 		return mav;
 	}
 	
@@ -71,9 +77,37 @@ public class AlunoController {
 		resposta.setAtividade(atvDAO.consultarPorId(id));
 		resposta.setStatus(StatusEntidade.ATIVO);
 		resposta.setUsuarioLogado(a);
+		resposta.setDocumentoResposta(resposta.getUpload().getBytes());
+		resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
+		resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
 		
 		rDAO.inserir(resposta);
 		
 		return "redirect:index";
+	}
+	
+	@RequestMapping(value = { "downloadAtividade-{id}" }, method = RequestMethod.GET)
+	public void downloadAtividade(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
+
+		if (id != null && id > 0) {
+			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+			Atividade atividade = aDAO.consultarPorId(id);
+			resp.setContentType(atividade.getTipoDocumento());
+			resp.setContentLength(atividade.getDocumento().length);
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + atividade.getNomeDocumento() + "\"");
+			FileCopyUtils.copy(atividade.getDocumento(), resp.getOutputStream());
+		}
+	}
+	
+	@RequestMapping(value = { "downloadResposta-{id}" }, method = RequestMethod.GET)
+	public void downloadResposta(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
+		if (id != null && id > 0) {
+			IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+			Resposta resposta = rDAO.consultarPorId(id);
+			resp.setContentType(resposta.getTipoDocumentoResposta());
+			resp.setContentLength(resposta.getDocumentoResposta().length);
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + resposta.getNomeDocumentoResposta() + "\"");
+			FileCopyUtils.copy(resposta.getDocumentoResposta(), resp.getOutputStream());
+		}
 	}
 }

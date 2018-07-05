@@ -16,8 +16,8 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		String uri = request.getRequestURI();
-		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.endsWith("logout")
-				|| uri.contains("resources") || uri.contains("bootstrap")) {
+		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.endsWith("logout") || uri.contains("resources")
+				|| uri.contains("bootstrap")) {
 			return true;
 		}
 
@@ -42,7 +42,8 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 				}
 				if ((uri.contains("downloadDocumento") && p.getServico().contains("downloadDocumento"))
 						|| (uri.contains("editaAtividade") && p.getServico().contains("editaAtividade"))
-						|| (uri.contains("editarAtividade") && p.getServico().contains("editarAtividade"))) {
+						|| (uri.contains("editarAtividade") && p.getServico().contains("editarAtividade"))
+						|| (uri.contains("responderAtividade") && p.getServico().contains("responderAtividade"))) {
 					return true;
 				}
 			}

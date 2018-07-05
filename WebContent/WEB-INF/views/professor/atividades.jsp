@@ -212,6 +212,8 @@
 										<td>${atividade.titulo} <a
 											class="btn btn-secondary btn-sm" href="editarAtividade-${atividade.id}"> <i
 												class="fa fa-pencil-square "></i> Editar
+										</a> <a
+											class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">Ver Respostas
 										</a>
 										</td>
 										<td>${atividade.turmaDisciplina.turma.identificacao} -

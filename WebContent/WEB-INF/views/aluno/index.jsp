@@ -41,12 +41,12 @@
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Cadastros"><a
+					title="Atividades" ><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
 						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
 					</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseCadastros">
+					<ul class="sidenav-second-level collapse" id="collapseAtividades">
 						<li><a href="#">Minhas Atividades</a></li>
 					</ul></li>
 
@@ -80,8 +80,7 @@
 							<c:choose>
 								<c:when test="${not empty atividades}">
 									<c:forEach items="${atividades}" var="atividade">
-										<a class="list-group-item list-group-item-action"
-											href="responderAtividade-${atividade.id}">
+										<div class="list-group-item list-group-item-action">
 											<div class="media">
 												<div class="media-body">
 													<h6 class="card-title mb-1">
@@ -93,10 +92,12 @@
 															type="both" />
 														<fmt:formatDate value="${parsedDateTime}"
 															pattern="dd/MM/yyyy HH:mm" />
+														<a href="responderAtividade-${atividade.id}"
+															class="btn btn-sm btn-primary">Responder</a>
 													</h6>
 												</div>
 											</div>
-										</a>
+										</div>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
