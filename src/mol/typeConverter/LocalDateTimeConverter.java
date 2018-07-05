@@ -8,7 +8,11 @@ import java.time.format.DateTimeFormatter;
 public final class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
  
     private final DateTimeFormatter formatter;
- 
+    
+    public void init() {
+    	
+    }
+    
     public LocalDateTimeConverter(String dateFormat) {
         this.formatter = DateTimeFormatter.ofPattern(dateFormat);
     }

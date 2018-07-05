@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-	
-	<mvc:default-servlet-handler/>
-    <context:component-scan base-package="mol.controller" />
-    <mvc:annotation-driven />
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/" />
-        <property name="suffix" value=".jsp"/>
-    </bean>
-	
+	<mvc:default-servlet-handler />
+	<context:component-scan
+		base-package="mol.controller" />
+	<mvc:annotation-driven />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
 	<mvc:resources location="/webjars/" mapping="/webjars/**"></mvc:resources>
-	
-	<!-- <mvc:interceptors>
-    	<bean class="mol.interceptor.AutorizadorInterceptor" />
-    </mvc:interceptors> -->
-    
-   <bean id="typeConverter" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-   <property name="customEditors">
-      <map>
-         <entry key="java.time.LocalDateTime" value="mol.typeConverter.LocalDateTimeConverter" />
-      </map>
-   </property>
-</bean>
-    
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- one of the several properties available; the maximum file size in bytes -->
-        <property name="maxUploadSizePerFile" value="16777216"/>
-    </bean>
-	
+
+	<mvc:interceptors>
+		<bean class="mol.interceptor.AutorizadorInterceptor" />
+	</mvc:interceptors>
+
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="mol.typeConverter.LocalDateTimeConverter">
+					<constructor-arg value="dd/MM/yyyy HH:mm" />
+				</bean>
+				<bean class="mol.typeConverter.StringParaDataConverter">
+					<constructor-arg value="dd/MM/yyyy HH:mm" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the several properties available; the maximum file size in 
+			bytes -->
+		<property name="maxUploadSizePerFile" value="16777216" />
+	</bean>
+
 </beans>
