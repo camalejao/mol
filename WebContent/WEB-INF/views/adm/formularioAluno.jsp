@@ -30,7 +30,7 @@
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		<a class="navbar-brand" href="homeAdm">Monitoria On-line</a>
+		<a class="navbar-brand" href="home">Monitoria On-line</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false"
@@ -77,7 +77,7 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="homeAdm">Página
+				<li class="breadcrumb-item"><a href="home">Página
 						Inicial</a></li>
 				<li class="breadcrumb-item"><a href="cadastrarUsuario">Cadastro
 						de Usuário</a></li>
