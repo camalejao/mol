@@ -41,6 +41,7 @@ public class Atividade extends Entidade {
 	private String descricao;
 	
 	@Lob
+	@Column(columnDefinition="mediumblob")
 	private byte[] documento;
 	
 	@Column(length=50, name="nome_documento")

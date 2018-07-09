@@ -17,7 +17,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 
 		String uri = request.getRequestURI();
 		if (uri.endsWith("login") || uri.endsWith("efetuaLogin") || uri.endsWith("logout") || uri.contains("resources")
-				|| uri.contains("bootstrap")) {
+				|| uri.contains("webjars")) {
 			return true;
 		}
 
@@ -27,6 +27,11 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 
 		if (uri.endsWith("cadastroAluno") || uri.endsWith("cadastroProfessor") || uri.endsWith("cadastraAluno")
 				|| uri.endsWith("cadastraProfessor")) {
+			return true;
+		}
+
+		if (uri.endsWith("verificaEmail") || uri.endsWith("verificaMatAluno") || uri.endsWith("verificaMatProf")
+				|| uri.endsWith("verificaSigla")) {
 			return true;
 		}
 

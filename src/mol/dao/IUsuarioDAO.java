@@ -9,4 +9,6 @@ public interface IUsuarioDAO extends IDAOGenerico<Usuario> {
 	public Usuario consultarPorEmail(String email);
 	
 	public List<Usuario> consultarPorNome(String nome);
+
+	public Boolean verificarPorEmail(String email);
 }

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -46,7 +46,7 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastrarUsuario">Cadastrar Usuário</a></li>
+						<li><a href="cadastrarUsuario">Cadastrar UsuÃ¡rio</a></li>
 					</ul></li>
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -56,7 +56,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
-						<li><a href="listarUsuarios">Listar Usuários</a></li>
+						<li><a href="listarUsuarios">Listar UsuÃ¡rios</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -75,8 +75,7 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">Página
-						Inicial</a></li>
+				<li class="breadcrumb-item"><a href="home">PÃ¡gina Inicial</a></li>
 				<li class="breadcrumb-item active">Cadastro de disciplina</li>
 			</ol>
 			<div class="row">
@@ -94,7 +93,8 @@
 								<div class="form-group">
 									<label for="inputNome">Sigla</label> <input
 										class="form-control" id="inputSigla" name="sigla" type="text"
-										aria-describedby="siglaHelp" placeholder="Ex: ESTD" />
+										aria-describedby="siglaHelp" placeholder="Ex: ESTD"
+										oninput="verificaSigla(this.value)" maxlength="5" />
 								</div>
 								<div>
 									<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
@@ -110,7 +110,7 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © 2018</small>
+					<small>Copyright Â© 2018</small>
 				</div>
 			</div>
 		</footer>
@@ -124,14 +124,14 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Já vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">JÃ¡ vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
-							<span aria-hidden="true">×</span>
+							<span aria-hidden="true">Ã—</span>
 						</button>
 					</div>
 					<div class="modal-body">Selecione "sair" se deseja encerrar a
-						sessão atual.</div>
+						sessÃ£o atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
@@ -150,6 +150,8 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- ValidaÃ§Ã£o com Ajax -->
+		<script src="resources/scripts/validacaoAjax.js"></script>
 	</div>
 </body>
 

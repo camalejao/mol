@@ -23,4 +23,16 @@ public class DisciplinaDAO extends DAOGenerico<Disciplina> implements IDisciplin
         return null;
 	}
 
+	@Override
+	public Boolean verificarPorSigla(String sigla) {
+		Boolean b;
+		if(consultarPorSigla(sigla)!=null) {
+			b = false;
+			return b;
+		} else {
+			b = true;
+			return b;
+		}
+	}
+
 }

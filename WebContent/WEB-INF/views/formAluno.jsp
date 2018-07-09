@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
@@ -36,29 +36,30 @@
 									aria-describedby="nameHelp" placeholder="Digite seu nome" />
 							</div>
 							<div class="col-md-6">
-								<label for="inputMatricula">Matrícula</label> <input
+								<label for="inputMatricula">MatrÃ­cula</label> <input
 									name="matricula" class="form-control" id="inputMatricula"
-									type="text" aria-describedby="nameHelp"
-									placeholder="Ex: 12345678" />
+									type="text" aria-describedby="nameHelp" maxlength="8"
+									placeholder="Ex: 12345678" onchange="verificaMatAluno(this.value)"/>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group" id="divEmail">
 						<label for="inputEmail">Email</label> <input name="email"
 							class="form-control" id="inputEmail" type="email"
-							aria-describedby="emailHelp" placeholder="Ex: exemplo@email.com" />
+							aria-describedby="emailHelp" placeholder="Ex: exemplo@email.com"
+							onchange="verificaEmail(this.value)" />
 					</div>
 					<div class="form-group">
 						<div class="form-row">
 							<div class="col-md-6">
 								<label for="inputSenha">Senha</label> <input name="senha"
 									class="form-control" id="inputSenha" type="password"
-									placeholder="Senha" />
+									placeholder="Senha" onkeyup="confirmaSenha()" />
 							</div>
 							<div class="col-md-6">
-								<label for="confirmacaoSenha">Confirmação de senha</label> <input
+								<label for="confirmacaoSenha">ConfirmaÃ§Ã£o de senha</label> <input
 									class="form-control" id="confirmacaoSenha" type="password"
-									placeholder="Repita a senha" />
+									placeholder="Repita a senha" onkeyup="confirmaSenha()" />
 							</div>
 						</div>
 					</div>
@@ -79,5 +80,9 @@
 	<!-- Core plugin JavaScript-->
 	<script
 		src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- ValidaÃ§Ã£o com Ajax -->
+	<script src="resources/scripts/validacaoAjax.js"></script>
+
 </body>
+
 </html>

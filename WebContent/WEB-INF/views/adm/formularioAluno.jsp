@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastrarUsuario">Cadastrar Usuário</a></li>
+						<li><a href="cadastrarUsuario">Cadastrar UsuÃ¡rio</a></li>
 					</ul></li>
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -58,7 +58,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
-						<li><a href="listarUsuarios">Listar Usuários</a></li>
+						<li><a href="listarUsuarios">Listar UsuÃ¡rios</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -77,10 +77,9 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">Página
-						Inicial</a></li>
+				<li class="breadcrumb-item"><a href="home">PÃ¡gina Inicial</a></li>
 				<li class="breadcrumb-item"><a href="cadastrarUsuario">Cadastro
-						de Usuário</a></li>
+						de UsuÃ¡rio</a></li>
 				<li class="breadcrumb-item active">Cadastro de Aluno</li>
 			</ol>
 			<div class="row">
@@ -99,10 +98,11 @@
 												placeholder="Digite seu nome" />
 										</div>
 										<div class="col-md-6">
-											<label for="inputMatricula">Matrícula</label>
+											<label for="inputMatricula">MatrÃ­cula</label>
 											<form:input path="matricula" class="form-control"
 												id="inputMatricula" type="text" aria-describedby="nameHelp"
-												placeholder="Ex: 12345678" />
+												placeholder="Ex: 12345678" maxlength="8"
+												onchange="verificaMatAluno(this.value)" />
 										</div>
 									</div>
 								</div>
@@ -110,19 +110,21 @@
 									<label for="inputEmail">Email</label>
 									<form:input path="email" class="form-control" id="inputEmail"
 										type="email" aria-describedby="emailHelp"
-										placeholder="Ex: exemplo@email.com" />
+										placeholder="Ex: exemplo@email.com"
+										onchange="verificaEmail(this.value)" />
 								</div>
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
 											<label for="inputSenha">Senha</label>
 											<form:input path="senha" class="form-control" id="inputSenha"
-												type="password" placeholder="Senha" />
+												type="password" placeholder="Senha"
+												onkeyup="confirmaSenha()" />
 										</div>
 										<div class="col-md-6">
-											<label for="confirmacaoSenha">Confirmação de senha</label> <input
+											<label for="confirmacaoSenha">ConfirmaÃ§Ã£o de senha</label> <input
 												class="form-control" id="confirmacaoSenha" type="password"
-												placeholder="Repita a senha" />
+												placeholder="Repita a senha" onkeyup="confirmaSenha()" />
 										</div>
 									</div>
 								</div>
@@ -142,7 +144,7 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © 2018</small>
+					<small>Copyright Â© 2018</small>
 				</div>
 			</div>
 		</footer>
@@ -156,14 +158,14 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Já vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">JÃ¡ vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
-							<span aria-hidden="true">×</span>
+							<span aria-hidden="true">Ã—</span>
 						</button>
 					</div>
 					<div class="modal-body">Selecione "sair" se deseja encerrar a
-						sessão atual.</div>
+						sessÃ£o atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
@@ -182,6 +184,8 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- ValidaÃ§Ã£o com Ajax -->
+		<script src="resources/scripts/validacaoAjax.js"></script>
 	</div>
 </body>
 

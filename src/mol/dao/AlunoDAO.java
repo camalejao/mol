@@ -55,4 +55,16 @@ public class AlunoDAO extends DAOGenerico<Aluno> implements IAlunoDAO{
 		return null;
 	}
 
+	@Override
+	public Boolean verificarPorMatricula(String mat) {
+		Boolean b;
+		if(consultarPorMatricula(mat) != null) {
+			b = false;
+			return b;
+		} else {
+			b = true;
+			return b;
+		}
+	}
+
 }

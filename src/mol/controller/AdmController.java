@@ -172,7 +172,7 @@ public class AdmController {
 		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
 
 		ModelAndView mav = new ModelAndView("adm/formularioMonitor");
-		mav.addObject("alunos", alunoDAO.consultarTodos());
+		mav.addObject("alunos", alunoDAO.consultarPossiveisMonitores());
 		mav.addObject("disciplinas", discDAO.consultarTodos());
 		mav.addObject("monitor", new Monitor());
 

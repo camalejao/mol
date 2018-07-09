@@ -22,6 +22,7 @@
 	</bean>
 
 	<mvc:resources location="/webjars/" mapping="/webjars/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"></mvc:resources>
 
 	<mvc:interceptors>
 		<bean class="mol.interceptor.AutorizadorInterceptor" />

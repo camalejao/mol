@@ -37,5 +37,17 @@ public class ProfessorDAO extends DAOGenerico<Professor> implements IProfessorDA
         }
 		return null;
 	}
+
+	@Override
+	public Boolean verificarPorMatricula(String mat) {
+		Boolean b;
+		if(consultarPorMatricula(mat)!=null) {
+			b = false;
+			return b;
+		} else {
+			b = true;
+			return b;
+		}
+	}
 	
 }
