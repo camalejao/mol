@@ -184,14 +184,14 @@ public class AdmController {
 		
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
-		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
+		//IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
 		IMonitorDAO monitorDAO = DAOFactory.getMonitorDAO();
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		Aluno aluno = alunoDAO.consultarPorMatricula(monitor.getAluno().getMatricula());
 				
 		monitor.setAluno(aluno);
-		monitor.setDisciplina(discDAO.consultarPorSigla(monitor.getDisciplina().getSigla()));
+		//monitor.setDisciplina(discDAO.consultarPorSigla(monitor.getDisciplina().getSigla()));
 		monitor.setUsuarioLogado(uDAO.consultarPorId(user.getId()));
 		monitorDAO.inserir(monitor);
 		
