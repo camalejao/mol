@@ -2,10 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Atividades</title>
+<title>MOL - Gerenciar Atividades</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -29,8 +27,8 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-</head>
 
+</head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -76,52 +74,52 @@
 			</ul>
 		</div>
 	</nav>
+
 	<div class="content-wrapper">
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Gerenciar Atividades</li>
+				<li class="breadcrumb-item active">Minhas Turmas</li>
 			</ol>
+
 			<div class="card mb-3">
 				<div class="card-header">
 					<i class="fa fa-book"></i> Turmas / Disciplinas
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
-
 						<table class="table table-bordered" id="dataTable" width="100%"
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Turma / Disciplina</th>
+									<th>Turma</th>
+									<th>Disciplina</th>
 									<th>Curso</th>
+									<th>Período</th>
 									<th>Turno</th>
-									<th>Cálculo Média</th>
-									<th>Atividades</th>
+									<th>Tipo de Cálculo</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Turma / Disciplina</th>
+									<th>Turma</th>
+									<th>Disciplina</th>
 									<th>Curso</th>
+									<th>Período</th>
 									<th>Turno</th>
-									<th>Cálculo Média</th>
-									<th>Atividades</th>
+									<th>Tipo de Cálculo</th>
 								</tr>
 							</tfoot>
 							<tbody>
-								<c:forEach items="${turmaDisciplinas}" var="td">
+								<c:forEach items="${turmasDisciplinas}" var="td">
 									<tr>
-										<td>${td.turma.identificacao}/ ${td.disciplina.sigla} -
-											${td.disciplina.nome}</td>
-										<td>${td.turma.curso.nome}-
-											${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
+										<td>${td.turma.identificacao}</td>
+										<td>${td.disciplina.sigla} - ${td.disciplina.nome}</td>
+										<td>${td.turma.curso.nome}</td>
+										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
 										<td>${td.turma.turno.turno}</td>
 										<td>${td.tipoCalculo.tipoCalculo}</td>
-										<td><a class="btn btn-primary btn-sm"
-											href="listarAtividades-${td.id}"><i
-												class="fa fa-file-text "></i> Listar</a></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -129,6 +127,7 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
@@ -183,6 +182,7 @@
 		<!-- Custom scripts for this page-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
+
 	</div>
 </body>
 </html>

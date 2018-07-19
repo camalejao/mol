@@ -4,16 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
+<html>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Editar Atividades</title>
+<title>MOL - Atividades</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -33,7 +31,6 @@
 <link
 	href="webjars/tempusdominus-bootstrap-4/5.0.0/css/tempusdominus-bootstrap-4.min.css"
 	rel="stylesheet">
-
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -88,28 +85,34 @@
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
 				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
 						Atividades</a></li>
-				<li class="breadcrumb-item active">Editar Atividade</li>
+				<li class="breadcrumb-item"><a
+					href="listarAtividades-${turmaDisciplina.id}">Lista de
+						Atividades</a></li>
+				<li class="breadcrumb-item active">Nova Atividade</li>
 			</ol>
+
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-file-text"></i> Editar Atividade
+					<i class="fa fa-file-text"></i> Adicionar Atividade -
+					${turmaDisciplina.turma.identificacao} -
+					${turmaDisciplina.disciplina.nome}
 				</div>
 				<div class="card-body">
-					<form:form modelAttribute="atividade"
-						action="editaAtividade-${atividade.id}" method="POST"
+					<form:form modelAttribute="novaAtividade"
+						action="cadastraAtividade" method="POST"
 						enctype="multipart/form-data">
+
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-md-6">
 									<label for="inputTitulo">Título</label>
 									<form:input path="titulo" class="form-control" id="inputTitulo"
 										type="text" aria-describedby="tituloHelp"
-										value="${atividade.titulo}" placeholder="Título da Atividade" />
+										placeholder="Título da Atividade" />
 								</div>
 								<div class="col-md-4">
 									<label for="selectNivel">Nível de Aprendizagem</label>
-									<form:select path="nivel" class="form-control" id="selectNivel"
-										value="${atividade.nivel.nivel}">
+									<form:select path="nivel" class="form-control" id="selectNivel">
 										<c:forEach items="${niveis}" var="n">
 											<form:option value="${n}">${n.nivel}</form:option>
 										</c:forEach>
@@ -118,7 +121,7 @@
 								<div class="col-md-2">
 									<label for="selectStatus">Status</label>
 									<form:select path="status" class="form-control"
-										id="selectStatus" value="${atividade.status}">
+										id="selectStatus">
 										<c:forEach items="${status}" var="s">
 											<form:option value="${s}">${s}</form:option>
 										</c:forEach>
@@ -132,7 +135,7 @@
 									<label for="selectTurmaDisciplina">Turma/Disciplina</label>
 									<form:select path="turmaDisciplina" class="form-control"
 										id="selectTurmaDisciplina">
-										<form:option value="${atividade.turmaDisciplina.id}">${atividade.turmaDisciplina.turma.identificacao} / ${atividade.turmaDisciplina.disciplina.sigla}</form:option>
+										<form:option value="${turmaDisciplina.id}">${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.sigla}</form:option>
 									</form:select>
 								</div>
 								<div class="col-md-6">
@@ -156,33 +159,31 @@
 							<div class="form-row">
 								<div class="col-md-1">
 									<label for="inputvalorMaximo">Valor</label>
-									<form:input path="valorMaximo" value="${atividade.valorMaximo}"
-										class="form-control" id="inputvalorMaximo" type="number"
-										step="0.25" min="0.25" max="10"
-										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
+									<form:input path="valorMaximo" value="1" class="form-control"
+										id="inputvalorMaximo" type="number" step="0.25" min="0.25"
+										max="10" aria-describedby="valorMaximoHelp"
+										placeholder="Ex: 5" />
 								</div>
 								<div class="col-md-1">
 									<label for="inputPeso">Peso</label>
 									<c:choose>
 										<c:when
-											test="${atividade.turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
-											<form:input readonly="true" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
+											test="${turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
+											<form:input readonly="true" path="peso" value="1"
+												class="form-control" id="inputPeso" type="number" min="1"
+												max="10" aria-describedby="pesoHelp" placeholder="Ex: 2" />
 										</c:when>
 										<c:otherwise>
-											<form:input readonly="false" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
+											<form:input readonly="false" path="peso" value="1"
+												class="form-control" id="inputPeso" type="number" min="1"
+												max="10" aria-describedby="pesoHelp" placeholder="Ex: 2" />
 										</c:otherwise>
 									</c:choose>
 								</div>
 								<div class="col-md-1">
 									<label for="selectUnidade">Unidade</label>
 									<form:select path="unidade" class="form-control"
-										id="selectUnidade" value="${atividade.unidade}">
+										id="selectUnidade">
 										<c:forEach items="${unidades}" var="unidade">
 											<form:option value="${unidade}">${unidade.unidade}</form:option>
 										</c:forEach>
@@ -194,9 +195,8 @@
 							<div class="form-row">
 								<div class="col-md-6">
 									<label for="inputDescricao">Descrição</label>
-									<form:textarea value="${atividade.descricao}"
-										class="form-control" path="descricao" id="inputDescricao"
-										rows="3" type="text" />
+									<form:textarea class="form-control" path="descricao"
+										id="inputDescricao" rows="3" type="text" />
 								</div>
 								<div class="col-md-6">
 									<label for="uploadArquivo">Selecione o arquivo</label>
@@ -205,10 +205,11 @@
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+						<button class="btn btn-primary btn-block" type="submit">Adicionar</button>
 					</form:form>
 				</div>
 			</div>
+
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
@@ -253,16 +254,8 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Page level plugin JavaScript-->
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		<!-- Custom scripts for this page-->
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
 		<!-- Tempus Dominus scripts -->
 		<script src="webjars/momentjs/2.22.2/min/moment-with-locales.min.js"></script>
 		<script

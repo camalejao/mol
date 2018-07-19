@@ -10,15 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.util.FileCopyUtils;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
+import mol.dao.IRespostaDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
 import mol.model.curso.turma.Atividade;
 import mol.model.curso.turma.NivelAprendizagem;
+import mol.model.curso.turma.Resposta;
+import mol.model.curso.turma.StatusResposta;
 import mol.model.curso.turma.Unidades;
 import mol.model.user.Professor;
 import mol.model.user.Usuario;
@@ -46,14 +50,26 @@ public class ProfessorController {
 
 		return mav;
 	}
+	
+	@RequestMapping("adicionarAtividade-{id}")
+	public ModelAndView adicionarAtividade(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("professor/formAtividade");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		
+		mav.addObject("novaAtividade", new Atividade());
+		mav.addObject("turmaDisciplina", tdDAO.consultarPorId(id));
+		mav.addObject("unidades", Arrays.asList(Unidades.values()));
+		mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+		
+		return mav;
+	}
 
 	@RequestMapping("cadastraAtividade")
 	public String salvaAtividade(Atividade atividade, HttpSession session) {
 		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
-		// Professor p = (Professor)session.getAttribute("usuarioLogado");
 
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-		// ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 
 		atividade.setUsuarioLogado(u);
 		atividade.setStatus(StatusEntidade.ATIVO);
@@ -63,7 +79,7 @@ public class ProfessorController {
 
 		aDAO.inserir(atividade);
 
-		return "professor/gerenciarAtividades";
+		return "redirect:listarAtividades-" + atividade.getTurmaDisciplina().getId();
 	}
 
 	@RequestMapping(value = { "downloadDocumento-{id}" }, method = RequestMethod.GET)
@@ -94,13 +110,13 @@ public class ProfessorController {
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 			return mav;
 		}
-		mav = new ModelAndView("professor/gerenciarAtividades");
+		mav = new ModelAndView("redirect:gerenciarAtividades");
 		return mav;
 	}
 
 	@RequestMapping("editaAtividade-{id}")
 	public ModelAndView editaAtividade(@PathVariable Integer id, Atividade atividade, HttpSession session) {
-		ModelAndView mav = new ModelAndView("redirect:gerenciarAtividades");
+		ModelAndView mav = new ModelAndView("redirect:listarAtividades-"+atividade.getTurmaDisciplina().getId());
 		if (id != null && id > 0) {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
@@ -127,5 +143,69 @@ public class ProfessorController {
 		}
 		return mav;
 	}
+	
+	@RequestMapping("listarTurmas")
+	public ModelAndView listaTurmas(HttpSession session) {
+		ModelAndView mav = new ModelAndView("professor/listaTurmas");
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		mav.addObject("turmasDisciplinas", tdDAO.consultarPorProfessor(p));
+		return mav;
+	}
+	
+	@RequestMapping("listarAtividades-{id}")
+	public ModelAndView listaAtividades(@PathVariable Integer id, HttpSession session) {
+		ModelAndView mav = new ModelAndView("professor/listaAtividades");
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		mav.addObject("atividades", aDAO.consultarPorIdTurmaDisciplina(id));
+		mav.addObject("td", tdDAO.consultarPorId(id));
+		return mav;
+	}
+	
+	@RequestMapping("respostasAtividade-{id}")
+	public ModelAndView listaRespostas(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("professor/respostas");
+		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		Atividade atv = aDAO.consultarPorId(id);
+		mav.addObject("respostas", rDAO.consultarPorAtividade(atv));
+		mav.addObject("atividade", atv);
+		
+		return mav;
+	}
+	
+	@RequestMapping("visualizarResposta-{id}")
+	public ModelAndView verResposta(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("professor/verResposta");
+		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+		mav.addObject("resposta", rDAO.consultarPorId(id));
 
+		return mav;
+	}
+	
+	@RequestMapping("avaliarResposta")
+	public ModelAndView avaliarResposta(Resposta avaliacao) {
+		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+		Resposta resposta = rDAO.consultarPorId(avaliacao.getId());
+		ModelAndView mav = new ModelAndView("redirect:respostasAtividade-"+resposta.getAtividade().getId());
+		resposta.setNota(avaliacao.getNota());
+		resposta.setObservacoesProfessor(avaliacao.getObservacoesProfessor());
+		resposta.setStatusResposta(StatusResposta.CORRIGIDA);
+		rDAO.alterar(resposta);
+		return mav;
+	}
+	
+	@RequestMapping(value = { "downloadResposta-{id}" }, method = RequestMethod.GET)
+	public void downloadResp(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
+
+		if (id != null && id > 0) {
+			IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+			Resposta resposta = rDAO.consultarPorId(id);
+			resp.setContentType(resposta.getTipoDocumentoResposta());
+			resp.setContentLength(resposta.getDocumentoResposta().length);
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + resposta.getNomeDocumentoResposta() + "\"");
+			FileCopyUtils.copy(resposta.getDocumentoResposta(), resp.getOutputStream());
+		}
+	}
 }

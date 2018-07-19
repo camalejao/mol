@@ -159,4 +159,11 @@ public class Atividade extends Entidade {
 		this.upload = upload;
 	}
 	
+	public boolean verificaExpiracao() {
+		if(this.dataExpiracao.isAfter(LocalDateTime.now()))
+			return true;
+		else
+			return false;
+	}
+	
 }

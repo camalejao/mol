@@ -2,10 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Editar Atividades</title>
+<title>MOL - Atividades</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -29,13 +27,7 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-<!-- Tempus Dominus CSS -->
-<link
-	href="webjars/tempusdominus-bootstrap-4/5.0.0/css/tempusdominus-bootstrap-4.min.css"
-	rel="stylesheet">
-
 </head>
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -88,127 +80,53 @@
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
 				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
 						Atividades</a></li>
-				<li class="breadcrumb-item active">Editar Atividade</li>
+				<li class="breadcrumb-item"><a
+					href="listarAtividades-${atividade.turmaDisciplina.id}">Lista
+						de Atividades</a></li>
+				<li class="breadcrumb-item active">Lista de Respostas</li>
 			</ol>
+			<div class="mb-0 mt-4">
+				<i class="fa fa-file-text"></i> ${atividade.titulo} -
+				${atividade.turmaDisciplina.turma.identificacao} - ${atividade.turmaDisciplina.disciplina.nome}
+			</div>
+			<hr class="mt-2">
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-file-text"></i> Editar Atividade
+					<i class="fa fa-file-text"></i> Respostas 
 				</div>
 				<div class="card-body">
-					<form:form modelAttribute="atividade"
-						action="editaAtividade-${atividade.id}" method="POST"
-						enctype="multipart/form-data">
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputTitulo">Título</label>
-									<form:input path="titulo" class="form-control" id="inputTitulo"
-										type="text" aria-describedby="tituloHelp"
-										value="${atividade.titulo}" placeholder="Título da Atividade" />
-								</div>
-								<div class="col-md-4">
-									<label for="selectNivel">Nível de Aprendizagem</label>
-									<form:select path="nivel" class="form-control" id="selectNivel"
-										value="${atividade.nivel.nivel}">
-										<c:forEach items="${niveis}" var="n">
-											<form:option value="${n}">${n.nivel}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-								<div class="col-md-2">
-									<label for="selectStatus">Status</label>
-									<form:select path="status" class="form-control"
-										id="selectStatus" value="${atividade.status}">
-										<c:forEach items="${status}" var="s">
-											<form:option value="${s}">${s}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-									<form:select path="turmaDisciplina" class="form-control"
-										id="selectTurmaDisciplina">
-										<form:option value="${atividade.turmaDisciplina.id}">${atividade.turmaDisciplina.turma.identificacao} / ${atividade.turmaDisciplina.disciplina.sigla}</form:option>
-									</form:select>
-								</div>
-								<div class="col-md-6">
-									<label for="datetimepicker">Data e Hora de Expiração</label>
-									<div class="input-group date" id="datetimepicker"
-										data-target-input="nearest">
-										<form:input class="form-control" path="dataExpiracao"
-											id="datetimepicker" data-target="#datetimepicker" type="text"
-											placeholder="dd/MM/aaaa HH:mm" />
-										<div class="input-group-append" data-target="#datetimepicker"
-											data-toggle="datetimepicker">
-											<div class="input-group-text">
-												<i class="fa fa-calendar"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-1">
-									<label for="inputvalorMaximo">Valor</label>
-									<form:input path="valorMaximo" value="${atividade.valorMaximo}"
-										class="form-control" id="inputvalorMaximo" type="number"
-										step="0.25" min="0.25" max="10"
-										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
-								</div>
-								<div class="col-md-1">
-									<label for="inputPeso">Peso</label>
-									<c:choose>
-										<c:when
-											test="${atividade.turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
-											<form:input readonly="true" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
-										</c:when>
-										<c:otherwise>
-											<form:input readonly="false" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
-										</c:otherwise>
-									</c:choose>
-								</div>
-								<div class="col-md-1">
-									<label for="selectUnidade">Unidade</label>
-									<form:select path="unidade" class="form-control"
-										id="selectUnidade" value="${atividade.unidade}">
-										<c:forEach items="${unidades}" var="unidade">
-											<form:option value="${unidade}">${unidade.unidade}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputDescricao">Descrição</label>
-									<form:textarea value="${atividade.descricao}"
-										class="form-control" path="descricao" id="inputDescricao"
-										rows="3" type="text" />
-								</div>
-								<div class="col-md-6">
-									<label for="uploadArquivo">Selecione o arquivo</label>
-									<form:input class="form-control-file" path="upload"
-										id="uploadArquivo" type="file" />
-								</div>
-							</div>
-						</div>
-						<button class="btn btn-primary btn-block" type="submit">Salvar</button>
-					</form:form>
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th>Aluno</th>
+									<th>Status</th>
+									<th>Resposta</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Aluno</th>
+									<th>Status</th>
+									<th>Resposta</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<c:forEach items="${respostas}" var="resp">
+									<tr>
+										<td>${resp.aluno.nome}</td>
+										<td>${resp.statusResposta.statusResposta}</td>
+										<td><a href="visualizarResposta-${resp.id}"
+											class="btn btn-sm btn-secondary">Visualizar</a></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
+
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
@@ -263,20 +181,6 @@
 		<!-- Custom scripts for this page-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
-		<!-- Tempus Dominus scripts -->
-		<script src="webjars/momentjs/2.22.2/min/moment-with-locales.min.js"></script>
-		<script
-			src="webjars/tempusdominus-bootstrap-4/5.0.0/js/tempusdominus-bootstrap-4.min.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$('#datetimepicker').datetimepicker({
-					minDate : new Date(),
-					locale : 'pt-br',
-					sideBySide : true
-				});
-
-			});
-		</script>
 	</div>
 </body>
 </html>

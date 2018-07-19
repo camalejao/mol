@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +12,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Atividades</title>
+<title>MOL - Ver Resposta</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -22,15 +21,10 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- Page level plugin CSS-->
-<link
-	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
-	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
 </head>
-
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -81,51 +75,96 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Gerenciar Atividades</li>
+				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
+						Atividades</a></li>
+				<li class="breadcrumb-item"><a
+					href="listarAtividades-${resposta.atividade.turmaDisciplina.id}">Lista
+						de Atividades</a></li>
+				<li class="breadcrumb-item"><a href="respostasAtividade-${resposta.atividade.id}">Lista de Respostas</a></li>
+				<li class="breadcrumb-item active">Visualizar Resposta</li>
 			</ol>
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-book"></i> Turmas / Disciplinas
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-file-text"></i> Resposta -
+							${resposta.atividade.titulo}
+						</div>
+						<div class="card-body">
+							<div class="media">
+								<div class="media-body">
+									<h4 class="card-title mb-1"></h4>
+									<h6 class="card-title mb-1">
+										<strong>Aluno: </strong> ${resposta.aluno.nome}
+									</h6>
+									<h6 class="card-title mb-1">
+										<strong>Data de Envio: </strong>
+										<fmt:parseDate value="${resposta.atividade.dataCadastro}"
+											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+										<fmt:formatDate value="${parsedDateTime}"
+											pattern="dd/MM/yyyy HH:mm" />
+									</h6>
+									<label for="comentariosResp"><strong>Comentários
+											do Aluno: </strong></label>
+									<p id="comentariosResp">${resposta.comentarios}</p>
+									<label for="doc"><strong>Arquivo de resposta:
+									</strong></label>
+									<c:choose>
+										<c:when test="${not empty resposta.nomeDocumentoResposta}">
+											<p id="doc">${resposta.nomeDocumentoResposta}
+												<a class="btn btn-secondary btn-sm"
+													href="downloadResposta-${resposta.id}"> <i
+													class="fa fa-download "></i> Baixar
+												</a>
+											</p>
+										</c:when>
+										<c:otherwise>
+											<p id="doc">Não enviado.</p>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-body"></div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-
-						<table class="table table-bordered" id="dataTable" width="100%"
-							cellspacing="0">
-							<thead>
-								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso</th>
-									<th>Turno</th>
-									<th>Cálculo Média</th>
-									<th>Atividades</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso</th>
-									<th>Turno</th>
-									<th>Cálculo Média</th>
-									<th>Atividades</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<c:forEach items="${turmaDisciplinas}" var="td">
-									<tr>
-										<td>${td.turma.identificacao}/ ${td.disciplina.sigla} -
-											${td.disciplina.nome}</td>
-										<td>${td.turma.curso.nome}-
-											${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
-										<td>${td.turma.turno.turno}</td>
-										<td>${td.tipoCalculo.tipoCalculo}</td>
-										<td><a class="btn btn-primary btn-sm"
-											href="listarAtividades-${td.id}"><i
-												class="fa fa-file-text "></i> Listar</a></td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+				<div class="col-md-6">
+					<div class="card mb-3">
+						<div class="card-header">Avaliar Resposta</div>
+						<div class="card-body">
+							<form:form modelAttribute="resposta" action="avaliarResposta"
+								method="POST">
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-10">
+											<label for="inputResp">Aluno</label>
+											<form:select path="id" class="form-control" id="inputResp">
+												<form:option value="${resposta.id}">${resposta.aluno.nome}</form:option>
+											</form:select>
+										</div>
+										<div class="col-md-2">
+											<label for="inputNota">Nota</label>
+											<form:input path="nota" class="form-control" id="inputNota"
+												type="number" min="0"
+												max="${resposta.atividade.valorMaximo}"
+												aria-describedby="notaHelp" placeholder="" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="form-row">
+										<label for="inputObs">Observações</label>
+										<form:textarea path="observacoesProfessor"
+											class="form-control" id="inputObs" type="text" rows="3"
+											aria-describedby="obsHelp"
+											placeholder="Observações sobre a resposta" />
+									</div>
+								</div>
+								<button class="btn btn-primary btn-block" type="submit">Avaliar</button>
+							</form:form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -173,16 +212,8 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Page level plugin JavaScript-->
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		<!-- Custom scripts for this page-->
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
 	</div>
 </body>
 </html>

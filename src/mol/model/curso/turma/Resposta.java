@@ -2,6 +2,8 @@ package mol.model.curso.turma;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -28,8 +30,15 @@ public class Resposta extends Entidade {
 	private double nota;
 
 	@Column(length = 500)
-	private String observacoes;
-
+	private String comentarios;
+	
+	@Column(length = 500, name="obs_professor")
+	private String observacoesProfessor;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="status_resposta", nullable=false)
+	private StatusResposta statusResposta;
+	
 	@Lob
 	@Column(columnDefinition="mediumblob", name = "doc_resposta")
 	private byte[] documentoResposta;
@@ -67,12 +76,28 @@ public class Resposta extends Entidade {
 		this.nota = nota;
 	}
 
-	public String getObservacoes() {
-		return observacoes;
+	public String getComentarios() {
+		return comentarios;
 	}
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public String getObservacoesProfessor() {
+		return observacoesProfessor;
+	}
+
+	public void setObservacoesProfessor(String observacoesProfessor) {
+		this.observacoesProfessor = observacoesProfessor;
+	}
+	
+	public StatusResposta getStatusResposta() {
+		return statusResposta;
+	}
+
+	public void setStatusResposta(StatusResposta statusResposta) {
+		this.statusResposta = statusResposta;
 	}
 
 	public byte[] getDocumentoResposta() {
