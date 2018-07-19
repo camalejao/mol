@@ -41,7 +41,7 @@
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Atividades" ><a
+					title="Atividades"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
 					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
 						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
@@ -70,30 +70,77 @@
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
 				<li class="breadcrumb-item active">Página inicial</li>
 			</ol>
+			<div class="mb-0 mt-4">
+				<i class="fa fa-book"></i> Disciplinas
+			</div>
+			<hr class="mt-2">
 			<div class="row">
 				<div class="col-12">
 					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fa fa-file-text"></i> Atividades
-						</div>
 						<div class="list-group list-group-flush small">
 							<c:choose>
-								<c:when test="${not empty atividades}">
-									<c:forEach items="${atividades}" var="atividade">
+								<c:when test="${not empty turmasDisc}">
+									<c:forEach items="${turmasDisc}" var="td">
+										<div class="list-group-item list-group-item-action">
+											<div class="media">
+												<div class="media-body">
+													<h6 class="card-title mb-1">
+														<strong>${td.turmaDisciplina.disciplina.nome}</strong>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<div class="media">
+										<div class="media-body">
+											<div class="list-group-item list-group-item-action">
+												<h6 class="card-title mb-1">Você não está cadastrado em
+													nenhuma disciplina.</h6>
+											</div>
+										</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="mb-0 mt-4">
+				<i class="fa fa-file-text"></i> Atividades
+			</div>
+			<hr class="mt-2">
+			<div class="row">
+				<div class="col-12">
+					<div class="card mb-3">
+						<div class="card-header">Atividades Pendentes</div>
+						<div class="list-group list-group-flush small">
+							<c:choose>
+								<c:when test="${not empty naoRespondidas}">
+									<c:forEach items="${naoRespondidas}" var="nr">
 										<div class="list-group-item list-group-item-action">
 											<div class="media">
 												<div class="media-body">
 													<h6 class="card-title mb-1">
 														<strong>Disciplina: </strong>
-														${atividade.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${atividade.titulo} <strong>Prazo: </strong>
-														<fmt:parseDate value="${atividade.dataExpiracao}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-															type="both" />
-														<fmt:formatDate value="${parsedDateTime}"
+														${nr.turmaDisciplina.disciplina.nome} <strong>Atividade:
+														</strong> ${nr.titulo} <strong>Prazo: </strong>
+														<fmt:parseDate value="${nr.dataExpiracao}"
+															pattern="yyyy-MM-dd'T'HH:mm" var="expiracao" type="both" />
+														<fmt:formatDate value="${expiracao}"
 															pattern="dd/MM/yyyy HH:mm" />
-														<a href="responderAtividade-${atividade.id}"
-															class="btn btn-sm btn-primary">Responder</a>
+														<c:choose>
+															<c:when test="${nr.verificaExpiracao()}">
+																<a href="responderAtividade-${nr.id}"
+																	class="btn btn-sm btn-primary">Responder</a>
+															</c:when>
+															<c:otherwise>
+																<span class="btn btn-sm btn-danger">Expirada</span>
+															</c:otherwise>
+														</c:choose>
 													</h6>
 												</div>
 											</div>
@@ -105,7 +152,48 @@
 										<div class="media-body">
 											<div class="list-group-item list-group-item-action">
 												<h6 class="card-title mb-1">Não há atividades
-													cadastradas.</h6>
+													pendentes.</h6>
+											</div>
+										</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="card mb-3">
+						<div class="card-header">Atividades Respondidas</div>
+						<div class="list-group list-group-flush small">
+							<c:choose>
+								<c:when test="${not empty respondidas}">
+									<c:forEach items="${respondidas}" var="r">
+										<div class="list-group-item list-group-item-action">
+											<div class="media">
+												<div class="media-body">
+													<h6 class="card-title mb-1">
+														<strong>Disciplina: </strong>
+														${r.turmaDisciplina.disciplina.nome} <strong>Atividade:
+														</strong> ${r.titulo} <strong>Data de envio: </strong>
+														<fmt:parseDate value="${r.dataCadastro}"
+															pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+															type="both" />
+														<fmt:formatDate value="${parsedDateTime}"
+															pattern="dd/MM/yyyy HH:mm" />
+													</h6>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<div class="media">
+										<div class="media-body">
+											<div class="list-group-item list-group-item-action">
+												<h6 class="card-title mb-1">Não há atividades
+													respondidas.</h6>
 											</div>
 										</div>
 									</div>
