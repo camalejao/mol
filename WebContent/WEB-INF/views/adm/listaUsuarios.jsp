@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -50,7 +50,7 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastrarUsuario">Cadastrar Usu·rio</a></li>
+						<li><a href="cadastrarUsuario">Cadastrar Usu√°rio</a></li>
 					</ul></li>
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -60,7 +60,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
-						<li><a href="listarUsuarios">Listar Usu·rios</a></li>
+						<li><a href="listarUsuarios">Listar Usu√°rios</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -79,13 +79,13 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">P·gina
+				<li class="breadcrumb-item"><a href="home">P√°gina
 						Inicial</a></li>
-				<li class="breadcrumb-item active">Listar Usu·rios</li>
+				<li class="breadcrumb-item active">Listar Usu√°rios</li>
 			</ol>
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-table"></i> Lista de Usu·rios
+					<i class="fa fa-table"></i> Lista de Usu√°rios
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -137,7 +137,7 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © 2018</small>
+					<small>Copyright ¬© 2018</small>
 				</div>
 			</div>
 		</footer>
@@ -151,14 +151,14 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">J· vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">J√° vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
-							<span aria-hidden="true">◊</span>
+							<span aria-hidden="true">√ó</span>
 						</button>
 					</div>
 					<div class="modal-body">Selecione "Sair" se deseja encerrar a
-						sess„o atual.</div>
+						sess√£o atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>

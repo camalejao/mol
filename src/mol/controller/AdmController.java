@@ -88,9 +88,7 @@ public class AdmController {
 	public String insereDisciplina(Disciplina disciplina, HttpSession session) {
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
-		
-		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-		disciplina.setUsuarioLogado(uDAO.consultarPorId(user.getId()));
+		disciplina.setUsuarioLogado(user);
 		disciplina.setStatus(StatusEntidade.ATIVO);
 		
 		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
@@ -109,8 +107,15 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereAluno")
-	public String insereAluno(@ModelAttribute("aluno") Aluno aluno) {
-
+	public String insereAluno(@ModelAttribute("aluno") Aluno aluno, HttpSession session) {
+		System.out.println(aluno.getNome());
+		System.out.println(aluno.getNome());
+		System.out.println(aluno.getNome());
+		System.out.println(aluno.getNome());
+		System.out.println(aluno.getNome());
+		
+		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
+		aluno.setUsuarioLogado(user);
 		aluno.setSenha(aluno.senhaSHA());
 		aluno.setTipo(TipoUsuario.ALUNO);
 		aluno.setStatus(StatusEntidade.ATIVO);
@@ -131,8 +136,10 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereAdm")
-	public String insereAdm(@ModelAttribute("adm") Usuario adm) {
-
+	public String insereAdm(@ModelAttribute("adm") Usuario adm, HttpSession session) {
+		
+		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
+		adm.setUsuarioLogado(user);
 		adm.setSenha(adm.senhaSHA());
 		adm.setTipo(TipoUsuario.ADMINISTRADOR);
 		adm.setStatus(StatusEntidade.ATIVO);
@@ -153,8 +160,10 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereProfessor")
-	public String insereProfessor(@ModelAttribute("professor") Professor professor) {
-
+	public String insereProfessor(@ModelAttribute("professor") Professor professor, HttpSession session) {
+		
+		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
+		professor.setUsuarioLogado(user);
 		professor.setSenha(professor.senhaSHA());
 		professor.setTipo(TipoUsuario.PROFESSOR);
 		professor.setStatus(StatusEntidade.ATIVO);
@@ -182,21 +191,16 @@ public class AdmController {
 	@RequestMapping("insereMonitor")
 	public String insereMonitor(@ModelAttribute("monitor") Monitor monitor, HttpSession session) {
 		
-		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
-		//IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
 		IMonitorDAO monitorDAO = DAOFactory.getMonitorDAO();
+		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
-		Aluno aluno = alunoDAO.consultarPorMatricula(monitor.getAluno().getMatricula());
-				
-		monitor.setAluno(aluno);
-		//monitor.setDisciplina(discDAO.consultarPorSigla(monitor.getDisciplina().getSigla()));
-		monitor.setUsuarioLogado(uDAO.consultarPorId(user.getId()));
+		monitor.setUsuarioLogado(user);
+		monitor.setStatus(StatusEntidade.ATIVO);
 		monitorDAO.inserir(monitor);
 		
-		aluno.setTipo(TipoUsuario.MONITOR);
-		alunoDAO.alterar(aluno);
+		monitor.getAluno().setTipo(TipoUsuario.MONITOR);
+		alunoDAO.alterar(monitor.getAluno());
 				
 		return "adm/sucesso";
 	}

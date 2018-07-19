@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -25,6 +25,14 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
+<!-- Bootstrap select CSS -->
+<link
+	href="webjars/bootstrap-select/1.13.1/dist/css/bootstrap-select.min.css"
+	rel="stylesheet">
+<!-- Tempus Dominus CSS -->
+<link
+	href="webjars/tempusdominus-bootstrap-4/5.0.0/css/tempusdominus-bootstrap-4.min.css"
+	rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -40,7 +48,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-	
+
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
 					title="Cadastros"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -49,9 +57,9 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastrarUsuario">Cadastrar Usu·rio</a></li>
+						<li><a href="cadastrarUsuario">Cadastrar Usu√°rio</a></li>
 					</ul></li>
-	
+
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
 					title="Listagens"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -59,7 +67,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
-						<li><a href="listarUsuarios">Listar Usu·rios</a></li>
+						<li><a href="listarUsuarios">Listar Usu√°rios</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -78,10 +86,9 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">P·gina
-						Inicial</a></li>
+				<li class="breadcrumb-item"><a href="home">P√°gina Inicial</a></li>
 				<li class="breadcrumb-item"><a href="cadastrarUsuario">Cadastro
-						de Usu·rio</a></li>
+						de Usu√°rio</a></li>
 				<li class="breadcrumb-item active">Cadastro de Monitor</li>
 			</ol>
 			<div class="row">
@@ -94,29 +101,64 @@
 								<div class="form-group">
 									<div>
 										<label for="selectDisciplina">Disciplina</label>
-										<form:input class="form-control"
-											placeholder="Ex: Estrutura de Dados" path="disciplina.sigla"
-											list="datalistDisciplina" type="text" />
-										<datalist id="datalistDisciplina"> <c:forEach
-											items="${disciplinas}" var="disciplina">
-											<option value="${disciplina.sigla}">${disciplina.sigla}
-												- ${disciplina.nome}</option>
-										</c:forEach></datalist>
+										<form:select class="selectpicker form-control"
+											title="Sigla ou nome" data-style="btn-outline-secondary"
+											data-live-search="true" path="disciplina" type="text"
+											id="selectDisciplina">
+											<c:forEach items="${disciplinas}" var="d">
+												<form:option value="${d.sigla}">${d.sigla} - ${d.nome}</form:option>
+											</c:forEach>
+										</form:select>
 									</div>
 								</div>
 								<div class="form-group">
 									<div>
 										<label for="selectAluno">Aluno</label>
-										<form:input class="form-control"
-											placeholder="Nome ou MatrÌcula" path="aluno.matricula"
-											list="datalistAluno" type="text" />
-										<datalist id="datalistAluno"> <c:forEach
-											items="${alunos}" var="aluno">
-											<option value="${aluno.matricula}">${aluno.nome}-
-												${aluno.matricula}</option>
-										</c:forEach></datalist>
+										<form:select class="selectpicker form-control"
+											data-live-search="true" title="Nome ou matr√≠cula"
+											path="aluno" data-style="btn-outline-secondary"
+											id="selectAluno" type="text">
+											<c:forEach items="${alunos}" var="a">
+												<form:option value="${a.matricula}">${a.nome} - ${a.matricula}</form:option>
+											</c:forEach>
+										</form:select>
 									</div>
 								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="dateTermino">Data de in√≠cio</label>
+										<div class="input-group date" id="datetimepickerInicio"
+											data-target-input="nearest">
+											<form:input type="text" path="dataInicioContrato"
+												class="form-control datetimepicker-input"
+												data-target="#datetimepickerInicio" id="dateInicio" />
+											<div class="input-group-append"
+												data-target="#datetimepickerInicio"
+												data-toggle="datetimepicker">
+												<div class="input-group-text">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="dateTermino">Data de t√©rmino</label>
+										<div class="input-group date" id="datetimepickerTermino"
+											data-target-input="nearest">
+											<form:input type="text" path="dataTerminoContrato"
+												class="form-control datetimepicker-input"
+												data-target="#datetimepickerTermino" id="dateTermino" />
+											<div class="input-group-append"
+												data-target="#datetimepickerTermino"
+												data-toggle="datetimepicker">
+												<div class="input-group-text">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
 								<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
 							</form:form>
 						</div>
@@ -127,11 +169,11 @@
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<footer class="sticky-footer">
-		<div class="container">
-			<div class="text-center">
-				<small>Copyright © 2018</small>
+			<div class="container">
+				<div class="text-center">
+					<small>Copyright ¬© 2018</small>
+				</div>
 			</div>
-		</div>
 		</footer>
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
@@ -143,14 +185,14 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">J· vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">J√° vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
-							<span aria-hidden="true">◊</span>
+							<span aria-hidden="true">√ó</span>
 						</button>
 					</div>
 					<div class="modal-body">Selecione "sair" se deseja encerrar a
-						sess„o atual.</div>
+						sess√£o atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
@@ -169,6 +211,42 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- Tempus Dominus scripts -->
+		<script src="webjars/momentjs/2.22.2/min/moment-with-locales.min.js"></script>
+		<script
+			src="webjars/tempusdominus-bootstrap-4/5.0.0/js/tempusdominus-bootstrap-4.min.js"></script>
+		<!-- Bootstrap select scripts -->
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/bootstrap-select.min.js"></script>
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/i18n/defaults-pt_BR.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('#datetimepickerInicio').datetimepicker({
+					minDate : new Date(),
+					format : 'L',
+					locale : 'pt-br'
+				});
+				$('#datetimepickerTermino').datetimepicker({
+					minDate : new Date(),
+					format : 'L',
+					locale : 'pt-br',
+					useCurrent : false
+				});
+				$("#datetimepickerInicio").on(
+						"change.datetimepicker",
+						function(e) {
+							$('#datetimepickerTermino').datetimepicker(
+									'minDate', e.date);
+						});
+				$("#datetimepickerTermino").on(
+						"change.datetimepicker",
+						function(e) {
+							$('#datetimepickerInicio').datetimepicker(
+									'maxDate', e.date);
+						});
+			});
+		</script>
 	</div>
 </body>
 

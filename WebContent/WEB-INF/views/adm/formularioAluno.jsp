@@ -87,7 +87,7 @@
 					<div class="card card-register mx-auto mt-5">
 						<div class="card-header">Cadastro de Aluno</div>
 						<div class="card-body">
-							<form:form modelAttribute="aluno" action="salvaAluno"
+							<form:form modelAttribute="aluno" action="insereAluno"
 								method="POST">
 								<div class="form-group">
 									<div class="form-row">
