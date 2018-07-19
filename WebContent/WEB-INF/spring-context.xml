@@ -13,7 +13,7 @@
 	<mvc:default-servlet-handler />
 	<context:component-scan
 		base-package="mol.controller" />
-	<mvc:annotation-driven />
+	<mvc:annotation-driven conversion-service="conversionService" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -32,10 +32,16 @@
 		class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<list>
-				<bean class="mol.typeConverter.LocalDateTimeConverter">
+				<bean class="mol.converter.LocalDateTimeConverter">
 					<constructor-arg value="dd/MM/yyyy HH:mm" />
 				</bean>
-				<bean class="mol.typeConverter.StringParaDataConverter">
+				<bean class="mol.converter.LocalDateConverter">
+					<constructor-arg value="dd/MM/yyyy" />
+				</bean>
+				<bean class="mol.converter.DisciplinaConverter" />
+				<bean class="mol.converter.TurmaDisciplinaConverter" />
+				<bean class="mol.converter.AlunoConverter" />
+				<bean class="mol.converter.StringParaDataConverter">
 					<constructor-arg value="dd/MM/yyyy HH:mm" />
 				</bean>
 			</list>
