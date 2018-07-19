@@ -1,4 +1,4 @@
-package mol.typeConverter;
+package mol.converter;
 
 import org.springframework.core.convert.converter.Converter;
 
