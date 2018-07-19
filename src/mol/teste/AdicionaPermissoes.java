@@ -18,6 +18,7 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("listarDisciplinas", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("cadastrarUsuario", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("cadastrarDisciplina", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastrarAluno", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("selecionarTipoUsuario", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("insereDisciplina", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("insereAluno", TipoUsuario.ADMINISTRADOR));
@@ -39,7 +40,12 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("enviarResposta", TipoUsuario.ALUNO));
 		lp.add(new Permissoes("downloadResposta-{id}", TipoUsuario.ALUNO));
 		lp.add(new Permissoes("downloadResposta-{id}", TipoUsuario.PROFESSOR));
-		
+		lp.add(new Permissoes("listarTurmas-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("listarAtividades-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("respostasAtividade-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("adicionarAtividade-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("visualizarResposta-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("avaliarResposta-{id}", TipoUsuario.PROFESSOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

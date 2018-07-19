@@ -138,6 +138,15 @@ public class Teste {
 		a3.setStatus(StatusEntidade.ATIVO);
 		a3.setTipo(TipoUsuario.ALUNO);
 		
+		Aluno a4 = new Aluno();
+		a4.setNome("João");
+		a4.setEmail("joao.falcao@icloud.com");
+		a4.setSenha("mol123");
+		a4.setSenha(a4.senhaSHA());
+		a4.setStatus(StatusEntidade.ATIVO);
+		a4.setMatricula("15106586");
+		a4.setTipo(TipoUsuario.ALUNO);
+		
 		Usuario u = new Usuario();
 		u.setNome("Adm");
 		u.setSenha("123");
@@ -240,6 +249,10 @@ public class Teste {
 		tda3.setAluno(a);
 		tda3.setTurmaDisciplina(td1);
 		tda3.setStatus(StatusEntidade.ATIVO);
+		TurmaDisciplinaAluno tda4 = new TurmaDisciplinaAluno();
+		tda4.setAluno(a4);
+		tda4.setTurmaDisciplina(td3);
+		tda4.setStatus(StatusEntidade.ATIVO);
 		
 		MaterialDidatico md = new MaterialDidatico();
 		md.setTitulo("slide if/else");
@@ -293,6 +306,7 @@ public class Teste {
 		aDAO.inserir(a);
 		aDAO.inserir(a2);
 		aDAO.inserir(a3);
+		aDAO.inserir(a4);
 		
 		pDAO.inserir(p);
 		pDAO.inserir(p2);
@@ -324,6 +338,7 @@ public class Teste {
 		tdaDAO.inserir(tda1);
 		tdaDAO.inserir(tda2);
 		tdaDAO.inserir(tda3);
+		tdaDAO.inserir(tda4);
 		
 		atvDAO.inserir(atv1);
 		atvDAO.inserir(atv2);
