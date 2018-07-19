@@ -116,7 +116,7 @@
 											<div class="form-row">
 												<div class="col-md-6">
 													<label for="inputObs">Comentários</label>
-													<form:textarea class="form-control" path="observacoes"
+													<form:textarea class="form-control" path="comentarios"
 														id="inputObs" rows="3" type="text" />
 												</div>
 												<div class="col-md-6">

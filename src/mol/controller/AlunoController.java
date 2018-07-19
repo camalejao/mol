@@ -21,9 +21,11 @@ import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.model.StatusEntidade;
 import mol.model.curso.turma.Atividade;
 import mol.model.curso.turma.Resposta;
+import mol.model.curso.turma.StatusResposta;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
 import mol.model.user.Usuario;
+import mol.teste.MailSender;
 
 @Controller
 public class AlunoController {
@@ -36,22 +38,28 @@ public class AlunoController {
 
 		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
-		List<Atividade> listAtv = new ArrayList<>();
+		List<Atividade> listResp = new ArrayList<>();
+		List<Atividade> listNaoResp = new ArrayList<>();
 		List<TurmaDisciplinaAluno> turmasDisc = tdaDAO.consultarPorAluno(aluno);
-		
+
 		for (TurmaDisciplinaAluno tda : turmasDisc) {
-			List<Atividade> la = atvDAO.consultarPorTurmaDisciplina(tda.getTurmaDisciplina());
-			if (!la.isEmpty()) {
-				listAtv.addAll(la);
+			List<Atividade> lr = atvDAO.consultarRespondidas(tda.getTurmaDisciplina(), aluno);
+			if (!lr.isEmpty()) {
+				listResp.addAll(lr);
+			}
+			List<Atividade> lnr = atvDAO.consultarNaoRespondidas(tda.getTurmaDisciplina(), aluno);
+			if (!lnr.isEmpty()) {
+				listNaoResp.addAll(lnr);
 			}
 		}
 
 		mav.addObject("turmasDisc", turmasDisc);
-		mav.addObject("atividades", listAtv);
+		mav.addObject("respondidas", listResp);
+		mav.addObject("naoRespondidas", listNaoResp);
 
 		return mav;
 	}
-	
+
 	@RequestMapping("responderAtividade-{id}")
 	public ModelAndView responder(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("aluno/submeterResposta");
@@ -59,20 +67,20 @@ public class AlunoController {
 		session.setAttribute("idAtv", id);
 		mav.addObject("atividade", atvDAO.consultarPorId(id));
 		mav.addObject("resposta", new Resposta());
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping("enviarResposta")
 	public String enviar(Resposta resposta, HttpSession session) {
-		
-		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
-		Integer id = (Integer)session.getAttribute("idAtv");
+
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
+		Integer id = (Integer) session.getAttribute("idAtv");
 		session.removeAttribute("idAtv");
-		
+
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
-		
+
 		resposta.setAluno(a);
 		resposta.setAtividade(atvDAO.consultarPorId(id));
 		resposta.setStatus(StatusEntidade.ATIVO);
@@ -80,12 +88,16 @@ public class AlunoController {
 		resposta.setDocumentoResposta(resposta.getUpload().getBytes());
 		resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
 		resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
-		
+		resposta.setStatusResposta(StatusResposta.NAO_CORRIGIDA);
+
 		rDAO.inserir(resposta);
-		
+
+		MailSender.enviarEmail(a.getEmail(), "Resposta submetida com sucesso!",
+				"Sua resposta para a atividade '" + resposta.getAtividade().getTitulo() + "' foi enviada com sucesso.");
+
 		return "redirect:index";
 	}
-	
+
 	@RequestMapping(value = { "downloadAtividade-{id}" }, method = RequestMethod.GET)
 	public void downloadAtividade(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
 
@@ -98,16 +110,17 @@ public class AlunoController {
 			FileCopyUtils.copy(atividade.getDocumento(), resp.getOutputStream());
 		}
 	}
-	
-	@RequestMapping(value = { "downloadResposta-{id}" }, method = RequestMethod.GET)
+
+	/* @RequestMapping(value = { "downloadResposta-{id}" }, method = RequestMethod.GET)
 	public void downloadResposta(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
 		if (id != null && id > 0) {
 			IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 			Resposta resposta = rDAO.consultarPorId(id);
 			resp.setContentType(resposta.getTipoDocumentoResposta());
 			resp.setContentLength(resposta.getDocumentoResposta().length);
-			resp.setHeader("Content-Disposition", "attachment; filename=\"" + resposta.getNomeDocumentoResposta() + "\"");
+			resp.setHeader("Content-Disposition",
+					"attachment; filename=\"" + resposta.getNomeDocumentoResposta() + "\"");
 			FileCopyUtils.copy(resposta.getDocumentoResposta(), resp.getOutputStream());
 		}
-	}
+	} */
 }
