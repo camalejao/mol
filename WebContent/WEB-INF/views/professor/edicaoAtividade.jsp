@@ -75,6 +75,9 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+						<c:out value="${sessionScope.usuarioLogado.nome}" />
+				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
@@ -205,6 +208,28 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col-md-6">
+									<h6>Itens</h6>
+									<c:forEach items="${atividade.itens}" var="item">
+										<h6 class="ml-3">${item.enunciado}</h6>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+
+						<div class="mb-3">
+							<a class="btn btn-primary" href="" data-toggle="modal"
+								data-target="#itemDiscursivoModal"
+								onclick="itemDiscursivo(${atividade.id},event)">Adicionar
+								Item Discursivo</a> <a class="btn btn-primary" href=""
+								data-toggle="modal" data-target="#itemMultiplaEscolhaModal"
+								onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
+								Item de Múltipla Escolha</a>
+						</div>
+
 						<button class="btn btn-primary btn-block" type="submit">Salvar</button>
 					</form:form>
 				</div>
@@ -245,6 +270,47 @@
 				</div>
 			</div>
 		</div>
+		<!-- Modal Novo Item Discursivo -->
+		<div class="modal fade" id="itemDiscursivoModal" tabindex="-1"
+			role="dialog" aria-labelledby="itemDiscursivoModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="itemDiscursivoModalLabel">Adicionar
+							Item Discursivo</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form:form action="adicionarItemDiscursivo" modelAttribute="item"
+							method="POST">
+							<div class="form-group">
+
+								<label for="enunciadoDiscursivo">Enunciado</label>
+								<form:textarea class="form-control" path="enunciado"
+									maxlength="200" rows="3" type="text" id="enunciadoDiscursivo"
+									placeholder="Digite o enunciado do item" />
+
+								<form:input path="atividade" id="idAtividadeItemDiscursivo"
+									type="text" />
+
+							</div>
+
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+
+						</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -274,8 +340,16 @@
 					locale : 'pt-br',
 					sideBySide : true
 				});
-
 			});
+		</script>
+		<script>
+			function itemDiscursivo(id, e) {
+				$("#idAtividadeItemDiscursivo").attr("value",id);
+				e.preventDefault();
+			}
+			function itemMultiplaEscolha(id, e) {
+				e.preventDefault();
+			}
 		</script>
 	</div>
 </body>

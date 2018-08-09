@@ -1,18 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
-<head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Ver Resposta</title>
+<title>MOL - Atividades</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -21,10 +20,14 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-</head>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -64,9 +67,6 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
-						<c:out value="${sessionScope.usuarioLogado.nome}" />
-				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
@@ -78,102 +78,50 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
-						Atividades</a></li>
-				<li class="breadcrumb-item"><a
-					href="listarAtividades-${resposta.atividade.turmaDisciplina.id}">Lista
-						de Atividades</a></li>
-				<li class="breadcrumb-item"><a
-					href="respostasAtividade-${resposta.atividade.id}">Lista de
-						Respostas</a></li>
-				<li class="breadcrumb-item active">Visualizar Resposta</li>
+
+				<li class="breadcrumb-item active">Inserir Material Didático</li>
 			</ol>
-			<div class="row">
-				<div class="col-md-6">
+			<div class="row justify-content-center">
+				<div class="col-8">
 					<div class="card mb-3">
 						<div class="card-header">
-							<i class="fa fa-file-text"></i> Resposta -
-							${resposta.atividade.titulo}
+							<i class="fa fa-file-text"></i> Adicionar Material Didático
 						</div>
-						<div class="card-body">
-							<div class="media">
-								<div class="media-body">
-									<h4 class="card-title mb-1"></h4>
-									<h6 class="card-title mb-1">
-										<strong>Aluno: </strong> ${resposta.aluno.nome}
-									</h6>
-									<h6 class="card-title mb-1">
-										<strong>Data de Envio: </strong>
-										<fmt:parseDate value="${resposta.atividade.dataCadastro}"
-											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-										<fmt:formatDate value="${parsedDateTime}"
-											pattern="dd/MM/yyyy HH:mm" />
-									</h6>
-									<label for="comentariosResp"><strong>Comentários
-											do Aluno: </strong></label>
-									<p id="comentariosResp">${resposta.comentarios}</p>
-									<label for="doc"><strong>Arquivo de resposta:
-									</strong></label>
-									<c:choose>
-										<c:when test="${not empty resposta.nomeDocumentoResposta}">
-											<p id="doc">${resposta.nomeDocumentoResposta}
-												<a class="btn btn-secondary btn-sm"
-													href="downloadResposta-${resposta.id}"> <i
-													class="fa fa-download "></i> Baixar
-												</a>
-											</p>
-										</c:when>
-										<c:otherwise>
-											<p id="doc">Não enviado.</p>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
-							<div class="media">
-								<div class="media-body"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="card mb-3">
-						<div class="card-header">Avaliar Resposta</div>
-						<div class="card-body">
-							<form:form modelAttribute="resposta" action="avaliarResposta"
-								method="POST">
+						<div class="card-body justify-content-center">
+							<form:form modelAttribute="novaAtividade"
+								action="cadastraAtividade" method="POST"
+								enctype="multipart/form-data">
+
 								<div class="form-group">
 									<div class="form-row">
-										<div class="col-md-10">
-											<form:select hidden="true" path="id" class="form-control"
-												id="inputResp">
-												<form:option value="${resposta.id}">${resposta.aluno.nome}</form:option>
-											</form:select>
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col-md-2">
-											<label for="inputNota">Nota</label>
-											<form:input path="nota" class="form-control" id="inputNota"
-												type="number" min="0"
-												max="${resposta.atividade.valorMaximo}"
-												aria-describedby="notaHelp" placeholder="" />
+										<div class="col-md-12">
+											<label for="inputTitulo">Título</label>
+											<form:input path="titulo" class="form-control"
+												id="inputTitulo" type="text" aria-describedby="tituloHelp"
+												placeholder="Título do MAterial Didático" />
+											<form:errors path="titulo" cssClass="text-danger" />
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="form-row">
-										<label for="inputObs">Observações</label>
-										<form:textarea path="observacoesProfessor"
-											class="form-control" id="inputObs" type="text" rows="3"
-											aria-describedby="obsHelp"
-											placeholder="Observações sobre a resposta" />
+										<div class="col-md-12">
+											<label for="uploadArquivo">Selecione o arquivo</label>
+											<form:input class="form-control-file" path="upload"
+												id="uploadArquivo" type="file" />
+										</div>
 									</div>
 								</div>
-								<c:choose>
-									<c:when test="${not resposta.atividade.verificaExpiracao()}">
-										<button class="btn btn-primary btn-block" type="submit">Avaliar</button>
-									</c:when>
-								</c:choose>
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-12">
+											<label for="inputDescricao">Descrição</label>
+											<form:textarea class="form-control" path="descricao"
+												id="inputDescricao" rows="3" type="text" />
+										</div>
+									</div>
+								</div>
+								<button class="btn btn-primary btn-block" type="submit">Adicionar</button>
 							</form:form>
 						</div>
 					</div>

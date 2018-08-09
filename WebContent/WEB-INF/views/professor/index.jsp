@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -51,7 +54,10 @@
           </a>
         </li>
       </ul>
-      <ul class="navbar-nav ml-auto">     
+      <ul class="navbar-nav ml-auto"> 
+      	<li class="nav-item">
+      		<span class="navbar-text mr-5">Bem-vindo(a), <c:out value="${sessionScope.usuarioLogado.nome}" /></span>
+      	</li>    
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
             <i class="fa fa-fw fa-sign-out"></i>Sair</a>
@@ -64,14 +70,14 @@
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="home">Página Inicial</a>
+          <a href="home">PÃ¡gina Inicial</a>
         </li>
-        <li class="breadcrumb-item active">Página inicial</li>
+        <li class="breadcrumb-item active">PÃ¡gina inicial</li>
       </ol>
       <div class="row">
         <div class="col-12">
           <h1>Bem-vindo</h1>
-          <p>Página Inicial</p>
+          <p>PÃ¡gina Inicial</p>
         </div>
       </div>
     </div>
@@ -80,7 +86,7 @@
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
-          <small>Copyright © 2018</small>
+          <small>Copyright Â© 2018</small>
         </div>
       </div>
     </footer>
@@ -93,12 +99,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Já vai?</h5>
+            <h5 class="modal-title" id="exampleModalLabel">JÃ¡ vai?</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
+              <span aria-hidden="true">Ã—</span>
             </button>
           </div>
-          <div class="modal-body">Selecione "sair" se deseja encerrar a sessão atual.</div>
+          <div class="modal-body">Selecione "sair" se deseja encerrar a sessÃ£o atual.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
             <a class="btn btn-primary" href="logout">Sair</a>

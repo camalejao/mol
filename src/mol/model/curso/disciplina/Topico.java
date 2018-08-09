@@ -2,8 +2,10 @@ package mol.model.curso.disciplina;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,10 +26,13 @@ public class Topico extends Entidade {
 	@JoinColumn(name="topico_pai_id")
 	private Topico topico;
 	
+	@OneToMany(mappedBy="topico",cascade=CascadeType.REMOVE)
+	private List<Topico> subtopicos;
+	
 	@Column(length=30, nullable=false)
 	private String descricao;
 	
-	@OneToMany
+	@OneToMany(mappedBy="topico",cascade=CascadeType.REMOVE)
 	private List<MaterialDidatico> materiaisDidaticos;
 
 	
@@ -47,6 +52,14 @@ public class Topico extends Entidade {
 		this.topico = topico;
 	}
 	
+	public List<Topico> getSubtopicos() {
+		return subtopicos;
+	}
+
+	public void setSubtopicos(List<Topico> subtopicos) {
+		this.subtopicos = subtopicos;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}

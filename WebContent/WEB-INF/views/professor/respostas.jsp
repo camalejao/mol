@@ -67,6 +67,9 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+						<c:out value="${sessionScope.usuarioLogado.nome}" />
+				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
@@ -101,6 +104,7 @@
 							<thead>
 								<tr>
 									<th>Aluno</th>
+									<th>Data de Envio</th>
 									<th>Status</th>
 									<th>Resposta</th>
 								</tr>
@@ -108,6 +112,7 @@
 							<tfoot>
 								<tr>
 									<th>Aluno</th>
+									<th>Data de Envio</th>
 									<th>Status</th>
 									<th>Resposta</th>
 								</tr>
@@ -116,6 +121,10 @@
 								<c:forEach items="${respostas}" var="resp">
 									<tr>
 										<td>${resp.aluno.nome}</td>
+										<fmt:parseDate value="${resp.dataCadastro}"
+											pattern="yyyy-MM-dd'T'HH:mm" var="envio" type="both" />
+										<td><fmt:formatDate value="${envio}"
+											pattern="dd/MM/yyyy HH:mm" /></td>
 										<td>${resp.statusResposta.statusResposta}</td>
 										<td><a href="visualizarResposta-${resp.id}"
 											class="btn btn-sm btn-secondary">Visualizar</a></td>

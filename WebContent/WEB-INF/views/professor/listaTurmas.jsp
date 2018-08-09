@@ -68,6 +68,9 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+						<c:out value="${sessionScope.usuarioLogado.nome}" />
+				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
@@ -115,7 +118,8 @@
 								<c:forEach items="${turmasDisciplinas}" var="td">
 									<tr>
 										<td>${td.turma.identificacao}</td>
-										<td>${td.disciplina.sigla} - ${td.disciplina.nome}</td>
+										<td>${td.disciplina.sigla} - ${td.disciplina.nome} - 
+										<a href="editarSumario-${td.id}" class="btn btn-sm btn-secondary">Sumário</a></td>
 										<td>${td.turma.curso.nome}</td>
 										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
 										<td>${td.turma.turno.turno}</td>
