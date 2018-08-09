@@ -1,13 +1,19 @@
 package mol.controller;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import mol.dao.DAOFactory;
+import mol.dao.IMonitorDAO;
 import mol.dao.IUsuarioDAO;
 import mol.model.StatusEntidade;
+import mol.model.user.Aluno;
+import mol.model.user.Monitor;
+import mol.model.user.TipoUsuario;
 import mol.model.user.Usuario;
 
 @Controller
@@ -57,7 +63,19 @@ public class LoginController {
 			case PROFESSOR:
 				return "redirect:homeProfessor";
 			case MONITOR:
-				return "redirect:homeMonitor";
+				IMonitorDAO mDAO = DAOFactory.getMonitorDAO();
+				Monitor m = mDAO.consultarPorAluno((Aluno)controle);
+				
+				if(LocalDate.now().isBefore(m.getDataInicioContrato()))
+					return "redirect:homeAluno";
+				else if(LocalDate.now().isAfter(m.getDataTerminoContrato())) {
+					controle.setTipo(TipoUsuario.ALUNO);
+					uDAO.alterar(controle);
+					m.setStatus(StatusEntidade.INATIVO);
+					mDAO.alterar(m);
+					return "redirect:homeAluno";
+				}else
+					return "redirect:homeMonitor";
 			}
 
 		}
