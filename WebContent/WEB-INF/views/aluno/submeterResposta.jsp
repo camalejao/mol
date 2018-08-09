@@ -58,6 +58,9 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+						<c:out value="${sessionScope.usuarioLogado.nome}" />
+				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>

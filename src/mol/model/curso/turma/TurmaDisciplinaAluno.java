@@ -19,6 +19,8 @@ public class TurmaDisciplinaAluno extends Entidade {
 	@ManyToOne
 	@JoinColumn(name="aluno_id")	
 	private Aluno aluno;
+	
+	private Double media;
 
 
 	public TurmaDisciplina getTurmaDisciplina() {
@@ -38,6 +40,16 @@ public class TurmaDisciplinaAluno extends Entidade {
 
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
+	}
+
+
+	public Double getMedia() {
+		return media;
+	}
+
+
+	public void setMedia(Double media) {
+		this.media = media;
 	}
 	
 }

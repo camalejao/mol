@@ -80,152 +80,103 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item"><a href="disciplinas">Disciplinas</a></li>
+				<li class="breadcrumb-item active">Sumário Disciplina</li>
 			</ol>
 			<div class="mb-0 mt-4">
-				<i class="fa fa-book"></i> Disciplinas
+				<i class="fa fa-list-ul"></i> Sumário - ${turmaDisc.disciplina.nome}
 			</div>
 			<hr class="mt-2">
-			<div class="row">
-				<div class="col-12">
-					<div class="card mb-3">
-						<div class="list-group list-group-flush small">
-							<c:choose>
-								<c:when test="${not empty turmasDisc}">
-									<c:forEach items="${turmasDisc}" var="td">
-										<div class="list-group-item list-group-item-action">
-											<div class="media">
-												<div class="media-body">
-													<h6 class="card-title mb-1">
-														<strong>${td.turmaDisciplina.disciplina.nome}</strong>
-													</h6>
-												</div>
-											</div>
-										</div>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<div class="media">
-										<div class="media-body">
-											<div class="list-group-item list-group-item-action">
-												<h6 class="card-title mb-1">Você não está cadastrado em
-													nenhuma disciplina.</h6>
-											</div>
-										</div>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</div>
-				</div>
-			</div>
+			<c:forEach items="${topicos}" var="t">
+				<div class="row justify-content-center">
+					<div class="col-md-8">
+						<div class="card mb-3">
+							<div class="card-header">${t.descricao}</div>
+							<div class="card-body">
+								<c:forEach items="${t.materiaisDidaticos}" var="material">
+									<c:choose>
+										<c:when test="${material.tipo == 'SLIDE'}">
+											<h6>
+												<i class="fa fa-file-o"></i> <a href=""
+													onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+											</h6>
+											<form action="downloadMd" method="POST" id="${material.id}">
+												<input type="hidden" name="md" value="${material.id}" />
+											</form>
+											<hr class="mt-0 mb-0">
+											<p>${material.descricao}</p>
+										</c:when>
+										<c:when test="${material.tipo == 'APOSTILA'}">
+											<h6>
+												<i class="fa fa-book"></i> <a href=""
+													onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+											</h6>
+											<form action="downloadMd" method="POST" id="${material.id}">
+												<input type="hidden" name="md" value="${material.id}" />
+											</form>
+											<hr class="mt-0 mb-0">
+											<p>${material.descricao}</p>
+										</c:when>
+										<c:when test="${material.tipo == 'LINK'}">
+											<h6>
+												<i class="fa fa-link"></i> <a href="${material.link}"
+													target="_blank">${material.titulo}</a>
+											</h6>
+											<hr class="mt-0 mb-0">
+											<p>${material.descricao}</p>
+										</c:when>
+									</c:choose>
+								</c:forEach>
 
+								<c:forEach items="${t.subtopicos}" var="subt">
+									<h6>
+										<i class="fa fa-info"></i> ${subt.descricao}
+									</h6>
+									<hr class="mt-2">
+									<c:forEach items="${subt.materiaisDidaticos}" var="material">
+										<div class="mb-3 ml-4 pl-4">
+											<c:choose>
+												<c:when test="${material.tipo == 'SLIDE'}">
+													<h6>
+														<i class="fa fa-file-o"></i> <a href=""
+															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+													</h6>
+													<form action="downloadMd" method="POST" id="${material.id}">
+														<input type="hidden" name="md" value="${material.id}" />
+													</form>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+												</c:when>
+												<c:when test="${material.tipo == 'APOSTILA'}">
+													<h6>
+														<i class="fa fa-book"></i> <a href=""
+															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+													</h6>
+													<form action="downloadMd" method="POST" id="${material.id}">
+														<input type="hidden" name="md" value="${material.id}" />
+													</form>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+												</c:when>
+												<c:when test="${material.tipo == 'LINK'}">
+													<h6>
+														<i class="fa fa-link"></i> <a href="${material.link}"
+															target="_blank">${material.titulo}</a>
+													</h6>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+												</c:when>
+											</c:choose>
+										</div>
+									</c:forEach>
+								</c:forEach>
 
-			<div class="mb-0 mt-4">
-				<i class="fa fa-file-text"></i> Atividades
-			</div>
-			<hr class="mt-2">
-			<div class="row">
-				<div class="col-12">
-					<div class="card mb-3">
-						<div class="card-header">Atividades Pendentes</div>
-						<div class="list-group list-group-flush small">
-							<c:choose>
-								<c:when test="${not empty naoRespondidas}">
-									<c:forEach items="${naoRespondidas}" var="nr">
-										<div class="list-group-item list-group-item-action">
-											<div class="media">
-												<div class="media-body">
-													<h6 class="card-title mb-1">
-														<strong>Disciplina: </strong>
-														${nr.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${nr.titulo} <strong>Prazo: </strong>
-														<fmt:parseDate value="${nr.dataExpiracao}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="expiracao" type="both" />
-														<fmt:formatDate value="${expiracao}"
-															pattern="dd/MM/yyyy HH:mm" />
-														<c:choose>
-															<c:when test="${nr.verificaExpiracao()}">
-																<a href="responderAtividade-${nr.id}"
-																	class="btn btn-sm btn-primary">Responder</a>
-															</c:when>
-															<c:otherwise>
-																<span class="btn btn-sm btn-danger">Expirada</span>
-															</c:otherwise>
-														</c:choose>
-													</h6>
-												</div>
-											</div>
-										</div>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<div class="media">
-										<div class="media-body">
-											<div class="list-group-item list-group-item-action">
-												<h6 class="card-title mb-1">Não há atividades
-													pendentes.</h6>
-											</div>
-										</div>
-									</div>
-								</c:otherwise>
-							</c:choose>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<div class="card mb-3">
-						<div class="card-header">Atividades Respondidas</div>
-						<div class="list-group list-group-flush small">
-							<c:choose>
-								<c:when test="${not empty respondidas}">
-									<c:forEach items="${respondidas}" var="r">
-										<div class="list-group-item list-group-item-action">
-											<div class="media">
-												<div class="media-body">
-													<h6 class="card-title mb-1">
-														<strong>Disciplina: </strong>
-														${r.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${r.titulo} <strong>Data de envio: </strong>
-														<fmt:parseDate value="${r.dataCadastro}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-															type="both" />
-														<fmt:formatDate value="${parsedDateTime}"
-															pattern="dd/MM/yyyy HH:mm" />
-														<strong>Prazo: </strong>
-														<fmt:parseDate value="${r.dataExpiracao}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="prazo" type="both" />
-														<fmt:formatDate value="${prazo}"
-															pattern="dd/MM/yyyy HH:mm" />
-														<c:choose>
-															<c:when test="${r.verificaExpiracao()}">
-																<a href="responderAtividade-${r.id}"
-																	class="btn btn-sm btn-primary">Responder Novamente</a>
-															</c:when>
-														</c:choose>
-													</h6>
-												</div>
-											</div>
-										</div>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<div class="media">
-										<div class="media-body">
-											<div class="list-group-item list-group-item-action">
-												<h6 class="card-title mb-1">Não há atividades
-													respondidas.</h6>
-											</div>
-										</div>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</div>
-				</div>
-			</div>
+			</c:forEach>
+
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
@@ -272,6 +223,12 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<script>
+			function downloadMd(id, e){
+				$("#"+id).submit();
+				e.preventDefault();
+			}
+		</script>
 	</div>
 </body>
 

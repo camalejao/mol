@@ -1,7 +1,9 @@
 package mol.model.curso.turma;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,8 +11,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -21,27 +29,31 @@ import mol.model.Entidade;
 @Table(name="t_atividade")
 public class Atividade extends Entidade {
 	
+	@Size(min=8, max=40)
 	@Column(length=40, nullable=false)
 	private String titulo;
 	
+	@DecimalMin("0.25") @DecimalMax("10")
 	@Column(name="valor_maximo", nullable=false)
 	private double valorMaximo;
 	
 	@ManyToOne
 	@JoinColumn(name="turma_disciplina_id")
 	private TurmaDisciplina turmaDisciplina;
-
+	
+	@Min(1) @Max(10)
 	@Column(nullable=false)
 	private int peso;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Unidades unidade;
 	
+	@Size(max=300)
 	@Column(length=300)
 	private String descricao;
 	
 	@Lob
-	@Column(columnDefinition="mediumblob")
+	//@Column(columnDefinition="mediumblob")
 	private byte[] documento;
 	
 	@Column(length=50, name="nome_documento")
@@ -60,6 +72,9 @@ public class Atividade extends Entidade {
 	
 	@Transient
 	private CommonsMultipartFile upload;
+	
+	@OneToMany(mappedBy="atividade",cascade=CascadeType.REMOVE)
+	private List<ItemAtividade> itens;
 	
 	
 	
@@ -158,7 +173,15 @@ public class Atividade extends Entidade {
 	public void setUpload(CommonsMultipartFile upload) {
 		this.upload = upload;
 	}
-	
+		
+	public List<ItemAtividade> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemAtividade> itens) {
+		this.itens = itens;
+	}
+
 	public boolean verificaExpiracao() {
 		if(this.dataExpiracao.isAfter(LocalDateTime.now()))
 			return true;

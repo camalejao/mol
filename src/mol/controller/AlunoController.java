@@ -17,11 +17,15 @@ import org.springframework.web.servlet.ModelAndView;
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IRespostaDAO;
+import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
+import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
+import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.Atividade;
 import mol.model.curso.turma.Resposta;
 import mol.model.curso.turma.StatusResposta;
+import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
 import mol.model.user.Usuario;
@@ -80,9 +84,16 @@ public class AlunoController {
 
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
-
+		Atividade atv = atvDAO.consultarPorId(id);
+		Resposta controle = rDAO.consultarPorAtividadeAluno(atv, a);
+		System.out.println(controle.getComentarios());
+		
+		if(controle != null){
+			rDAO.remover(controle);
+		}
+		
 		resposta.setAluno(a);
-		resposta.setAtividade(atvDAO.consultarPorId(id));
+		resposta.setAtividade(atv);
 		resposta.setStatus(StatusEntidade.ATIVO);
 		resposta.setUsuarioLogado(a);
 		resposta.setDocumentoResposta(resposta.getUpload().getBytes());
@@ -110,17 +121,49 @@ public class AlunoController {
 			FileCopyUtils.copy(atividade.getDocumento(), resp.getOutputStream());
 		}
 	}
+	
+	@RequestMapping("disciplinas")
+	public ModelAndView telaDisciplinas(HttpSession session) {
+		ModelAndView mav = new ModelAndView("aluno/disciplinas");
+		
+		Aluno aluno = (Aluno) session.getAttribute("usuarioLogado");
+		
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
+		List<TurmaDisciplinaAluno> turmasDisc = tdaDAO.consultarPorAluno(aluno);
+		
+		mav.addObject("turmasDisc", turmasDisc);
+		
+		return mav;
+	}
+	
+	@RequestMapping("verCorrecoes-{id}")
+	public ModelAndView telaCorrecoes(@PathVariable Integer id, HttpSession session) {
+		ModelAndView mav = new ModelAndView("aluno/correcoes");
+		
+		Aluno aluno = (Aluno) session.getAttribute("usuarioLogado");
+		
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
+		
+		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+		List<Resposta> respostas = rDAO.consultarCorrigidas(turmaDisc, aluno);
+				
+		mav.addObject("turmaDisc", turmaDisc);
+		mav.addObject("respostas", respostas);	
+		
+		return mav;
+	}
 
-	/* @RequestMapping(value = { "downloadResposta-{id}" }, method = RequestMethod.GET)
-	public void downloadResposta(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
-		if (id != null && id > 0) {
-			IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
-			Resposta resposta = rDAO.consultarPorId(id);
-			resp.setContentType(resposta.getTipoDocumentoResposta());
-			resp.setContentLength(resposta.getDocumentoResposta().length);
-			resp.setHeader("Content-Disposition",
-					"attachment; filename=\"" + resposta.getNomeDocumentoResposta() + "\"");
-			FileCopyUtils.copy(resposta.getDocumentoResposta(), resp.getOutputStream());
-		}
-	} */
+	@RequestMapping("sumario-{id}")
+	public ModelAndView sumario(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("aluno/sumario");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		ITopicoDAO tDAO = DAOFactory.getTopicoDAO();
+		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
+		List<Topico> topicos = tDAO.consultarPorTurma(turmaDisc);
+		mav.addObject("turmaDisc", turmaDisc);
+		mav.addObject("topicos", topicos);
+		return mav;
+	}
+
 }

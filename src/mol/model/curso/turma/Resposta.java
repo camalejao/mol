@@ -40,7 +40,8 @@ public class Resposta extends Entidade {
 	private StatusResposta statusResposta;
 	
 	@Lob
-	@Column(columnDefinition="mediumblob", name = "doc_resposta")
+	//@Column(columnDefinition="mediumblob", name = "doc_resposta")
+	@Column(name = "doc_resposta")
 	private byte[] documentoResposta;
 	
 	@Column(length=50, name="nome_documento")
