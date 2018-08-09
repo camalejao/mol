@@ -76,6 +76,9 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+						<c:out value="${sessionScope.usuarioLogado.nome}" />
+				</span></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="modal"
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
@@ -102,9 +105,8 @@
 									<div>
 										<label for="selectDisciplina">Disciplina</label>
 										<form:select class="selectpicker form-control"
-											title="Sigla ou nome" data-style="btn-outline-secondary"
-											data-live-search="true" path="disciplina" type="text"
-											id="selectDisciplina">
+											title="Sigla ou nome" data-live-search="true" path="disciplina"
+											type="text" id="selectDisciplina">
 											<c:forEach items="${disciplinas}" var="d">
 												<form:option value="${d.sigla}">${d.sigla} - ${d.nome}</form:option>
 											</c:forEach>
@@ -116,8 +118,7 @@
 										<label for="selectAluno">Aluno</label>
 										<form:select class="selectpicker form-control"
 											data-live-search="true" title="Nome ou matrícula"
-											path="aluno" data-style="btn-outline-secondary"
-											id="selectAluno" type="text">
+											path="aluno" id="selectAluno" type="text">
 											<c:forEach items="${alunos}" var="a">
 												<form:option value="${a.matricula}">${a.nome} - ${a.matricula}</form:option>
 											</c:forEach>
