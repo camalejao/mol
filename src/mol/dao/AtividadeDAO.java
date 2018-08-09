@@ -82,7 +82,5 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
         }
 		return null;
 	}
-	
-	
 
 }
