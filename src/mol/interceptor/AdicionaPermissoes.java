@@ -1,4 +1,4 @@
-package mol.teste;
+package mol.interceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import mol.dao.DAOFactory;
 import mol.dao.IPermissoesDAO;
 import mol.model.user.TipoUsuario;
-import mol.interceptor.Permissoes;
 
 public class AdicionaPermissoes {
 	
@@ -39,6 +38,7 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("responderAtividade-{id}", TipoUsuario.ALUNO));
 		lp.add(new Permissoes("enviarResposta", TipoUsuario.ALUNO));
 		lp.add(new Permissoes("downloadResposta-{id}", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("downloadAtividade-{id}", TipoUsuario.ALUNO));
 		lp.add(new Permissoes("downloadResposta-{id}", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("listarTurmas-{id}", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("listarAtividades-{id}", TipoUsuario.PROFESSOR));
@@ -46,6 +46,22 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("adicionarAtividade-{id}", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("visualizarResposta-{id}", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("avaliarResposta-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("disciplinas", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("verCorrecoes-{id}", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("sumario-{id}", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("editarSumario-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("downloadMd", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("downloadMd", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("adicionaTopico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editaTopico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("excluirTopico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("adicionaMaterialDidatico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editaMaterialDidatico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("excluirMaterialDidatico", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("adicionarItemDiscursivo", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("removerItemDiscursivo", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("adicionarItemMultiplaEscolha", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("removerItemMultiplaEscolha", TipoUsuario.PROFESSOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

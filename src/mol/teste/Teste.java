@@ -270,6 +270,7 @@ public class Teste {
 		atv1.setUnidade(Unidades.UM);
 		atv1.setNivel(NivelAprendizagem.FACIL);
 		atv1.setDataExpiracao(LocalDateTime.of(2018, 07, 05, 22, 00));
+		atv1.setValorMaximo(4);
 		
 		Atividade atv2 = new Atividade();
 		atv2.setTurmaDisciplina(td3);
@@ -279,6 +280,7 @@ public class Teste {
 		atv2.setUnidade(Unidades.DOIS);
 		atv2.setNivel(NivelAprendizagem.FACIL);
 		atv2.setDataExpiracao(LocalDateTime.of(2018, 07, 15, 19, 00));
+		atv2.setValorMaximo(2);
 		
 		Resposta r = new Resposta();
 		r.setAluno(a3);
@@ -338,7 +340,7 @@ public class Teste {
 		tdaDAO.inserir(tda1);
 		tdaDAO.inserir(tda2);
 		tdaDAO.inserir(tda3);
-		tdaDAO.inserir(tda4);
+		tdaDAO.inserir(tda4); 
 		
 		atvDAO.inserir(atv1);
 		atvDAO.inserir(atv2);

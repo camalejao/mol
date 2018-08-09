@@ -56,7 +56,11 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 						|| (uri.contains("visualizarResposta") && p.getServico().contains("visualizarResposta"))
 						|| (uri.contains("avaliarResposta") && p.getServico().contains("avaliarResposta"))
 						|| (uri.contains("downloadResposta") && p.getServico().contains("downloadResposta"))
-						|| (uri.contains("downloadAtividade") && p.getServico().contains("downloadAtividade"))){
+						|| (uri.contains("downloadAtividade") && p.getServico().contains("downloadAtividade"))
+						|| (uri.contains("verCorrecoes") && p.getServico().contains("verCorrecoes"))
+						|| (uri.contains("sumario") && p.getServico().contains("sumario"))
+						|| (uri.contains("editarSumario") && p.getServico().contains("editarSumario"))
+						|| (uri.contains("editaMaterialDidatico") && p.getServico().contains("editaMaterialDidatico"))){
 					return true;
 				}
 			}
