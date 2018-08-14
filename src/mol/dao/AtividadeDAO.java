@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import mol.model.curso.turma.Atividade;
+import mol.model.curso.atividade.Atividade;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.user.Aluno;
 import mol.model.user.Professor;

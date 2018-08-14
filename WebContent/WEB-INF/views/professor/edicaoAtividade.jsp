@@ -213,8 +213,13 @@
 							<div class="form-row">
 								<div class="col-md-6">
 									<h6>Itens</h6>
-									<c:forEach items="${atividade.itens}" var="item">
+									<c:forEach items="${itens}" var="item">
 										<h6 class="ml-3">${item.enunciado}</h6>
+										<c:if test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+											<c:forEach items="${item.alternativas}" var="alt">
+												<c:out value="${alt.enunciado}" />
+											</c:forEach>
+										</c:if>
 									</c:forEach>
 								</div>
 							</div>
@@ -225,7 +230,7 @@
 								data-target="#itemDiscursivoModal"
 								onclick="itemDiscursivo(${atividade.id},event)">Adicionar
 								Item Discursivo</a> <a class="btn btn-primary" href=""
-								data-toggle="modal" data-target="#itemMultiplaEscolhaModal"
+								data-toggle="modal" data-target="#itemMEModal"
 								onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
 								Item de Múltipla Escolha</a>
 						</div>
@@ -292,11 +297,11 @@
 
 								<label for="enunciadoDiscursivo">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
-									maxlength="200" rows="3" type="text" id="enunciadoDiscursivo"
+									maxlength="400" rows="3" type="text" id="enunciadoDiscursivo"
 									placeholder="Digite o enunciado do item" />
 
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
-									type="text" />
+									type="text" hidden="true" />
 
 							</div>
 
@@ -311,6 +316,90 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Modal Novo Item Múltipla Escolha -->
+		<div class="modal fade" id="itemMEModal" tabindex="-1" role="dialog"
+			aria-labelledby="itemMEModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="itemMEModalLabel">Adicionar Item
+							de Múltipla Escolha</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form:form action="adicionarItemMultiplaEscolha"
+							modelAttribute="item" method="POST">
+
+							<div class="form-group">
+								<label for="enunciadoDiscursivo">Enunciado</label>
+								<form:textarea class="form-control" path="enunciado"
+									maxlength="400" rows="3" type="text" id="enunciadoDiscursivo"
+									placeholder="Digite o enunciado do item" />
+							</div>
+
+							<div class="form-group">
+								<div class="form-row">
+									<label for="alternativaA">A)</label>
+									<form:input class="form-control" path="alternativas[0].enunciado"
+										type="text" id="alternativaA" placeholder="Alternativa A" />
+								</div>
+
+								<div class="form-row">
+									<label for="alternativaB">B)</label>
+									<form:input class="form-control" path="alternativas[1].enunciado"
+										type="text" id="alternativaB" placeholder="Alternativa B" />
+								</div>
+
+								<div class="form-row">
+									<label for="alternativaC">C)</label>
+									<form:input class="form-control" path="alternativas[2].enunciado"
+										type="text" id="alternativaC" placeholder="Alternativa C" />
+								</div>
+
+								<div class="form-row">
+									<label for="alternativaD">D)</label>
+									<form:input class="form-control" path="alternativas[3].enunciado"
+										type="text" id="alternativaD" placeholder="Alternativa D" />
+								</div>
+								<div class="form-row">
+									<label for="alternativaE">E)</label>
+									<form:input class="form-control" path="alternativas[4].enunciado"
+										type="text" id="alternativaE" placeholder="Alternativa E" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<span>Selecione as alternativas corretas:</span><br /> A
+								<form:checkbox path="alternativas[0].correta" />
+								B
+								<form:checkbox path="alternativas[1].correta" />
+								C
+								<form:checkbox path="alternativas[2].correta" />
+								D
+								<form:checkbox path="alternativas[3].correta" />
+								E
+								<form:checkbox path="alternativas[4].correta" />
+							</div>
+
+							<form:input path="atividade" id="idAtividadeItemME" type="text"
+								hidden="true" />
+
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -348,6 +437,7 @@
 				e.preventDefault();
 			}
 			function itemMultiplaEscolha(id, e) {
+				$("#idAtividadeItemME").attr("value",id);
 				e.preventDefault();
 			}
 		</script>

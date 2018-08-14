@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IRespostaDAO;
-import mol.model.curso.turma.Atividade;
-import mol.model.curso.turma.Resposta;
+import mol.model.curso.atividade.Atividade;
+import mol.model.curso.atividade.Resposta;
 import mol.model.materialDidatico.MaterialDidatico;
 
 @Controller

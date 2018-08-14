@@ -4,7 +4,7 @@ import org.springframework.core.convert.converter.Converter;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
-import mol.model.curso.turma.Atividade;
+import mol.model.curso.atividade.Atividade;
 
 public class AtividadeConverter  implements Converter<String, Atividade>{
 	

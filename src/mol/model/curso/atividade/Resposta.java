@@ -1,4 +1,4 @@
-package mol.model.curso.turma;
+package mol.model.curso.atividade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

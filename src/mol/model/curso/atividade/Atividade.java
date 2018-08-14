@@ -1,4 +1,4 @@
-package mol.model.curso.turma;
+package mol.model.curso.atividade;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import mol.model.Entidade;
+import mol.model.curso.turma.TurmaDisciplina;
 
 @Entity
 @Table(name="t_atividade")
@@ -72,10 +73,7 @@ public class Atividade extends Entidade {
 	
 	@Transient
 	private CommonsMultipartFile upload;
-	
-	@OneToMany(mappedBy="atividade",cascade=CascadeType.REMOVE)
-	private List<ItemAtividade> itens;
-	
+		
 	
 	
 	public String getTitulo() {
@@ -174,14 +172,6 @@ public class Atividade extends Entidade {
 		this.upload = upload;
 	}
 		
-	public List<ItemAtividade> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<ItemAtividade> itens) {
-		this.itens = itens;
-	}
-
 	public boolean verificaExpiracao() {
 		if(this.dataExpiracao.isAfter(LocalDateTime.now()))
 			return true;

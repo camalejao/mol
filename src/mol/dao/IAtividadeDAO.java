@@ -2,7 +2,7 @@ package mol.dao;
 
 import java.util.List;
 
-import mol.model.curso.turma.Atividade;
+import mol.model.curso.atividade.Atividade;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.user.Aluno;
 import mol.model.user.Professor;

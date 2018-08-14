@@ -1,4 +1,4 @@
-package mol.model.curso.turma;
+package mol.model.curso.atividade;
 
 public enum NivelAprendizagem {
 	FACIL(1, "Fácil"), MEDIO(2, "Médio"), DIFICIL(3, "Difícil");

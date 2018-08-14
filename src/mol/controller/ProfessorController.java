@@ -27,15 +27,16 @@ import mol.dao.IRespostaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
+import mol.model.curso.atividade.Alternativa;
+import mol.model.curso.atividade.Atividade;
+import mol.model.curso.atividade.ItemAtividade;
+import mol.model.curso.atividade.NivelAprendizagem;
+import mol.model.curso.atividade.Resposta;
+import mol.model.curso.atividade.StatusResposta;
+import mol.model.curso.atividade.TipoItem;
+import mol.model.curso.atividade.Unidades;
 import mol.model.curso.disciplina.Topico;
-import mol.model.curso.turma.Atividade;
-import mol.model.curso.turma.ItemAtividade;
-import mol.model.curso.turma.NivelAprendizagem;
-import mol.model.curso.turma.Resposta;
-import mol.model.curso.turma.StatusResposta;
-import mol.model.curso.turma.TipoItem;
 import mol.model.curso.turma.TurmaDisciplina;
-import mol.model.curso.turma.Unidades;
 import mol.model.materialDidatico.MaterialDidatico;
 import mol.model.materialDidatico.TipoMaterialDidatico;
 import mol.model.user.Professor;
@@ -116,6 +117,7 @@ public class ProfessorController {
 		if (id != null && id > 0) {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+			IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
 			Professor p = (Professor) session.getAttribute("usuarioLogado");
 			mav = new ModelAndView("professor/edicaoAtividade");
 			mav.addObject("atividade", aDAO.consultarPorId(id));
@@ -123,6 +125,7 @@ public class ProfessorController {
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
 			mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+			mav.addObject("itens", iDAO.consultarPorIdAtividade(id));
 			mav.addObject("item", new ItemAtividade());
 			return mav;
 		}
@@ -305,9 +308,25 @@ public class ProfessorController {
 		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		item.setUsuarioLogado(u);
+		item.setTipoItem(TipoItem.DISCURSIVO);
 		item.setStatus(StatusEntidade.ATIVO);
 		iaDAO.inserir(item);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
+	@RequestMapping("adicionarItemMultiplaEscolha")
+	public String addItemME(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
+		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		item.setUsuarioLogado(u);
+		item.setTipoItem(TipoItem.MULTIPLA_ESCOLHA);
+		item.setStatus(StatusEntidade.ATIVO);
+		for(Alternativa a : item.getAlternativas()) {
+			a.setStatus(StatusEntidade.ATIVO);
+			a.setUsuarioLogado(u);
+			a.setItem(item);
+		}
+		iaDAO.inserir(item);
+		return "redirect:editarAtividade-"+item.getAtividade().getId();
+	}
 }

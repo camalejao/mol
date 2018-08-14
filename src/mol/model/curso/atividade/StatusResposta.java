@@ -1,4 +1,4 @@
-package mol.model.curso.turma;
+package mol.model.curso.atividade;
 
 public enum StatusResposta {
 	CORRIGIDA("Corrigida"), NAO_CORRIGIDA("Não corrigida");
