@@ -93,150 +93,170 @@
 						Atividades</a></li>
 				<li class="breadcrumb-item active">Editar Atividade</li>
 			</ol>
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-file-text"></i> Editar Atividade
-				</div>
-				<div class="card-body">
-					<form:form modelAttribute="atividade"
-						action="editaAtividade-${atividade.id}" method="POST"
-						enctype="multipart/form-data">
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="inputTitulo">Título</label>
-									<form:input path="titulo" class="form-control" id="inputTitulo"
-										type="text" aria-describedby="tituloHelp"
-										value="${atividade.titulo}" placeholder="Título da Atividade" />
-								</div>
-								<div class="col-md-4">
-									<label for="selectNivel">Nível de Aprendizagem</label>
-									<form:select path="nivel" class="form-control" id="selectNivel"
-										value="${atividade.nivel.nivel}">
-										<c:forEach items="${niveis}" var="n">
-											<form:option value="${n}">${n.nivel}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-								<div class="col-md-2">
-									<label for="selectStatus">Status</label>
-									<form:select path="status" class="form-control"
-										id="selectStatus" value="${atividade.status}">
-										<c:forEach items="${status}" var="s">
-											<form:option value="${s}">${s}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-							</div>
+			<div class="row">
+				<div class="col-6">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-file-text"></i> Informações Gerais
 						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-									<form:select path="turmaDisciplina" class="form-control"
-										id="selectTurmaDisciplina">
-										<form:option value="${atividade.turmaDisciplina.id}">${atividade.turmaDisciplina.turma.identificacao} / ${atividade.turmaDisciplina.disciplina.sigla}</form:option>
-									</form:select>
+						<div class="card-body">
+							<form:form modelAttribute="atividade"
+								action="editaAtividade-${atividade.id}" method="POST"
+								enctype="multipart/form-data">
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-12">
+											<label for="inputTitulo">Título</label>
+											<form:input path="titulo" class="form-control"
+												id="inputTitulo" type="text" aria-describedby="tituloHelp"
+												value="${atividade.titulo}"
+												placeholder="Título da Atividade" />
+										</div>
+
+									</div>
 								</div>
-								<div class="col-md-6">
-									<label for="datetimepicker">Data e Hora de Expiração</label>
-									<div class="input-group date" id="datetimepicker"
-										data-target-input="nearest">
-										<form:input class="form-control" path="dataExpiracao"
-											id="datetimepicker" data-target="#datetimepicker" type="text"
-											placeholder="dd/MM/aaaa HH:mm" />
-										<div class="input-group-append" data-target="#datetimepicker"
-											data-toggle="datetimepicker">
-											<div class="input-group-text">
-												<i class="fa fa-calendar"></i>
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-6" hidden>
+											<label for="inputTurmaDisciplina">Turma/Disciplina</label>
+											<form:input id="inputTurmaDisciplina" path="turmaDisciplina"
+												value="${atividade.turmaDisciplina.id}" />
+										</div>
+										<div class="col-md-12">
+											<label for="datetimepicker">Data e Hora de Expiração</label>
+											<div class="input-group date" id="datetimepicker"
+												data-target-input="nearest">
+												<form:input class="form-control" path="dataExpiracao"
+													id="datetimepicker" data-target="#datetimepicker"
+													type="text" placeholder="dd/MM/aaaa HH:mm" />
+												<div class="input-group-append"
+													data-target="#datetimepicker" data-toggle="datetimepicker">
+													<div class="input-group-text">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-1">
-									<label for="inputvalorMaximo">Valor</label>
-									<form:input path="valorMaximo" value="${atividade.valorMaximo}"
-										class="form-control" id="inputvalorMaximo" type="number"
-										step="0.25" min="0.25" max="10"
-										aria-describedby="valorMaximoHelp" placeholder="Ex: 5" />
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-6">
+											<label for="selectNivel">Nível de Aprendizagem</label>
+											<form:select path="nivel" class="form-control"
+												id="selectNivel" value="${atividade.nivel.nivel}">
+												<c:forEach items="${niveis}" var="n">
+													<form:option value="${n}">${n.nivel}</form:option>
+												</c:forEach>
+											</form:select>
+										</div>
+										<div class="col-md-2">
+											<label for="selectUnidade">Unidade</label>
+											<form:select path="unidade" class="form-control"
+												id="selectUnidade" value="${atividade.unidade}">
+												<c:forEach items="${unidades}" var="unidade">
+													<form:option value="${unidade}">${unidade.unidade}</form:option>
+												</c:forEach>
+											</form:select>
+										</div>
+										<div class="col-md-4">
+											<label for="selectStatus">Status</label>
+											<form:select path="status" class="form-control"
+												id="selectStatus" value="${atividade.status}">
+												<c:forEach items="${status}" var="s">
+													<form:option value="${s}">${s}</form:option>
+												</c:forEach>
+											</form:select>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-1">
-									<label for="inputPeso">Peso</label>
-									<c:choose>
-										<c:when
-											test="${atividade.turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
-											<form:input readonly="true" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
-										</c:when>
-										<c:otherwise>
-											<form:input readonly="false" path="peso"
-												value="${atividade.peso}" class="form-control"
-												id="inputPeso" type="number" min="1" max="10"
-												aria-describedby="pesoHelp" placeholder="Ex: 2" />
-										</c:otherwise>
-									</c:choose>
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-2">
+											<label for="inputvalorMaximo">Valor</label>
+											<form:input path="valorMaximo"
+												value="${atividade.valorMaximo}" class="form-control"
+												id="inputvalorMaximo" type="number" step="0.25" min="0.25"
+												max="10" aria-describedby="valorMaximoHelp"
+												placeholder="Ex: 5" />
+										</div>
+										<div class="col-md-2">
+											<label for="inputPeso">Peso</label>
+											<c:choose>
+												<c:when
+													test="${atividade.turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
+													<form:input readonly="true" path="peso"
+														value="${atividade.peso}" class="form-control"
+														id="inputPeso" type="number" min="1" max="10"
+														aria-describedby="pesoHelp" placeholder="Ex: 2" />
+												</c:when>
+												<c:otherwise>
+													<form:input readonly="false" path="peso"
+														value="${atividade.peso}" class="form-control"
+														id="inputPeso" type="number" min="1" max="10"
+														aria-describedby="pesoHelp" placeholder="Ex: 2" />
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-1">
-									<label for="selectUnidade">Unidade</label>
-									<form:select path="unidade" class="form-control"
-										id="selectUnidade" value="${atividade.unidade}">
-										<c:forEach items="${unidades}" var="unidade">
-											<form:option value="${unidade}">${unidade.unidade}</form:option>
-										</c:forEach>
-									</form:select>
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
+								<div class="form-group">
 									<label for="inputDescricao">Descrição</label>
 									<form:textarea value="${atividade.descricao}"
 										class="form-control" path="descricao" id="inputDescricao"
 										rows="3" type="text" />
 								</div>
-								<div class="col-md-6">
+								<div class="form-group">
 									<label for="uploadArquivo">Selecione o arquivo</label>
 									<form:input class="form-control-file" path="upload"
 										id="uploadArquivo" type="file" />
 								</div>
-							</div>
+								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+							</form:form>
 						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-file-text"></i> Itens
+						</div>
+						<ul class="list-group list-group-flush">
 
-						<div class="form-group">
-							<div class="form-row">
-								<div class="col-md-6">
-									<h6>Itens</h6>
-									<c:forEach items="${itens}" var="item">
-										<h6 class="ml-3">${item.enunciado}</h6>
-										<c:if test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
-											<c:forEach items="${item.alternativas}" var="alt">
+							<c:forEach items="${itens}" var="item" varStatus="index">
+								<li class="list-group-item">
+									<h5>${index.index + 1}.${item.enunciado}</h5> <c:if
+										test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+										<c:forEach items="${item.alternativas}" var="alt" varStatus="index2">
+											<h6>
+												<c:choose>
+													<c:when test="${index2.index == 0}">A)</c:when>
+													<c:when test="${index2.index == 1}">B)</c:when>
+													<c:when test="${index2.index == 2}">C)</c:when>
+													<c:when test="${index2.index == 3}">D)</c:when>
+													<c:when test="${index2.index == 4}">E)</c:when>
+												</c:choose>
 												<c:out value="${alt.enunciado}" />
-											</c:forEach>
-										</c:if>
-									</c:forEach>
+												<c:if test="${alt.correta == 'true'}">(correta)</c:if>
+											</h6>
+										</c:forEach>
+									</c:if>
+								</li>
+							</c:forEach>
+
+							<li class="list-group-item">
+								<div>
+									<a class="btn btn-primary" href="" data-toggle="modal"
+										data-target="#itemDiscursivoModal"
+										onclick="itemDiscursivo(${atividade.id},event)">Adicionar
+										Item Discursivo</a> <a class="btn btn-primary" href=""
+										data-toggle="modal" data-target="#itemMEModal"
+										onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
+										Item de Múltipla Escolha</a>
 								</div>
-							</div>
-						</div>
-
-						<div class="mb-3">
-							<a class="btn btn-primary" href="" data-toggle="modal"
-								data-target="#itemDiscursivoModal"
-								onclick="itemDiscursivo(${atividade.id},event)">Adicionar
-								Item Discursivo</a> <a class="btn btn-primary" href=""
-								data-toggle="modal" data-target="#itemMEModal"
-								onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
-								Item de Múltipla Escolha</a>
-						</div>
-
-						<button class="btn btn-primary btn-block" type="submit">Salvar</button>
-					</form:form>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -345,31 +365,36 @@
 							<div class="form-group">
 								<div class="form-row">
 									<label for="alternativaA">A)</label>
-									<form:input class="form-control" path="alternativas[0].enunciado"
-										type="text" id="alternativaA" placeholder="Alternativa A" />
+									<form:input class="form-control"
+										path="alternativas[0].enunciado" type="text" id="alternativaA"
+										placeholder="Alternativa A" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaB">B)</label>
-									<form:input class="form-control" path="alternativas[1].enunciado"
-										type="text" id="alternativaB" placeholder="Alternativa B" />
+									<form:input class="form-control"
+										path="alternativas[1].enunciado" type="text" id="alternativaB"
+										placeholder="Alternativa B" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaC">C)</label>
-									<form:input class="form-control" path="alternativas[2].enunciado"
-										type="text" id="alternativaC" placeholder="Alternativa C" />
+									<form:input class="form-control"
+										path="alternativas[2].enunciado" type="text" id="alternativaC"
+										placeholder="Alternativa C" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaD">D)</label>
-									<form:input class="form-control" path="alternativas[3].enunciado"
-										type="text" id="alternativaD" placeholder="Alternativa D" />
+									<form:input class="form-control"
+										path="alternativas[3].enunciado" type="text" id="alternativaD"
+										placeholder="Alternativa D" />
 								</div>
 								<div class="form-row">
 									<label for="alternativaE">E)</label>
-									<form:input class="form-control" path="alternativas[4].enunciado"
-										type="text" id="alternativaE" placeholder="Alternativa E" />
+									<form:input class="form-control"
+										path="alternativas[4].enunciado" type="text" id="alternativaE"
+										placeholder="Alternativa E" />
 								</div>
 							</div>
 

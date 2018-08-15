@@ -86,7 +86,6 @@ public class AlunoController {
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		Atividade atv = atvDAO.consultarPorId(id);
 		Resposta controle = rDAO.consultarPorAtividadeAluno(atv, a);
-		System.out.println(controle.getComentarios());
 		
 		if(controle != null){
 			rDAO.remover(controle);
