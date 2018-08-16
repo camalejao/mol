@@ -76,8 +76,7 @@ public class AlunoController {
 	}
 
 	@RequestMapping("enviarResposta")
-	public String enviar(Resposta resposta, HttpSession session) {
-
+	public String enviar(Resposta resposta, HttpSession session) {	
 		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		Integer id = (Integer) session.getAttribute("idAtv");
 		session.removeAttribute("idAtv");
@@ -87,6 +86,11 @@ public class AlunoController {
 		Atividade atv = atvDAO.consultarPorId(id);
 		Resposta controle = rDAO.consultarPorAtividadeAluno(atv, a);
 		
+		//se a atividade estiver expirada, volta para a home
+		if(!controle.getAtividade().verificaExpiracao())
+			return "redirect:home";
+		
+		//em caso de nova resposta, exclui a submissao anterior
 		if(controle != null){
 			rDAO.remover(controle);
 		}

@@ -207,6 +207,10 @@ public class ProfessorController {
 
 	@RequestMapping("avaliarResposta")
 	public ModelAndView avaliarResposta(Resposta avaliacao) {
+		//se o prazo para envio ainda não estiver expirado, volta para a home
+		if(avaliacao.getAtividade().verificaExpiracao())
+			return new ModelAndView("redirect:home");
+		
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		Resposta resposta = rDAO.consultarPorId(avaliacao.getId());
 		ModelAndView mav = new ModelAndView("redirect:respostasAtividade-" + resposta.getAtividade().getId());

@@ -171,7 +171,8 @@ public class Atividade extends Entidade {
 	public void setUpload(CommonsMultipartFile upload) {
 		this.upload = upload;
 	}
-		
+	
+	//expirada retorna false, dentro do prazo retorna true
 	public boolean verificaExpiracao() {
 		if(this.dataExpiracao.isAfter(LocalDateTime.now()))
 			return true;
