@@ -45,6 +45,7 @@
 				<bean class="mol.converter.SumarioConverter" />
 				<bean class="mol.converter.TopicoConverter" />
 				<bean class="mol.converter.AtividadeConverter" />
+				<bean class="mol.converter.ItemAtividadeConverter" />
 				<bean class="mol.converter.StringParaDataConverter">
 					<constructor-arg value="dd/MM/yyyy HH:mm" />
 				</bean>

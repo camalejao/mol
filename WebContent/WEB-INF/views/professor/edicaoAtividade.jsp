@@ -225,22 +225,54 @@
 
 							<c:forEach items="${itens}" var="item" varStatus="index">
 								<li class="list-group-item">
-									<h5>${index.index + 1}.${item.enunciado}</h5> <c:if
-										test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
-										<c:forEach items="${item.alternativas}" var="alt" varStatus="index2">
-											<h6>
-												<c:choose>
-													<c:when test="${index2.index == 0}">A)</c:when>
-													<c:when test="${index2.index == 1}">B)</c:when>
-													<c:when test="${index2.index == 2}">C)</c:when>
-													<c:when test="${index2.index == 3}">D)</c:when>
-													<c:when test="${index2.index == 4}">E)</c:when>
-												</c:choose>
-												<c:out value="${alt.enunciado}" />
-												<c:if test="${alt.correta == 'true'}">(correta)</c:if>
-											</h6>
-										</c:forEach>
-									</c:if>
+									<h5>${index.index + 1}.${item.enunciado}</h5> <c:choose>
+										<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+											<div class="row">
+												<button class="btn btn-sm btn-link" data-toggle="modal"
+													data-target="#editaItemMEModal"
+													onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',event)">Editar</button>
+												<form action="excluirItem" method="POST"
+													onsubmit="return confirm('Confirma a exclusão?');">
+													<input name="item" value="${item.id}" type="text"
+														hidden="true" />
+													<button class="btn btn-sm btn-link text-danger"
+														type="submit">Excluir</button>
+												</form>
+											</div>
+											<c:forEach items="${item.alternativas}" var="alt"
+												varStatus="index2">
+												<h6>
+													<c:choose>
+														<c:when test="${index2.index == 0}">A)</c:when>
+														<c:when test="${index2.index == 1}">B)</c:when>
+														<c:when test="${index2.index == 2}">C)</c:when>
+														<c:when test="${index2.index == 3}">D)</c:when>
+														<c:when test="${index2.index == 4}">E)</c:when>
+													</c:choose>
+													<c:out value="${alt.enunciado}" />
+													<c:if test="${alt.correta == 'true'}">(correta)</c:if>
+													<button class="btn btn-sm btn-link" data-toggle="modal"
+														data-target="#editaAlternativaModal"
+														onclick="editaAlternativa(${item.id},${alt.id},'${alt.enunciado}','${alt.correta}',event)">Editar</button>
+												</h6>
+											</c:forEach>
+
+										</c:when>
+										<c:otherwise>
+											<div class="row">
+												<button class="btn btn-sm btn-link" data-toggle="modal"
+													data-target="#editaIDModal"
+													onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',event)">Editar</button>
+												<form action="excluirItem" method="POST"
+													onsubmit="return confirm('Confirma a exclusão?');">
+													<input name="item" value="${item.id}" type="text"
+														hidden="true" />
+													<button class="btn btn-sm btn-link text-danger"
+														type="submit">Excluir</button>
+												</form>
+											</div>
+										</c:otherwise>
+									</c:choose>
 								</li>
 							</c:forEach>
 
@@ -322,6 +354,48 @@
 
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
 									type="text" hidden="true" />
+
+							</div>
+
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+
+						</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal EDITAR Item Discursivo -->
+		<div class="modal fade" id="editaIDModal" tabindex="-1" role="dialog"
+			aria-labelledby="editaIDModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaIDModalLabel">Editar Item
+							Discursivo</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form:form action="editarItem" modelAttribute="item" method="POST">
+							<div class="form-group">
+
+								<label for="enunciadoDiscursivo">Enunciado</label>
+								<form:textarea class="form-control" path="enunciado"
+									maxlength="400" rows="3" type="text"
+									id="editaEnunciadoDiscursivo"
+									placeholder="Digite o enunciado do item" />
+
+								<form:input path="atividade" id="idEdicaoAtividadeID"
+									type="text" hidden="true" />
+								<form:input path="id" id="idEdicaoID" type="text" hidden="true" />
 
 							</div>
 
@@ -425,6 +499,80 @@
 			</div>
 		</div>
 
+		<!-- Modal EDITA Item Múltipla Escolha -->
+		<div class="modal fade" id="editaItemMEModal" tabindex="-1"
+			role="dialog" aria-labelledby="editaItemMEModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaIMEModalLabel">Editar Item
+							de Múltipla Escolha</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form:form action="editarItemME" modelAttribute="item"
+							method="POST">
+							<div class="form-group">
+								<label for="editaEnunciadoME">Enunciado</label>
+								<form:textarea class="form-control" path="enunciado"
+									maxlength="400" rows="3" type="text" id="editaEnunciadoME"
+									placeholder="Digite o enunciado do item" />
+							</div>
+							<form:input path="atividade" id="idEdicaoAtividadeME" type="text"
+								hidden="true" />
+							<form:input path="id" id="idEdicaoME" type="text" hidden="true" />
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal EDITA Alternativa -->
+		<div class="modal fade" id="editaAlternativaModal" tabindex="-1"
+			role="dialog" aria-labelledby="editaAlternativaModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaAlternativaModalLabel">Editar
+							Alternativa</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form:form action="editarAlternativa" modelAttribute="alternativa"
+							method="POST">
+							<div class="form-group">
+								<label for="editaEnunciadoAlt">Enunciado</label>
+								<form:input class="form-control" path="enunciado" type="text"
+									id="editaEnunciadoAlt" placeholder="Digite a alternativa" />
+							</div>
+							Correta <form:checkbox path="correta" id="editaAltCorreta" />
+							<form:input path="item" id="idEditaItemAlt" type="text"
+								hidden="true" />
+							<form:input path="id" id="idEditaAlt" type="text" hidden="true" />
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -463,6 +611,26 @@
 			}
 			function itemMultiplaEscolha(id, e) {
 				$("#idAtividadeItemME").attr("value",id);
+				e.preventDefault();
+			}
+			function editaItemD(id_atv, id_item, enunciado, e){
+				$("#idEdicaoAtividadeID").attr("value",id_atv);
+				$("#idEdicaoID").attr("value",id_item);
+				$("#editaEnunciadoDiscursivo").val(enunciado);
+				e.preventDefault();
+			}
+			function editaItemME(id_atv, id_item, enunciado, e){
+				$("#idEdicaoAtividadeME").attr("value",id_atv);
+				$("#idEdicaoME").attr("value",id_item);
+				$("#editaEnunciadoME").val(enunciado);
+				e.preventDefault();
+			}
+			function editaAlternativa(id_item, id_alt, enunciado, correta, e){
+				$("#idEditaItemAlt").attr("value",id_item);
+				$("#idEditaAlt").attr("value",id_alt);
+				$("#editaEnunciadoAlt").val(enunciado);
+				if(correta == 'true') $("#editaAltCorreta").prop("checked",true);
+				else if(correta == 'false') $("#editaAltCorreta").prop("checked",false);
 				e.preventDefault();
 			}
 		</script>

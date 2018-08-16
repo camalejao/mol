@@ -22,6 +22,7 @@ public abstract class DAOFactory {
     private static IMaterialDidaticoDAO materialDidaticoDAO;
     private static IPermissoesDAO permissoesDAO;
     private static IItemAtividadeDAO itemAtividadeDAO;
+    private static IAlternativaDAO alternativaDAO;
     
     
     static {
@@ -114,6 +115,11 @@ public abstract class DAOFactory {
 	public static IItemAtividadeDAO getItemAtividadeDAO() {
 		itemAtividadeDAO = new ItemAtividadeDAO(emf.createEntityManager());
 		return itemAtividadeDAO;
+	}
+	
+	public static IAlternativaDAO getAlternativaDAO() {
+		alternativaDAO = new AlternativaDAO(emf.createEntityManager());
+		return alternativaDAO;
 	}
 
 	public static void close() {

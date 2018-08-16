@@ -20,6 +20,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 
 import mol.dao.DAOFactory;
+import mol.dao.IAlternativaDAO;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IItemAtividadeDAO;
 import mol.dao.IMaterialDidaticoDAO;
@@ -127,6 +128,7 @@ public class ProfessorController {
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 			mav.addObject("itens", iDAO.consultarPorIdAtividade(id));
 			mav.addObject("item", new ItemAtividade());
+			mav.addObject("alternativa", new Alternativa());
 			return mav;
 		}
 		mav = new ModelAndView("redirect:gerenciarAtividades");
@@ -328,5 +330,36 @@ public class ProfessorController {
 		}
 		iaDAO.inserir(item);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
+	}
+	
+	@RequestMapping("editarItem")
+	public String editaItemDiscursivo(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		iaDAO.alterar(item);
+		return "redirect:editarAtividade-"+item.getAtividade().getId();
+	}
+	
+	@RequestMapping("editarItemME")
+	public String editaItemME(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		ItemAtividade antigo = iaDAO.consultarPorId(item.getId());
+		antigo.setEnunciado(item.getEnunciado());
+		iaDAO.alterar(antigo);
+		return "redirect:editarAtividade-"+item.getAtividade().getId();
+	}
+	
+	
+	@RequestMapping("excluirItem")
+	public String excluiItem(@RequestParam("item") ItemAtividade item) {
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		iaDAO.remover(item);
+		return "redirect:editarAtividade-"+item.getAtividade().getId();
+	}
+	
+	@RequestMapping("editarAlternativa")
+	public String editaAlternativa(@ModelAttribute("alternativa") Alternativa alt, HttpSession session) {
+		IAlternativaDAO aDAO = DAOFactory.getAlternativaDAO();
+		aDAO.alterar(alt);
+		return "redirect:editarAtividade-"+alt.getItem().getAtividade().getId();
 	}
 }

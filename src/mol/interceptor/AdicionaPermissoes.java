@@ -62,6 +62,10 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("removerItemDiscursivo", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("adicionarItemMultiplaEscolha", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("removerItemMultiplaEscolha", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("excluirItem", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editarItem", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editarItemME", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editarAlternativa", TipoUsuario.PROFESSOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);
