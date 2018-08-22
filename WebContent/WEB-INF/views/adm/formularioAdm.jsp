@@ -96,12 +96,14 @@
 									<form:input path="nome" class="form-control" id="inputNome"
 										type="text" aria-describedby="nameHelp"
 										placeholder="Digite seu nome" />
+									<form:errors path="nome" cssClass="text-danger" />
 								</div>
 								<div class="form-group">
 									<label for="inputEmail">Email</label>
 									<form:input path="email" class="form-control" id="inputEmail"
 										type="email" aria-describedby="emailHelp"
 										placeholder="Ex: exemplo@email.com" onchange="verificaEmail(this.value)" />
+									<form:errors path="email" cssClass="text-danger" />
 								</div>
 								<div class="form-group">
 									<div class="form-row">
@@ -109,6 +111,7 @@
 											<label for="inputSenha">Senha</label>
 											<form:input path="senha" class="form-control" id="inputSenha"
 												type="password" placeholder="Senha" onkeyup="confirmaSenha()" />
+											<form:errors path="senha" cssClass="text-danger" />
 										</div>
 										<div class="col-md-6">
 											<label for="confirmacaoSenha">Confirmação de senha</label> <input

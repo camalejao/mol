@@ -27,34 +27,38 @@
 		<div class="card card-register mx-auto mt-5">
 			<div class="card-header">Cadastro de aluno(a)</div>
 			<div class="card-body">
-				<form action="cadastraAluno" method="POST">
+				<form:form action="cadastraAluno" modelAttribute="aluno" method="POST">
 					<div class="form-group">
 						<div class="form-row">
 							<div class="col-md-6">
-								<label for="inputNome">Nome</label> <input name="nome"
+								<label for="inputNome">Nome</label> <form:input path="nome"
 									class="form-control" id="inputNome" type="text"
 									aria-describedby="nameHelp" placeholder="Digite seu nome" />
+								<form:errors path="nome" cssClass="text-danger" />
 							</div>
 							<div class="col-md-6">
-								<label for="inputMatricula">Matrícula</label> <input
-									name="matricula" class="form-control" id="inputMatricula"
+								<label for="inputMatricula">Matrícula</label> <form:input
+									path="matricula" class="form-control" id="inputMatricula"
 									type="text" aria-describedby="nameHelp" maxlength="8"
 									placeholder="Ex: 12345678" onchange="verificaMatAluno(this.value)"/>
+								<form:errors path="matricula" cssClass="text-danger" />
 							</div>
 						</div>
 					</div>
 					<div class="form-group" id="divEmail">
-						<label for="inputEmail">Email</label> <input name="email"
+						<label for="inputEmail">Email</label> <form:input path="email"
 							class="form-control" id="inputEmail" type="email"
 							aria-describedby="emailHelp" placeholder="Ex: exemplo@email.com"
 							onchange="verificaEmail(this.value)" />
+						<form:errors path="email" cssClass="text-danger" />
 					</div>
 					<div class="form-group">
 						<div class="form-row">
 							<div class="col-md-6">
-								<label for="inputSenha">Senha</label> <input name="senha"
+								<label for="inputSenha">Senha</label> <form:input path="senha"
 									class="form-control" id="inputSenha" type="password"
 									placeholder="Senha" onkeyup="confirmaSenha()" />
+								<form:errors path="senha" cssClass="text-danger" />
 							</div>
 							<div class="col-md-6">
 								<label for="confirmacaoSenha">Confirmação de senha</label> <input
@@ -64,7 +68,7 @@
 						</div>
 					</div>
 					<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
-				</form>
+				</form:form>
 				<div class="text-center">
 					<a class="d-block small mt-3" href="login">Cancelar</a>
 				</div>

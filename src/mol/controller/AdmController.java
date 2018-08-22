@@ -113,13 +113,13 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereAluno")
-	public String insereAluno(@ModelAttribute("aluno") Aluno aluno, HttpSession session) {
-		System.out.println(aluno.getNome());
-		System.out.println(aluno.getNome());
-		System.out.println(aluno.getNome());
-		System.out.println(aluno.getNome());
-		System.out.println(aluno.getNome());
-
+	public ModelAndView insereAluno(@Valid @ModelAttribute("aluno") Aluno aluno, BindingResult bindingResult,
+			Model model, HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("adm/formularioAluno", "aluno", aluno);
+		}
+		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		aluno.setUsuarioLogado(user);
 		aluno.setSenha(aluno.senhaSHA());
@@ -129,7 +129,7 @@ public class AdmController {
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		alunoDAO.inserir(aluno);
 
-		return "adm/sucesso";
+		return new ModelAndView("adm/sucesso");
 	}
 
 	@RequestMapping("cadastrarAdm")
@@ -142,8 +142,14 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereAdm")
-	public String insereAdm(@ModelAttribute("adm") Usuario adm, HttpSession session) {
-
+	public ModelAndView insereAdm(@Valid @ModelAttribute("adm") Usuario adm, BindingResult bindingResult,
+			Model model, HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("adm/formularioAdm", "adm", adm);
+		}
+		
+		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		adm.setUsuarioLogado(user);
 		adm.setSenha(adm.senhaSHA());
@@ -153,7 +159,7 @@ public class AdmController {
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		uDAO.inserir(adm);
 
-		return "adm/sucesso";
+		return new ModelAndView("adm/sucesso");
 	}
 
 	@RequestMapping("cadastrarProfessor")
@@ -166,8 +172,13 @@ public class AdmController {
 	}
 
 	@RequestMapping("insereProfessor")
-	public String insereProfessor(@ModelAttribute("professor") Professor professor, HttpSession session) {
-
+	public ModelAndView insereProfessor(@Valid @ModelAttribute("professor") Professor professor, BindingResult bindingResult,
+			Model model, HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("adm/formularioProfessor", "professor", professor);
+		}
+		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		professor.setUsuarioLogado(user);
 		professor.setSenha(professor.senhaSHA());
@@ -177,7 +188,7 @@ public class AdmController {
 		IProfessorDAO professorDAO = DAOFactory.getProfessorDAO();
 		professorDAO.inserir(professor);
 
-		return "adm/sucesso";
+		return new ModelAndView("adm/sucesso");
 	}
 
 	@RequestMapping("cadastrarMonitor")

@@ -1,8 +1,15 @@
 package mol.controller;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAlunoDAO;
@@ -18,33 +25,41 @@ import mol.model.user.TipoUsuario;
 public class CadastroController {
 	
 	@RequestMapping("cadastroAluno")
-	public String cadastroAluno() {
-		return "formAluno";
+	public ModelAndView cadastroAluno() {
+		return new ModelAndView("formAluno", "aluno", new Aluno());
 	}
 	
 	@RequestMapping("cadastroProfessor")
-	public String cadastroProfessor() {
-		return "formProfessor";
+	public ModelAndView cadastroProfessor() {
+		return new ModelAndView("formProfessor", "professor", new Professor());
 	}
 	
 	@RequestMapping("cadastraAluno")
-	public String insereAlnuo(Aluno aluno) {
+	public ModelAndView insereAlnuo(@Valid @ModelAttribute("aluno") Aluno aluno, BindingResult bindingResult,
+			Model model, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("formAluno", "aluno", aluno);
+		}
 		aluno.setStatus(StatusEntidade.ATIVO);
 		aluno.setTipo(TipoUsuario.ALUNO);
 		aluno.setSenha(aluno.senhaSHA());
 		IAlunoDAO aDAO = DAOFactory.getAlunoDAO();
 		aDAO.inserir(aluno);
-		return "redirect:login";
+		return new ModelAndView("index");
 	}
 	
 	@RequestMapping("cadastraProfessor")
-	public String insereProfessor(Professor professor) {
+	public ModelAndView insereProfessor(@Valid @ModelAttribute("professor") Professor professor, BindingResult bindingResult,
+			Model model, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("formProfessor", "professor", professor);
+		}
 		professor.setStatus(StatusEntidade.ATIVO);
 		professor.setTipo(TipoUsuario.PROFESSOR);
 		professor.setSenha(professor.senhaSHA());
 		IProfessorDAO pDAO = DAOFactory.getProfessorDAO();
 		pDAO.inserir(professor);
-		return "redirect:login";
+		return new ModelAndView("index");
 	}
 	
 	@RequestMapping("verificaEmail")

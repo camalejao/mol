@@ -12,19 +12,31 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import mol.model.Entidade;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "t_usuario")
 public class Usuario extends Entidade {
-
-	@Column(length = 30, nullable = false)
+	
+	@NotEmpty @NotBlank
+	@Size(min=10, max=40)
+	@Column(length = 40, nullable = false)
 	private String nome;
-
-	@Column(length = 30, nullable = false, unique = true)
+	
+	@Email
+	@Size(max=50)
+	@Column(length = 50, nullable = false, unique = true)
 	private String email;
-
+	
+	@NotEmpty @NotBlank
+	@Size(min=6, max=64)
 	@Column(length = 64, nullable = false)
 	private String senha;
 	

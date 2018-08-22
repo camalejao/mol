@@ -99,6 +99,7 @@
 											<form:input path="nome" class="form-control" id="inputNome"
 												type="text" aria-describedby="nameHelp"
 												placeholder="Digite seu nome" />
+											<form:errors path="nome" cssClass="text-danger" />
 										</div>
 										<div class="col-md-6">
 											<label for="inputMatricula">Matrícula</label>
@@ -106,6 +107,7 @@
 												id="inputMatricula" type="text" aria-describedby="nameHelp"
 												placeholder="Ex: 12345678" maxlength="8"
 												onchange="verificaMatAluno(this.value)" />
+											<form:errors path="matricula" cssClass="text-danger" />
 										</div>
 									</div>
 								</div>
@@ -115,6 +117,7 @@
 										type="email" aria-describedby="emailHelp"
 										placeholder="Ex: exemplo@email.com"
 										onchange="verificaEmail(this.value)" />
+									<form:errors path="email" cssClass="text-danger" />
 								</div>
 								<div class="form-group">
 									<div class="form-row">
@@ -123,6 +126,7 @@
 											<form:input path="senha" class="form-control" id="inputSenha"
 												type="password" placeholder="Senha"
 												onkeyup="confirmaSenha()" />
+											<form:errors path="senha" cssClass="text-danger" />
 										</div>
 										<div class="col-md-6">
 											<label for="confirmacaoSenha">Confirmação de senha</label> <input
