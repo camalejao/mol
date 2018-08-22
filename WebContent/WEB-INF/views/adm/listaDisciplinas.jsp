@@ -99,7 +99,6 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Id</th>
 									<th>Nome</th>
 									<th>Sigla</th>
 									<th>Data de cadastro</th>
@@ -107,7 +106,6 @@
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Id</th>
 									<th>Nome</th>
 									<th>Sigla</th>
 									<th>Data de cadastro</th>
@@ -116,7 +114,6 @@
 							<tbody>
 								<c:forEach items="${disciplinas}" var="disciplina">
 									<tr>
-										<td>${disciplina.id}</td>
 										<td>${disciplina.nome}</td>
 										<td>${disciplina.sigla}</td>
 										<fmt:parseDate value="${disciplina.dataCadastro}"

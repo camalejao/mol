@@ -96,7 +96,6 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Id</th>
 									<th>Nome</th>
 									<th>Email</th>
 									<th>Tipo</th>
@@ -106,7 +105,6 @@
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Id</th>
 									<th>Nome</th>
 									<th>Email</th>
 									<th>Tipo</th>
@@ -117,7 +115,6 @@
 							<tbody>
 								<c:forEach items="${usuarios}" var="usuario">
 									<tr>
-										<td>${usuario.id}</td>
 										<td>${usuario.nome}</td>
 										<td>${usuario.email}</td>
 										<td>${usuario.tipo}</td>
