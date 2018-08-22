@@ -3,9 +3,11 @@ package mol.controller;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,46 +28,46 @@ import mol.model.curso.disciplina.Disciplina;
 
 @Controller
 public class AdmController {
-	
+
 	@RequestMapping("homeAdm")
 	public String inicio() {
-        return "adm/index";
-    }
-	
+		return "adm/index";
+	}
+
 	@RequestMapping("listarUsuarios")
-    public String listaUsuarios(Model model) {
-		
+	public String listaUsuarios(Model model) {
+
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        
-        model.addAttribute("usuarios", uDAO.consultarTodos());
-        
-        return "adm/listaUsuarios";
-    }
-	
+
+		model.addAttribute("usuarios", uDAO.consultarTodos());
+
+		return "adm/listaUsuarios";
+	}
+
 	@RequestMapping("listarDisciplinas")
-    public String listaDisciplinas(Model model) {
-		
+	public String listaDisciplinas(Model model) {
+
 		IDisciplinaDAO dDAO = DAOFactory.getDisciplinaDAO();
-        
-        model.addAttribute("disciplinas", dDAO.consultarTodos());
-        
-        return "adm/listaDisciplinas";
-    }
-	
+
+		model.addAttribute("disciplinas", dDAO.consultarTodos());
+
+		return "adm/listaDisciplinas";
+	}
+
 	@RequestMapping("cadastrarUsuario")
 	public ModelAndView seleciona() {
-		
+
 		ModelAndView mav = new ModelAndView("adm/selecaoTipoUsuario");
 		mav.addObject("tipos", Arrays.asList(TipoUsuario.values()));
 		mav.addObject("usuario", new Usuario());
-		
+
 		return mav;
 	}
 
 	@RequestMapping("selecionarTipoUsuario")
 	public String encaminhaCadastro(@ModelAttribute("usuario") Usuario u) {
-		
-		switch(u.getTipo()) {
+
+		switch (u.getTipo()) {
 		case PROFESSOR:
 			return "redirect:cadastrarProfessor";
 		case ALUNO:
@@ -78,25 +80,29 @@ public class AdmController {
 			return "redirect:homeAdm";
 		}
 	}
-	
+
 	@RequestMapping("cadastrarDisciplina")
-	public String formDisciplina() {
-		return "adm/formularioDisciplina";
+	public ModelAndView formDisciplina() {
+		ModelAndView mav = new ModelAndView("adm/formularioDisciplina", "disciplina", new Disciplina());
+		return mav;
 	}
-	
+
 	@RequestMapping("insereDisciplina")
-	public String insereDisciplina(Disciplina disciplina, HttpSession session) {
-		
+	public ModelAndView insereDisciplina(@Valid @ModelAttribute("disciplina") Disciplina disciplina,
+			BindingResult bindingResult, Model model, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView("adm/formularioDisciplina", "disciplina", disciplina);
+		}
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		disciplina.setUsuarioLogado(user);
 		disciplina.setStatus(StatusEntidade.ATIVO);
-		
+
 		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
 		discDAO.inserir(disciplina);
-		
-		return "adm/sucesso";
+
+		return new ModelAndView("adm/sucesso");
 	}
-	
+
 	@RequestMapping("cadastrarAluno")
 	public ModelAndView formAluno() {
 
@@ -113,7 +119,7 @@ public class AdmController {
 		System.out.println(aluno.getNome());
 		System.out.println(aluno.getNome());
 		System.out.println(aluno.getNome());
-		
+
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		aluno.setUsuarioLogado(user);
 		aluno.setSenha(aluno.senhaSHA());
@@ -125,7 +131,7 @@ public class AdmController {
 
 		return "adm/sucesso";
 	}
-	
+
 	@RequestMapping("cadastrarAdm")
 	public ModelAndView formAdm() {
 
@@ -137,7 +143,7 @@ public class AdmController {
 
 	@RequestMapping("insereAdm")
 	public String insereAdm(@ModelAttribute("adm") Usuario adm, HttpSession session) {
-		
+
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		adm.setUsuarioLogado(user);
 		adm.setSenha(adm.senhaSHA());
@@ -149,7 +155,7 @@ public class AdmController {
 
 		return "adm/sucesso";
 	}
-	
+
 	@RequestMapping("cadastrarProfessor")
 	public ModelAndView formProfessor() {
 
@@ -161,7 +167,7 @@ public class AdmController {
 
 	@RequestMapping("insereProfessor")
 	public String insereProfessor(@ModelAttribute("professor") Professor professor, HttpSession session) {
-		
+
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		professor.setUsuarioLogado(user);
 		professor.setSenha(professor.senhaSHA());
@@ -173,10 +179,10 @@ public class AdmController {
 
 		return "adm/sucesso";
 	}
-	
+
 	@RequestMapping("cadastrarMonitor")
 	public ModelAndView formMonitor() {
-		
+
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		IDisciplinaDAO discDAO = DAOFactory.getDisciplinaDAO();
 
@@ -190,19 +196,19 @@ public class AdmController {
 
 	@RequestMapping("insereMonitor")
 	public String insereMonitor(@ModelAttribute("monitor") Monitor monitor, HttpSession session) {
-		
+
 		IMonitorDAO monitorDAO = DAOFactory.getMonitorDAO();
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
-		
+
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		monitor.setUsuarioLogado(user);
 		monitor.setStatus(StatusEntidade.ATIVO);
 		monitorDAO.inserir(monitor);
-		
+
 		monitor.getAluno().setTipo(TipoUsuario.MONITOR);
 		alunoDAO.alterar(monitor.getAluno());
-				
+
 		return "adm/sucesso";
 	}
-	
+
 }

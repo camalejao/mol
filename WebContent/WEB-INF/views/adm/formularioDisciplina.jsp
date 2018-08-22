@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -87,23 +89,24 @@
 					<div class="card card-register mx-auto mt-5">
 						<div class="card-header">Cadastro de Disciplina</div>
 						<div class="card-body">
-							<form action="insereDisciplina" method="POST">
+							<form:form action="insereDisciplina" modelAttribute="disciplina" method="POST">
 								<div class="form-group">
-									<label for="inputNome">Nome</label> <input class="form-control"
-										id="inputNome" name="nome" type="text"
-										aria-describedby="nomeHelp"
-										placeholder="Digite o nome da Disciplina" />
+									<label for="inputNome">Nome</label>
+									<form:input class="form-control" id="inputNome" path="nome"
+										type="text" placeholder="Digite o nome da Disciplina" />
+									<form:errors path="nome" cssClass="text-danger" />
 								</div>
 								<div class="form-group">
-									<label for="inputNome">Sigla</label> <input
-										class="form-control" id="inputSigla" name="sigla" type="text"
-										aria-describedby="siglaHelp" placeholder="Ex: ESTD"
+									<label for="inputNome">Sigla</label>
+									<form:input class="form-control" id="inputSigla" path="sigla"
+										type="text" placeholder="Ex: ESTD"
 										oninput="verificaSigla(this.value)" maxlength="5" />
+									<form:errors path="sigla" cssClass="text-danger" />
 								</div>
 								<div>
 									<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
 								</div>
-							</form>
+							</form:form>
 						</div>
 					</div>
 				</div>
