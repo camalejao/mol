@@ -159,73 +159,71 @@
 								</div>
 								<c:forEach items="${t.subtopicos}" var="subt">
 									<!-- <c:if test="${subt.topico == t}"> -->
-										<h6>
-											<i class="fa fa-info"></i> ${subt.descricao} - <a
-												class="btn btn-secondary btn-sm" href="" data-toggle="modal"
-												data-target="#editaTopicoModal"
-												onclick="editarTopico(${subt.id}, '${subt.descricao}', '${subt.status}', event)"><i
-												class="fa fa-pencil-square"></i> Editar</a>
-										</h6>
-										<hr class="mt-2">
-										<c:forEach items="${subt.materiaisDidaticos}" var="material">
-											<div class="mb-3 ml-4 pl-4">
-												<c:choose>
-													<c:when test="${material.tipo == 'SLIDE'}">
-														<h6>
-															<i class="fa fa-file-o"></i> <a href=""
-																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-														</h6>
-														<form action="downloadMd" method="POST"
-															id="${material.id}">
-															<input type="hidden" name="md" value="${material.id}" />
-														</form>
-														<hr class="mt-0 mb-0">
-														<p>${material.descricao}</p>
-														<a class="btn btn-sm mb-3" href=""
-															onclick="editarMaterial(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
+									<h6>
+										<i class="fa fa-info"></i> ${subt.descricao} - <a
+											class="btn btn-secondary btn-sm" href="" data-toggle="modal"
+											data-target="#editaTopicoModal"
+											onclick="editarTopico(${subt.id}, '${subt.descricao}', '${subt.status}', event)"><i
+											class="fa fa-pencil-square"></i> Editar</a>
+									</h6>
+									<hr class="mt-2">
+									<c:forEach items="${subt.materiaisDidaticos}" var="material">
+										<div class="mb-3 ml-4 pl-4">
+											<c:choose>
+												<c:when test="${material.tipo == 'SLIDE'}">
+													<h6>
+														<i class="fa fa-file-o"></i> <a href=""
+															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+													</h6>
+													<form action="downloadMd" method="POST" id="${material.id}">
+														<input type="hidden" name="md" value="${material.id}" />
+													</form>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+													<a class="btn btn-sm mb-3" href=""
+														onclick="editarMaterial(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
 															'${material.descricao}',event)"
-															data-toggle="modal" data-target="#editaMaterialModal">
-															Editar Material</a>
-													</c:when>
-													<c:when test="${material.tipo == 'APOSTILA'}">
-														<h6>
-															<i class="fa fa-book"></i> <a href=""
-																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-														</h6>
-														<form action="downloadMd" method="POST"
-															id="${material.id}">
-															<input type="hidden" name="md" value="${material.id}" />
-														</form>
-														<hr class="mt-0 mb-0">
-														<p>${material.descricao}</p>
-														<a class="btn btn-sm mb-3" href=""
-															onclick="editarMaterial(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
+														data-toggle="modal" data-target="#editaMaterialModal">
+														Editar Material</a>
+												</c:when>
+												<c:when test="${material.tipo == 'APOSTILA'}">
+													<h6>
+														<i class="fa fa-book"></i> <a href=""
+															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+													</h6>
+													<form action="downloadMd" method="POST" id="${material.id}">
+														<input type="hidden" name="md" value="${material.id}" />
+													</form>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+													<a class="btn btn-sm mb-3" href=""
+														onclick="editarMaterial(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
 															'${material.descricao}',event)"
-															data-toggle="modal" data-target="#editaMaterialModal">
-															Editar Material</a>
-													</c:when>
-													<c:when test="${material.tipo == 'LINK'}">
-														<h6>
-															<i class="fa fa-link"></i> <a href="${material.link}"
-																target="_blank">${material.titulo}</a>
-														</h6>
-														<hr class="mt-0 mb-0">
-														<p>${material.descricao}</p>
-														<a class="btn btn-sm mb-3" href=""
-															onclick="editarMaterialLink(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
+														data-toggle="modal" data-target="#editaMaterialModal">
+														Editar Material</a>
+												</c:when>
+												<c:when test="${material.tipo == 'LINK'}">
+													<h6>
+														<i class="fa fa-link"></i> <a href="${material.link}"
+															target="_blank">${material.titulo}</a>
+													</h6>
+													<hr class="mt-0 mb-0">
+													<p>${material.descricao}</p>
+													<a class="btn btn-sm mb-3" href=""
+														onclick="editarMaterialLink(${subt.id},${material.id},'${material.titulo}','${material.tipo.tipoMaterial}',
 															'${material.descricao}','${material.link}',event)"
-															data-toggle="modal" data-target="#editaMaterialModal">
-															Editar Material</a>
-													</c:when>
-												</c:choose>
-											</div>
-										</c:forEach>
-										<div class="ml-4 pl-4">
-											<a class="btn btn-sm mb-3" href=""
-												onclick="adicionarMaterial(${subt.id},event)"
-												data-toggle="modal" data-target="#materialModal">Adicionar
-												Material Didático</a>
+														data-toggle="modal" data-target="#editaMaterialModal">
+														Editar Material</a>
+												</c:when>
+											</c:choose>
 										</div>
+									</c:forEach>
+									<div class="ml-4 pl-4">
+										<a class="btn btn-sm mb-3" href=""
+											onclick="adicionarMaterial(${subt.id},event)"
+											data-toggle="modal" data-target="#materialModal">Adicionar
+											Material Didático</a>
+									</div>
 									<!-- </c:if> -->
 								</c:forEach>
 								<a class="btn btn-sm" href="" data-toggle="modal"
@@ -327,10 +325,12 @@
 								<form:input class="form-control" id="inputDescricao"
 									path="descricao" type="text"
 									placeholder="Descrição do subtópico" />
-								<form:input id="idtopicopai" hidden="true" path="topico"
-									type="text" />
+
 								<form:input hidden="true" path="sumario" type="text"
 									value="${turmaDisc.sumarioTurma.id}" />
+
+								<form:input id="idtopicopai" hidden="true" path="topico"
+									type="text" />
 							</div>
 							<div class="modal-footer">
 								<button class="btn btn-secondary" type="button"
@@ -351,13 +351,6 @@
 					<div class="modal-header">
 						<h5 class="modal-title" id="editaTopicoModalLabel">Editar
 							Tópico</h5>
-						<form action="excluirTopico" method="post"
-							onsubmit="return confirm('Confirma a exclusão?');">
-							<input name="topico" id="idTopicoExcluir" type="text"
-								hidden="true"> <span class="ml-4"><input
-								class="btn btn-sm btn-danger" type="submit"
-								value="Excluir Tópico"></span>
-						</form>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">×</span>
@@ -366,15 +359,15 @@
 					<div class="modal-body">
 						<form action="editaTopico" method="post">
 							<div class="form-group">
-								<label for="editStatus">Status</label> <select
-									class="form-control" id="editStatus" name="status">
+								<label for="editDescricaoTopico">Descrição</label> <input
+									class="form-control" id="editDescricaoTopico" name="descricao"
+									type="text" placeholder="Descrição do tópico" /> <label
+									for="editStatus">Status</label> <select class="form-control"
+									id="editStatus" name="status">
 									<c:forEach items="${status}" var="s">
 										<option value="${s}">${s}</option>
 									</c:forEach>
-								</select> <label for="editDescricaoTopico">Descrição</label> <input
-									class="form-control" id="editDescricaoTopico" name="descricao"
-									type="text" placeholder="Descrição do tópico" /> <input
-									hidden="true" id="idtopico" name="topico" type="text" />
+								</select> <input hidden="true" id="idtopico" name="topico" type="text" />
 							</div>
 							<div class="modal-footer">
 								<button class="btn btn-secondary" type="button"
@@ -382,6 +375,15 @@
 								<button class="btn btn-primary" type="submit">Salvar</button>
 							</div>
 						</form>
+						<div class="modal-footer">
+							<form action="excluirTopico" method="post"
+								onsubmit="return confirm('Confirma a exclusão?');">
+								<input name="topico" id="idTopicoExcluir" type="text"
+									hidden="true"> <span class="ml-4"> <input
+									class="btn btn-sm btn-danger" type="submit" value="Excluir Tópico">
+								</span>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
