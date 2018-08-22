@@ -363,7 +363,10 @@ public class ProfessorController {
 	@RequestMapping("editarAlternativa")
 	public String editaAlternativa(@ModelAttribute("alternativa") Alternativa alt, HttpSession session) {
 		IAlternativaDAO aDAO = DAOFactory.getAlternativaDAO();
-		aDAO.alterar(alt);
+		Alternativa antiga = aDAO.consultarPorId(alt.getId());
+		antiga.setCorreta(alt.getCorreta());
+		antiga.setEnunciado(alt.getEnunciado());
+		aDAO.alterar(antiga);
 		return "redirect:editarAtividade-"+alt.getItem().getAtividade().getId();
 	}
 }
