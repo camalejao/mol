@@ -58,4 +58,9 @@ public class Periodo extends Entidade {
 	public void setDataFim(LocalDate dataFim) {
 		this.dataFim = dataFim;
 	}
+	
+	public String toString() {
+		String periodo = this.ano + "." + this.entrada.getSemestre();
+		return periodo;
+	}
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 <head>
@@ -13,17 +13,21 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-	
+
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
-		
+
 		<a class="navbar-brand" href="home">Monitoria On-line</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
@@ -31,27 +35,27 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		
+
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Turmas"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseTurmas" data-parent="#exampleAccordion"> <i
+					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
+					data-toggle="collapse" href="#collapseTurmas"
+					data-parent="#exampleAccordion"> <i
 						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Turmas
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseTurmas">
-						<li><a href="turmasDisciplina">Minhas Turmas</a></li>
+						<li><a href="listaTurmas">Minhas Turmas</a></li>
 					</ul></li>
 			</ul>
-			
+
 			<ul class="navbar-nav sidenav-toggler">
 				<li class="nav-item"><a class="nav-link text-center"
 					id="sidenavToggler"> <i class="fa fa-fw fa-angle-left"></i>
 				</a></li>
 			</ul>
-			
+
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
 						<c:out value="${sessionScope.usuarioLogado.nome}" />
@@ -60,26 +64,59 @@
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
 			</ul>
-			
+
 		</div>
 	</nav>
-	
+
 	<div class="content-wrapper">
 		<div class="container-fluid">
-			
+
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Página Inicial</li>
+				<li class="breadcrumb-item active">Turmas</li>
 			</ol>
-			<div class="row">
-				<div class="col-12">
-					<h1>Bem-vindo</h1>
-					<p>Página Inicial</p>
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-table"></i> Lista de Turmas - ${turmasDisc[0].disciplina.nome}
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th>Turma</th>
+									<th>Curso</th>
+									<th>Período</th>
+									<th>Turno</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Turma</th>
+									<th>Curso</th>
+									<th>Período</th>
+									<th>Turno</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<c:forEach items="${turmasDisc}" var="td">
+									<tr>
+										<td>${td.turma.identificacao}</td>
+										<td>${td.turma.curso.nome}</td>
+										<td>${td.turma.periodo.toString()}</td>
+										<td>${td.turma.turno.turno}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
-				
+
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<footer class="sticky-footer">
@@ -89,12 +126,12 @@
 				</div>
 			</div>
 		</footer>
-		
+
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
 		</a>
-		
+
 		<!-- Logout Modal-->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,7 +154,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -126,8 +163,17 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		
+		<!-- Custom scripts for this page-->
+		<script
+			src="resources/scripts/datatables-PT-BR.js"></script>
 	</div>
 </body>
 </html>
