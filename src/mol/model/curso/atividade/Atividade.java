@@ -17,9 +17,12 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -30,6 +33,7 @@ import mol.model.curso.turma.TurmaDisciplina;
 @Table(name="t_atividade")
 public class Atividade extends Entidade {
 	
+	@NotEmpty @NotBlank
 	@Size(min=8, max=40)
 	@Column(length=40, nullable=false)
 	private String titulo;
@@ -63,6 +67,7 @@ public class Atividade extends Entidade {
 	@Column(length=160, name="tipo_documento")
 	private String tipoDocumento;
 	
+	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
 	@Column(name="data_expiracao", nullable=false)
 	private LocalDateTime dataExpiracao;
