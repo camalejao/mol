@@ -41,22 +41,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Cadastros"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
-					</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseCadastros">
-						<li><a href="gerenciarAtividades">Gerenciar Atividades</a></li>
-					</ul></li>
-
-				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Listagens"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseListas" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
+					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
+					data-toggle="collapse" href="#collapseListas"
+					data-parent="#exampleAccordion"> <i class="fa fa-fw fa-table"></i>
+						<span class="nav-link-text">Gerenciar Turmas</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarTurmas">Minhas turmas</a></li>
 					</ul></li>
@@ -81,12 +70,12 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
-						Atividades</a></li>
+				<li class="breadcrumb-item"><a href="listarTurmas">Minhas Turmas</a></li>
 				<li class="breadcrumb-item active">Lista de Atividades</li>
 			</ol>
 			<div class="mb-0 mt-4">
-				<i class="fa fa-file-text"></i> Atividades - ${td.turma.identificacao} - ${td.disciplina.nome}
+				<i class="fa fa-file-text"></i> Atividades -
+				${td.turma.identificacao} - ${td.disciplina.nome}
 			</div>
 			<hr class="mt-2">
 			<div class="mb-3">
@@ -210,8 +199,7 @@
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
-		<script
-			src="resources/scripts/datatables-PT-BR.js"></script>
+		<script src="resources/scripts/datatables-PT-BR.js"></script>
 	</div>
 </body>
 </html>

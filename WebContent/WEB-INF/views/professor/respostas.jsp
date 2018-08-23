@@ -41,22 +41,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Cadastros"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
-					</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseCadastros">
-						<li><a href="gerenciarAtividades">Gerenciar Atividades</a></li>
-					</ul></li>
-
-				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Listagens"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseListas" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
+					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
+					data-toggle="collapse" href="#collapseListas"
+					data-parent="#exampleAccordion"> <i class="fa fa-fw fa-table"></i>
+						<span class="nav-link-text">Gerenciar Turmas</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarTurmas">Minhas turmas</a></li>
 					</ul></li>
@@ -81,8 +70,7 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
-						Atividades</a></li>
+				<li class="breadcrumb-item"><a href="listarTurmas">Minhas Turmas</a></li>
 				<li class="breadcrumb-item"><a
 					href="listarAtividades-${atividade.turmaDisciplina.id}">Lista
 						de Atividades</a></li>
@@ -90,12 +78,13 @@
 			</ol>
 			<div class="mb-0 mt-4">
 				<i class="fa fa-file-text"></i> ${atividade.titulo} -
-				${atividade.turmaDisciplina.turma.identificacao} - ${atividade.turmaDisciplina.disciplina.nome}
+				${atividade.turmaDisciplina.turma.identificacao} -
+				${atividade.turmaDisciplina.disciplina.nome}
 			</div>
 			<hr class="mt-2">
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-file-text"></i> Respostas 
+					<i class="fa fa-file-text"></i> Respostas
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -124,7 +113,7 @@
 										<fmt:parseDate value="${resp.dataCadastro}"
 											pattern="yyyy-MM-dd'T'HH:mm" var="envio" type="both" />
 										<td><fmt:formatDate value="${envio}"
-											pattern="dd/MM/yyyy HH:mm" /></td>
+												pattern="dd/MM/yyyy HH:mm" /></td>
 										<td>${resp.statusResposta.statusResposta}</td>
 										<td><a href="visualizarResposta-${resp.id}"
 											class="btn btn-sm btn-secondary">Visualizar</a></td>

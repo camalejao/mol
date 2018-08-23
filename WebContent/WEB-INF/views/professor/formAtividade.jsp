@@ -46,22 +46,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Cadastros"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
-					</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseCadastros">
-						<li><a href="gerenciarAtividades">Gerenciar Atividades</a></li>
-					</ul></li>
-
-				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Listagens"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseListas" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
+					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
+					data-toggle="collapse" href="#collapseListas"
+					data-parent="#exampleAccordion"> <i class="fa fa-fw fa-table"></i>
+						<span class="nav-link-text">Gerenciar Turmas</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarTurmas">Minhas turmas</a></li>
 					</ul></li>
@@ -86,8 +75,7 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="gerenciarAtividades">Gerenciar
-						Atividades</a></li>
+				<li class="breadcrumb-item"><a href="listarTurmas">Minhas Turmas</a></li>
 				<li class="breadcrumb-item"><a
 					href="listarAtividades-${turmaDisciplina.id}">Lista de
 						Atividades</a></li>

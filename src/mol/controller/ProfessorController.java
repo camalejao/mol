@@ -51,22 +51,6 @@ public class ProfessorController {
 		return "professor/index";
 	}
 
-	@RequestMapping("gerenciarAtividades")
-	public ModelAndView atividades(HttpSession session) {
-		ModelAndView mav = new ModelAndView("professor/atividades");
-		Professor p = (Professor) session.getAttribute("usuarioLogado");
-		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
-		mav.addObject("novaAtividade", new Atividade());
-		mav.addObject("atividades", aDAO.consultarPorProfessor(p));
-		mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
-		mav.addObject("unidades", Arrays.asList(Unidades.values()));
-		mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
-		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
-
-		return mav;
-	}
-
 	@RequestMapping("adicionarAtividade-{id}")
 	public ModelAndView adicionarAtividade(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("professor/formAtividade");
@@ -131,7 +115,7 @@ public class ProfessorController {
 			mav.addObject("alternativa", new Alternativa());
 			return mav;
 		}
-		mav = new ModelAndView("redirect:gerenciarAtividades");
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
 	}
 

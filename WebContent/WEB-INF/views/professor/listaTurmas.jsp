@@ -42,22 +42,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Cadastros"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseCadastros" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Atividades
-					</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseCadastros">
-						<li><a href="gerenciarAtividades">Gerenciar Atividades</a></li>
-					</ul></li>
-
-				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Listagens"><a
-					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
-					href="#collapseListas" data-parent="#exampleAccordion"> <i
-						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
+					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
+					data-toggle="collapse" href="#collapseListas"
+					data-parent="#exampleAccordion"> <i class="fa fa-fw fa-table"></i>
+						<span class="nav-link-text">Gerenciar Turmas</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarTurmas">Minhas turmas</a></li>
 					</ul></li>
@@ -96,34 +85,37 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Turma</th>
-									<th>Disciplina</th>
-									<th>Curso</th>
-									<th>Período</th>
+									<th>Turma / Disciplina</th>
+									<th>Curso / Período</th>
 									<th>Turno</th>
-									<th>Tipo de Cálculo</th>
+									<th>Cálculo Média</th>
+									<th>Ações</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Turma</th>
-									<th>Disciplina</th>
-									<th>Curso</th>
-									<th>Período</th>
+									<th>Turma / Disciplina</th>
+									<th>Curso / Período</th>
 									<th>Turno</th>
-									<th>Tipo de Cálculo</th>
+									<th>Cálculo Média</th>
+									<th>Ações</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<c:forEach items="${turmasDisciplinas}" var="td">
 									<tr>
-										<td>${td.turma.identificacao}</td>
-										<td>${td.disciplina.sigla} - ${td.disciplina.nome} - 
-										<a href="editarSumario-${td.id}" class="btn btn-sm btn-secondary">Sumário</a></td>
-										<td>${td.turma.curso.nome}</td>
-										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
+										<td>${td.turma.identificacao}/ ${td.disciplina.sigla} -
+											${td.disciplina.nome}</td>
+										<td>${td.turma.curso.nome}-
+											${td.turma.periodo.toString()}</td>
 										<td>${td.turma.turno.turno}</td>
 										<td>${td.tipoCalculo.tipoCalculo}</td>
+										<td><a href="editarSumario-${td.id}"
+											class="btn btn-sm btn-primary"><i class="fa fa-list-ul"></i>
+												Sumário</a> <a class="btn btn-primary btn-sm"
+											href="listarAtividades-${td.id}"><i
+												class="fa fa-file-text "></i> Atividades</a></td>
+
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -184,8 +176,7 @@
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
-		<script
-			src="resources/scripts/datatables-PT-BR.js"></script>
+		<script src="resources/scripts/datatables-PT-BR.js"></script>
 
 	</div>
 </body>
