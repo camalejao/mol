@@ -130,7 +130,17 @@
 												</div>
 											</div>
 										</div>
-										<button class="btn btn-primary btn-block" type="submit">Enviar</button>
+										<c:choose>
+											<c:when test="${not empty itens}" >
+												<h5>Itens</h5>
+												<c:forEach items="${itens}" var="item" varStatus="i">
+													<a href="" class="btn btn-outline-primary" data-toggle="modal"
+														onclick="item(${item.id}, ${i.index+1}, '${item.enunciado}', '${item.tipoItem}')"
+														data-target="#itemModal">${i.index+1}</a>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+										<button class="btn btn-primary btn-block mt-3" type="submit">Enviar</button>
 									</form:form>
 								</div>
 							</div>
@@ -174,6 +184,51 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Modal Responder Item -->
+		<div class="modal fade" id="itemModal" tabindex="-1" role="dialog"
+			aria-labelledby="itemModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="itemModalLabel">Item</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body" id="formItem">
+						<p id="enunciado"></p>
+						<form action="" method="POST">
+							<textarea id="respDisc" class="form-control" name="respostaDiscursiva" ></textarea>
+							<div id="alternativas">
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="alt" id="altA" value="A" />
+									<label class="form-check-label" for="altA">A</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="alt" id="altB" value="B" />
+									<label class="form-check-label" for="altB">B</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="alt" id="altC" value="C" />
+									<label class="form-check-label" for="altC">C</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="alt" id="altD" value="D" />
+									<label class="form-check-label" for="altD">D</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="alt" id="altE" value="E" />
+									<label class="form-check-label" for="altE">E</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -184,6 +239,24 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		
+		<script>
+			function item(id, index, enunciado, tipo){
+				$("#itemModalLabel").html('Item ' + index);
+				$("#enunciado").text(enunciado);
+				if(tipo==='DISCURSIVO'){
+					$("#respDisc").show();
+					$("#respDisc").attr("disabled",false);
+					$("#alternativas").hide();
+				}
+				else if(tipo==='MULTIPLA_ESCOLHA'){
+					$("#respDisc").hide();
+					$("#respDisc").attr("disabled",true);
+					$("#alternativas").show();
+				}
+				e.preventDefault();
+			}
+		</script>
 	</div>
 </body>
 

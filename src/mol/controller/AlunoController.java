@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
+import mol.dao.IItemAtividadeDAO;
 import mol.dao.IRespostaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
@@ -68,8 +69,10 @@ public class AlunoController {
 	public ModelAndView responder(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("aluno/submeterResposta");
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
+		IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
 		session.setAttribute("idAtv", id);
 		mav.addObject("atividade", atvDAO.consultarPorId(id));
+		mav.addObject("itens", iDAO.consultarPorIdAtividade(id));
 		mav.addObject("resposta", new Resposta());
 
 		return mav;
