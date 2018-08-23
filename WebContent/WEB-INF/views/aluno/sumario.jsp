@@ -87,53 +87,16 @@
 				<i class="fa fa-list-ul"></i> Sumário - ${turmaDisc.disciplina.nome}
 			</div>
 			<hr class="mt-2">
-			<c:forEach items="${topicos}" var="t">
+			<c:forEach items="${topicos}" var="t" varStatus="i">
 				<div class="row justify-content-center">
 					<div class="col-md-8">
 						<div class="card mb-3">
-							<div class="card-header">${t.descricao}</div>
-							<div class="card-body">
-								<c:forEach items="${t.materiaisDidaticos}" var="material">
-									<c:choose>
-										<c:when test="${material.tipo == 'SLIDE'}">
-											<h6>
-												<i class="fa fa-file-o"></i> <a href=""
-													onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-											</h6>
-											<form action="downloadMd" method="POST" id="${material.id}">
-												<input type="hidden" name="md" value="${material.id}" />
-											</form>
-											<hr class="mt-0 mb-0">
-											<p>${material.descricao}</p>
-										</c:when>
-										<c:when test="${material.tipo == 'APOSTILA'}">
-											<h6>
-												<i class="fa fa-book"></i> <a href=""
-													onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-											</h6>
-											<form action="downloadMd" method="POST" id="${material.id}">
-												<input type="hidden" name="md" value="${material.id}" />
-											</form>
-											<hr class="mt-0 mb-0">
-											<p>${material.descricao}</p>
-										</c:when>
-										<c:when test="${material.tipo == 'LINK'}">
-											<h6>
-												<i class="fa fa-link"></i> <a href="${material.link}"
-													target="_blank">${material.titulo}</a>
-											</h6>
-											<hr class="mt-0 mb-0">
-											<p>${material.descricao}</p>
-										</c:when>
-									</c:choose>
-								</c:forEach>
-
-								<c:forEach items="${t.subtopicos}" var="subt">
-									<h6>
-										<i class="fa fa-info"></i> ${subt.descricao}
-									</h6>
-									<hr class="mt-2">
-									<c:forEach items="${subt.materiaisDidaticos}" var="material">
+							<h5 class="card-header">
+								<i class="fa fa-info"></i> ${i.index + 1}. ${t.descricao}
+							</h5>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item"><c:forEach
+										items="${t.materiaisDidaticos}" var="material">
 										<div class="mb-3 ml-4 pl-4">
 											<c:choose>
 												<c:when test="${material.tipo == 'SLIDE'}">
@@ -168,10 +131,55 @@
 												</c:when>
 											</c:choose>
 										</div>
-									</c:forEach>
+									</c:forEach></li>
+								<c:forEach items="${t.subtopicos}" var="subt" varStatus="j">
+									<li class="list-group-item">
+										<h5>
+											<i class="fa fa-info"></i> ${i.index + 1}.${j.index + 1}.
+											${subt.descricao}
+										</h5>
+										<hr class="mt-2"> <c:forEach
+											items="${subt.materiaisDidaticos}" var="material">
+											<div class="mb-3 ml-4 pl-4">
+												<c:choose>
+													<c:when test="${material.tipo == 'SLIDE'}">
+														<h6>
+															<i class="fa fa-file-o"></i> <a href=""
+																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+														</h6>
+														<form action="downloadMd" method="POST"
+															id="${material.id}">
+															<input type="hidden" name="md" value="${material.id}" />
+														</form>
+														<hr class="mt-0 mb-0">
+														<p>${material.descricao}</p>
+													</c:when>
+													<c:when test="${material.tipo == 'APOSTILA'}">
+														<h6>
+															<i class="fa fa-book"></i> <a href=""
+																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
+														</h6>
+														<form action="downloadMd" method="POST"
+															id="${material.id}">
+															<input type="hidden" name="md" value="${material.id}" />
+														</form>
+														<hr class="mt-0 mb-0">
+														<p>${material.descricao}</p>
+													</c:when>
+													<c:when test="${material.tipo == 'LINK'}">
+														<h6>
+															<i class="fa fa-link"></i> <a href="${material.link}"
+																target="_blank">${material.titulo}</a>
+														</h6>
+														<hr class="mt-0 mb-0">
+														<p>${material.descricao}</p>
+													</c:when>
+												</c:choose>
+											</div>
+										</c:forEach>
+									</li>
 								</c:forEach>
-
-							</div>
+							</ul>
 						</div>
 					</div>
 				</div>
