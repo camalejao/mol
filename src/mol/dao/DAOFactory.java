@@ -23,7 +23,7 @@ public abstract class DAOFactory {
     private static IPermissoesDAO permissoesDAO;
     private static IItemAtividadeDAO itemAtividadeDAO;
     private static IAlternativaDAO alternativaDAO;
-    
+    private static IItemRespostaDAO itemRespostaDAO;
     
     static {
         emf = Persistence.createEntityManagerFactory("mol_local");
@@ -120,6 +120,11 @@ public abstract class DAOFactory {
 	public static IAlternativaDAO getAlternativaDAO() {
 		alternativaDAO = new AlternativaDAO(emf.createEntityManager());
 		return alternativaDAO;
+	}
+	
+	public static IItemRespostaDAO getItemRespostaDAO() {
+		itemRespostaDAO = new ItemRespostaDAO(emf.createEntityManager());
+		return itemRespostaDAO;
 	}
 
 	public static void close() {
