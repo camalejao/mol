@@ -9,17 +9,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import mol.model.Entidade;
 
 @Entity
 @Table(name="t_item_atividade")
+@JsonIgnoreProperties({"id","dataCadastro","dataUltimaAlteracao","usuarioLogado"})
 public class ItemAtividade extends Entidade {
-	
+	@JsonIgnore
 	@ManyToOne
 	private Atividade atividade;
 	
 	private String enunciado;
-		
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy="item", cascade=CascadeType.ALL)
 	private List<Alternativa> alternativas;
 		

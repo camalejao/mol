@@ -4,12 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import mol.model.Entidade;
 
 @Entity
 @Table(name="t_alternativa")
+@JsonIgnoreProperties({"dataCadastro","dataUltimaAlteracao","usuarioLogado"})
 public class Alternativa extends Entidade{
 
+	@JsonBackReference
 	@ManyToOne
 	private ItemAtividade item;
 	
