@@ -140,7 +140,7 @@
 												</c:forEach>
 											</c:when>
 										</c:choose>
-										<button class="btn btn-primary btn-block mt-3" type="submit">Enviar</button>
+										<button class="btn btn-primary btn-block mt-3" type="submit">Finalizar Resposta</button>
 									</form:form>
 								</div>
 							</div>
@@ -199,7 +199,7 @@
 					</div>
 					<div class="modal-body" id="formItem">
 						<p id="enunciado"></p>
-						<form action="" method="POST">
+						<form action="salvaRespostaItem" method="POST">
 							<textarea id="respDisc" class="form-control" name="respostaDiscursiva" ></textarea>
 							<div id="alternativas">
 								<div class="form-check">
@@ -223,6 +223,11 @@
 									<label id="label4" class="form-check-label" for="alt4"></label>
 								</div>
 							</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -239,7 +244,11 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		
+		<script>
+			$('#modalIem').on("hide.bs.modal", function (e) {
+				if(!confirm("Realmente deseja fechar? Suas alterações serão descartadas.")) return false;
+			});
+		</script>
 		<script>
 			function getItem(idItem, index, e){
 				$.post("requisitaItem", {'idItem' : idItem}, function(item){
