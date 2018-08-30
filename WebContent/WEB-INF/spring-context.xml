@@ -14,7 +14,7 @@
 	<context:component-scan
 		base-package="mol.controller" />
 	<mvc:annotation-driven conversion-service="conversionService" />
-
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
@@ -45,6 +45,7 @@
 				<bean class="mol.converter.SumarioConverter" />
 				<bean class="mol.converter.TopicoConverter" />
 				<bean class="mol.converter.AtividadeConverter" />
+				<bean class="mol.converter.AlternativaConverter" />
 				<bean class="mol.converter.ItemAtividadeConverter" />
 				<bean class="mol.converter.StringParaDataConverter">
 					<constructor-arg value="dd/MM/yyyy HH:mm" />
