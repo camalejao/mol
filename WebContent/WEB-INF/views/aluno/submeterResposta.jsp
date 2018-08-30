@@ -135,7 +135,7 @@
 												<h5>Itens</h5>
 												<c:forEach items="${itens}" var="item" varStatus="i">
 													<a href="" class="btn btn-outline-primary" data-toggle="modal"
-														onclick="item(${item.id}, ${i.index+1}, '${item.enunciado}', '${item.tipoItem}')"
+														onclick="getItem(${item.id}, ${i.index+1}, event)"
 														data-target="#itemModal">${i.index+1}</a>
 												</c:forEach>
 											</c:when>
@@ -203,24 +203,24 @@
 							<textarea id="respDisc" class="form-control" name="respostaDiscursiva" ></textarea>
 							<div id="alternativas">
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="alt" id="altA" value="A" />
-									<label class="form-check-label" for="altA">A</label>
+									<input class="form-check-input" type="radio" name="alternativa" id="alt0" value="A" />
+									<label id="label0" class="form-check-label" for="alt0"></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="alt" id="altB" value="B" />
-									<label class="form-check-label" for="altB">B</label>
+									<input class="form-check-input" type="radio" name="alternativa" id="alt1" value="B" />
+									<label id="label1" class="form-check-label" for="alt1"></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="alt" id="altC" value="C" />
-									<label class="form-check-label" for="altC">C</label>
+									<input class="form-check-input" type="radio" name="alternativa" id="alt2" value="C" />
+									<label id="label2" class="form-check-label" for="alt2"></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="alt" id="altD" value="D" />
-									<label class="form-check-label" for="altD">D</label>
+									<input class="form-check-input" type="radio" name="alternativa" id="alt3" value="D" />
+									<label id="label3" class="form-check-label" for="alt3"></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="alt" id="altE" value="E" />
-									<label class="form-check-label" for="altE">E</label>
+									<input class="form-check-input" type="radio" name="alternativa" id="alt4" value="E" />
+									<label id="label4" class="form-check-label" for="alt4"></label>
 								</div>
 							</div>
 						</form>
@@ -241,20 +241,31 @@
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		
 		<script>
-			function item(id, index, enunciado, tipo){
-				$("#itemModalLabel").html('Item ' + index);
-				$("#enunciado").text(enunciado);
-				if(tipo==='DISCURSIVO'){
-					$("#respDisc").show();
-					$("#respDisc").attr("disabled",false);
-					$("#alternativas").hide();
-				}
-				else if(tipo==='MULTIPLA_ESCOLHA'){
-					$("#respDisc").hide();
-					$("#respDisc").attr("disabled",true);
-					$("#alternativas").show();
-				}
-				e.preventDefault();
+			function getItem(idItem, index, e){
+				$.post("requisitaItem", {'idItem' : idItem}, function(item){
+					$("#itemModalLabel").html('Item ' + index);
+					$("#enunciado").text(item.enunciado);
+					if(item.tipoItem==='DISCURSIVO'){
+						$("#respDisc").show();
+						$("#respDisc").attr("disabled",false);
+						$("#alternativas").hide();
+					}
+					else if(item.tipoItem==='MULTIPLA_ESCOLHA'){
+						$("#respDisc").hide();
+						$("#respDisc").attr("disabled",true);
+						$("#alternativas").show();
+						for(var i=0; i<5; i++){
+							$("#label"+i).html(item.alternativas[i].enunciado);
+							$("#alt"+i).attr("value",item.alternativas[i].id);
+						}
+					}
+					e.preventDefault();
+				});
+			}
+			function getTodosItens(idAtv){
+				$.post("requisitaTodosItens", {'idAtividade' : idAtv}, function(itens){
+					//alert(itens[0].enunciado);
+				});
 			}
 		</script>
 	</div>

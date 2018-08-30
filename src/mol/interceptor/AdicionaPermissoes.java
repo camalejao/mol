@@ -67,6 +67,8 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("editarItemME", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("editarAlternativa", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("turmasDisciplina", TipoUsuario.MONITOR));
+		lp.add(new Permissoes("requisitaItem", TipoUsuario.ALUNO));
+
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

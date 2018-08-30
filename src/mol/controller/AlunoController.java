@@ -12,6 +12,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
@@ -23,6 +24,7 @@ import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
 import mol.model.curso.atividade.Atividade;
+import mol.model.curso.atividade.ItemAtividade;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.disciplina.Topico;
@@ -171,5 +173,20 @@ public class AlunoController {
 		mav.addObject("topicos", topicos);
 		return mav;
 	}
-
+	
+	@RequestMapping("requisitaTodosItens")
+	@ResponseBody
+	public List<ItemAtividade> retornaItens(Integer idAtividade) {
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		List<ItemAtividade> itens = iaDAO.consultarPorIdAtividade(idAtividade);
+		return itens;
+	}
+	
+	@RequestMapping("requisitaItem")
+	@ResponseBody
+	public ItemAtividade retornaItem(Integer idItem) {
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		ItemAtividade item = iaDAO.consultarPorId(idItem);
+		return item;
+	}
 }
