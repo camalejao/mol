@@ -177,8 +177,7 @@
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
-		<script
-			src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin-datatables.min.js"></script>
+		<script src="resources/scripts/datatables-PT-BR.js"></script>
 	</div>
 </body>
 </html>
