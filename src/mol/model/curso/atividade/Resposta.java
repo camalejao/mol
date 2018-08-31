@@ -1,5 +1,8 @@
 package mol.model.curso.atividade;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -53,6 +57,11 @@ public class Resposta extends Entidade {
 	@Transient
 	private CommonsMultipartFile upload;
 
+	@OneToMany(cascade = CascadeType.MERGE)
+	private List<ItemResposta> itensResposta;
+	
+	
+	
 	public Atividade getAtividade() {
 		return atividade;
 	}
@@ -132,4 +141,13 @@ public class Resposta extends Entidade {
 	public void setUpload(CommonsMultipartFile upload) {
 		this.upload = upload;
 	}
+
+	public List<ItemResposta> getItens() {
+		return itensResposta;
+	}
+
+	public void setItens(List<ItemResposta> itens) {
+		this.itensResposta = itens;
+	}
+	
 }
