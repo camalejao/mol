@@ -242,13 +242,20 @@ public class AlunoController {
 		
 		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
 		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
-		
-		itemResposta.setStatus(StatusEntidade.ATIVO);
-		itemResposta.setUsuarioLogado(a);
-		itemResposta.setAluno(a);
-		itemResposta.setEnviado(false);
-		irDAO.inserir(itemResposta);
-		
+		ItemResposta controle = irDAO.consultarNaoEnviadoPorIdItemIdAluno(itemResposta.getItem().getId(), a.getId());
+		if(controle!=null) {
+			if(itemResposta.getItem().getTipoItem()==TipoItem.DISCURSIVO)
+				controle.setTexto(itemResposta.getTexto());
+			else if (itemResposta.getItem().getTipoItem()==TipoItem.MULTIPLA_ESCOLHA)
+				controle.setAlternativa(itemResposta.getAlternativa());
+			irDAO.alterar(controle);
+		}else {
+			itemResposta.setStatus(StatusEntidade.ATIVO);
+			itemResposta.setUsuarioLogado(a);
+			itemResposta.setAluno(a);
+			itemResposta.setEnviado(false);
+			irDAO.inserir(itemResposta);
+		}		
 		return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
 	}
 }
