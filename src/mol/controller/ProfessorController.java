@@ -104,13 +104,14 @@ public class ProfessorController {
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 			IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
 			Professor p = (Professor) session.getAttribute("usuarioLogado");
+			Atividade atv = aDAO.consultarPorId(id);
 			mav = new ModelAndView("professor/edicaoAtividade");
-			mav.addObject("atividade", aDAO.consultarPorId(id));
+			mav.addObject("atividade", atv);
 			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
 			mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
-			mav.addObject("itens", iDAO.consultarPorIdAtividade(id));
+			mav.addObject("itens", iDAO.consultarPorAtividade(atv));
 			mav.addObject("item", new ItemAtividade());
 			mav.addObject("alternativa", new Alternativa());
 			return mav;
@@ -184,7 +185,9 @@ public class ProfessorController {
 	public ModelAndView verResposta(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("professor/verResposta");
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
-		mav.addObject("resposta", rDAO.consultarPorId(id));
+		Resposta resposta = rDAO.consultarPorId(id);
+		mav.addObject("resposta", resposta);
+		mav.addObject("itensResp", resposta.getItens());
 
 		return mav;
 	}

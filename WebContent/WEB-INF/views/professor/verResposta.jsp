@@ -126,6 +126,25 @@
 				<div class="col-md-6">
 					<div class="card mb-3">
 						<div class="card-header">Avaliar Resposta</div>
+						
+						<ul class="list-group list-group-flush">
+								<c:forEach items="${itensResp}" var="ir" varStatus="index" >
+									<li class="list-group-item">
+										<h5>${index.index + 1}. ${ir.item.enunciado}</h5>
+										<c:choose>
+											<c:when test="${ir.item.tipoItem == 'DISCURSIVO'}">
+												<h6>${ir.texto}</h6>
+											</c:when>
+											<c:otherwise>
+												<h6>${ir.alternativa.enunciado}</h6>
+												<c:if test="${ir.alternativa.correta == true}">
+													<h6>(correta)</h6>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
+									</li>	
+								</c:forEach>
+							</ul>
 						<div class="card-body">
 							<form:form modelAttribute="resposta" action="avaliarResposta"
 								method="POST">
