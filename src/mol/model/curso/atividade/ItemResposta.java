@@ -13,7 +13,7 @@ public class ItemResposta extends Entidade {
 	
 	@ManyToOne
 	Aluno aluno;
-	
+		
 	@ManyToOne
 	ItemAtividade item;
 	
@@ -21,7 +21,8 @@ public class ItemResposta extends Entidade {
 	
 	@ManyToOne
 	Alternativa alternativa;
-
+	
+	boolean enviado;
 	
 	
 
@@ -55,5 +56,13 @@ public class ItemResposta extends Entidade {
 
 	public void setAlternativa(Alternativa alternativa) {
 		this.alternativa = alternativa;
-	}	
+	}
+
+	public boolean isEnviado() {
+		return enviado;
+	}
+
+	public void setEnviado(boolean enviado) {
+		this.enviado = enviado;
+	}
 }

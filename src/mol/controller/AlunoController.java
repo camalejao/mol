@@ -29,6 +29,7 @@ import mol.model.curso.atividade.ItemAtividade;
 import mol.model.curso.atividade.ItemResposta;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
+import mol.model.curso.atividade.TipoItem;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
@@ -71,36 +72,65 @@ public class AlunoController {
 
 	@RequestMapping("responderAtividade-{id}")
 	public ModelAndView responderAtividade(@PathVariable Integer id, HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView("aluno/submeterResposta");
+		
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
-		IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		
 		session.setAttribute("idAtv", id);
-		mav.addObject("atividade", atvDAO.consultarPorId(id));
-		mav.addObject("itens", iDAO.consultarPorIdAtividade(id));
+		
+		Atividade atv = atvDAO.consultarPorId(id);
+		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
+		
+		mav.addObject("atividade", atv);
 		mav.addObject("resposta", new Resposta());
+		mav.addObject("itens", iaDAO.consultarPorAtividade(atv));
+		mav.addObject("respostaItens", irDAO.consultarNaoEnviadosPorAlunoAtividade(a, atv));
 
 		return mav;
 	}
 
 	@RequestMapping("enviarResposta")
 	public String enviar(Resposta resposta, HttpSession session) {	
+		
 		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		Integer id = (Integer) session.getAttribute("idAtv");
 		session.removeAttribute("idAtv");
 
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
+		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
 		Atividade atv = atvDAO.consultarPorId(id);
 		Resposta controle = rDAO.consultarPorAtividadeAluno(atv, a);
+		List<ItemResposta> listaIR = irDAO.consultarPorAlunoAtividade(a, atv);
+		List<ItemAtividade> listaIA = iaDAO.consultarPorAtividade(atv);
 		
 		//se a atividade estiver expirada, volta para a home
 		if((controle!=null) && (controle.getAtividade().verificaExpiracao()==false))
 			return "redirect:home";
 		
-		//em caso de nova resposta, exclui a submissao anterior
+		if(listaIA!=null) {
+			if(listaIA.size() != irDAO.consultarNaoEnviadosPorAlunoAtividade(a, atv).size())
+				return "redirect:responderAtividade-" + id;
+		}
+		
+		//em caso de nova resposta, exclui a submissao anterior (e seus itens)
 		if(controle != null && controle.getStatus()==StatusEntidade.ATIVO){
+			
 			rDAO.remover(controle);
+			
+			List<ItemResposta> listaControle = new ArrayList<>();
+			listaControle.addAll(listaIR);
+			
+			for(ItemResposta ir : listaControle) {
+				if(ir.isEnviado()) {
+					irDAO.remover(ir);
+					listaIR.remove(ir);
+				}
+			}
 		}
 		
 		resposta.setAluno(a);
@@ -111,7 +141,11 @@ public class AlunoController {
 		resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
 		resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
 		resposta.setStatusResposta(StatusResposta.NAO_CORRIGIDA);
-		resposta.setItens(irDAO.consultarPorAlunoAtividade(a, atv));
+		for(ItemResposta ir : listaIR) {
+			ir.setEnviado(true);
+			irDAO.alterar(ir);
+		}
+		resposta.setItens(listaIR);
 		
 		rDAO.inserir(resposta);
 
@@ -177,15 +211,7 @@ public class AlunoController {
 		mav.addObject("topicos", topicos);
 		return mav;
 	}
-	
-	@RequestMapping("requisitaTodosItens")
-	@ResponseBody
-	public List<ItemAtividade> retornaItens(Integer idAtividade) {
-		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
-		List<ItemAtividade> itens = iaDAO.consultarPorIdAtividade(idAtividade);
-		return itens;
-	}
-	
+		
 	@RequestMapping("requisitaItem")
 	@ResponseBody
 	public ItemAtividade retornaItem(Integer idItem) {
@@ -194,14 +220,35 @@ public class AlunoController {
 		return item;
 	}
 	
+	@RequestMapping("requisitaItemResposta")
+	@ResponseBody
+	public ItemResposta retornaItemResposta(Integer idItem, Integer idAluno) {
+		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		ItemResposta itemResp = irDAO.consultarNaoEnviadoPorIdItemIdAluno(idItem, idAluno);
+		return itemResp;
+	}
+	
 	@RequestMapping("salvarRespostaItem")
 	public String salvaRespostaItem(ItemResposta itemResposta, HttpSession session) {
-		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		//verifica se o item foi preenchido
+		if(itemResposta.getItem().getTipoItem()==TipoItem.DISCURSIVO) {
+			if(itemResposta.getTexto()==null || itemResposta.getTexto().isEmpty())
+			return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
+		}
+		else if (itemResposta.getItem().getTipoItem()==TipoItem.MULTIPLA_ESCOLHA) {
+			if(itemResposta.getAlternativa()==null) 
+				return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
+		}
+		
 		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
+		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		
 		itemResposta.setStatus(StatusEntidade.ATIVO);
 		itemResposta.setUsuarioLogado(a);
 		itemResposta.setAluno(a);
+		itemResposta.setEnviado(false);
 		irDAO.inserir(itemResposta);
+		
 		return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
 	}
 }

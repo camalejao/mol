@@ -134,13 +134,35 @@
 											<c:when test="${not empty itens}" >
 												<h5>Itens</h5>
 												<c:forEach items="${itens}" var="item" varStatus="i">
-													<a href="" class="btn btn-outline-primary" data-toggle="modal"
-														onclick="getItem(${item.id}, ${i.index+1}, event)"
-														data-target="#itemModal">${i.index+1}</a>
+													<c:forEach items="${respostaItens}" var="itemResp" varStatus="j">
+														<c:if test="${item.id == itemResp.item.id}">
+															<c:set var="respondido" scope="page" value="true"/>
+														</c:if>
+													</c:forEach>
+													<c:choose>
+														<c:when test="${respondido == true}">
+															<a href="" class="btn btn-outline-success" data-toggle="modal"
+																onclick="getItemResposta(${item.id}, ${sessionScope.usuarioLogado.id}, ${i.index+1}, event)"
+																data-target="#itemModal">${i.index+1}</a>
+														</c:when>
+														<c:otherwise>
+															<a href="" class="btn btn-outline-primary" data-toggle="modal"
+																onclick="getItem(${item.id}, ${i.index+1}, event)"
+																data-target="#itemModal">${i.index+1}</a>
+														</c:otherwise>
+													</c:choose>
+													<c:set var="respondido" scope="page" value="false"/>
 												</c:forEach>
 											</c:when>
 										</c:choose>
-										<button class="btn btn-primary btn-block mt-3" type="submit">Finalizar Resposta</button>
+										<c:choose>
+											<c:when test="${itens.size() == respostaItens.size()}">
+												<button class="btn btn-primary btn-block mt-3" type="submit">Finalizar Resposta</button>
+											</c:when>
+											<c:otherwise>
+												<button class="btn btn-disabled btn-block mt-3" disabled type="submit">Finalizar Resposta</button>
+											</c:otherwise>
+										</c:choose>
 									</form:form>
 								</div>
 							</div>
@@ -200,7 +222,7 @@
 					<div class="modal-body" id="formItem">
 						<p id="enunciado"></p>
 						<form action="salvarRespostaItem" method="POST">
-							<input id="idItem" name="item" type="text" value="" />
+							<input id="idItem" name="item" type="text" value="" hidden="true" />
 							<textarea id="respDisc" class="form-control" name="texto" ></textarea>
 							<div id="alternativas">
 								<div class="form-check">
@@ -268,15 +290,38 @@
 						for(var i=0; i<5; i++){
 							$("#label"+i).html(item.alternativas[i].enunciado);
 							$("#alt"+i).attr("value",item.alternativas[i].id);
+							$("#alt"+i).attr("checked",false);
 						}
 					}
-					e.preventDefault();
 				});
+				e.preventDefault();
 			}
-			function getTodosItens(idAtv){
-				$.post("requisitaTodosItens", {'idAtividade' : idAtv}, function(itens){
-					//alert(itens[0].enunciado);
+			function getItemResposta(idItem, idAluno, index, e){
+				$("#idItem").val(idItem);
+				$.post("requisitaItemResposta", {'idItem':idItem, 'idAluno':idAluno}, function(itemResp){
+					$("#itemModalLabel").html('Item ' + index);
+					$("#enunciado").text(itemResp.item.enunciado);
+					if(itemResp.item.tipoItem==='DISCURSIVO'){
+						$("#respDisc").val(itemResp.texto);
+						$("#respDisc").show();
+						$("#respDisc").attr("disabled",false);
+						$("#alternativas").hide();
+					}
+					else if(itemResp.item.tipoItem==='MULTIPLA_ESCOLHA'){
+						$("#respDisc").val('');
+						$("#respDisc").hide();
+						$("#respDisc").attr("disabled",true);
+						$("#alternativas").show();
+						for(var i=0; i<5; i++){
+							$("#label"+i).html(itemResp.item.alternativas[i].enunciado);
+							$("#alt"+i).attr("value",itemResp.item.alternativas[i].id);
+							if(itemResp.alternativa.id === itemResp.item.alternativas[i].id){
+								$("#alt"+i).attr("checked",true);
+							}
+						}
+					}
 				});
+				e.preventDefault();
 			}
 		</script>
 	</div>
