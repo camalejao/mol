@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemAtividade;
 
 public class ItemAtividadeDAO extends DAOGenerico<ItemAtividade> implements IItemAtividadeDAO {
@@ -14,10 +15,10 @@ public class ItemAtividadeDAO extends DAOGenerico<ItemAtividade> implements IIte
 	}
 
 	@Override
-	public List<ItemAtividade> consultarPorIdAtividade(Integer id) {
+	public List<ItemAtividade> consultarPorAtividade(Atividade atividade) {
 		try {
-			TypedQuery<ItemAtividade> query = getEntityManager().createQuery("select i from ItemAtividade i where i.atividade.id = :atv", ItemAtividade.class);
-			query.setParameter("atv", id);
+			TypedQuery<ItemAtividade> query = getEntityManager().createQuery("select i from ItemAtividade i where i.atividade = :atv", ItemAtividade.class);
+			query.setParameter("atv", atividade);
             return query.getResultList();
             		
         } catch (RuntimeException re) {
