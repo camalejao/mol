@@ -30,4 +30,46 @@ public class ItemRespostaDAO extends DAOGenerico<ItemResposta> implements IItemR
 		return null;
 	}
 
+	@Override
+	public ItemResposta consultarPorIdItemIdAluno(Integer idItem, Integer idAluno) {
+		try {
+			TypedQuery<ItemResposta> query = getEntityManager().createQuery("select ir from ItemResposta ir where ir.aluno.id = :a and ir.item.id = :item", ItemResposta.class);
+			query.setParameter("a", idAluno);
+			query.setParameter("item", idItem);
+            return query.getSingleResult();
+            
+		} catch (RuntimeException re) {
+	        re.printStackTrace();
+	    }
+		return null;
+	}
+
+	@Override
+	public List<ItemResposta> consultarNaoEnviadosPorAlunoAtividade(Aluno aluno, Atividade atividade) {
+		try {
+			TypedQuery<ItemResposta> query = getEntityManager().createQuery("select ir from ItemResposta ir where ir.aluno = :a and ir.item.atividade = :atv and ir.enviado = FALSE", ItemResposta.class);
+			query.setParameter("a", aluno);
+			query.setParameter("atv", atividade);
+            return query.getResultList();
+            		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
+
+	@Override
+	public ItemResposta consultarNaoEnviadoPorIdItemIdAluno(Integer idItem, Integer idAluno) {
+		try {
+			TypedQuery<ItemResposta> query = getEntityManager().createQuery("select ir from ItemResposta ir where ir.aluno.id = :a and ir.item.id = :item and ir.enviado = FALSE", ItemResposta.class);
+			query.setParameter("a", idAluno);
+			query.setParameter("item", idItem);
+            return query.getSingleResult();
+            
+		} catch (RuntimeException re) {
+	        re.printStackTrace();
+	    }
+		return null;
+	}
+
 }
