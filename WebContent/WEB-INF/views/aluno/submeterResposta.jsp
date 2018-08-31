@@ -199,8 +199,9 @@
 					</div>
 					<div class="modal-body" id="formItem">
 						<p id="enunciado"></p>
-						<form action="salvaRespostaItem" method="POST">
-							<textarea id="respDisc" class="form-control" name="respostaDiscursiva" ></textarea>
+						<form action="salvarRespostaItem" method="POST">
+							<input id="idItem" name="item" type="text" value="" />
+							<textarea id="respDisc" class="form-control" name="texto" ></textarea>
 							<div id="alternativas">
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="alternativa" id="alt0" value="A" />
@@ -245,12 +246,13 @@
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<script>
-			$('#modalIem').on("hide.bs.modal", function (e) {
+			$('#itemModal').on("hide.bs.modal", function (e) {
 				if(!confirm("Realmente deseja fechar? Suas alterações serão descartadas.")) return false;
 			});
 		</script>
 		<script>
 			function getItem(idItem, index, e){
+				$("#idItem").val(idItem);
 				$.post("requisitaItem", {'idItem' : idItem}, function(item){
 					$("#itemModalLabel").html('Item ' + index);
 					$("#enunciado").text(item.enunciado);

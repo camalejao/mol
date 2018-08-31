@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IItemAtividadeDAO;
+import mol.dao.IItemRespostaDAO;
 import mol.dao.IRespostaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
@@ -25,6 +26,7 @@ import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemAtividade;
+import mol.model.curso.atividade.ItemResposta;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.disciplina.Topico;
@@ -68,7 +70,7 @@ public class AlunoController {
 	}
 
 	@RequestMapping("responderAtividade-{id}")
-	public ModelAndView responder(@PathVariable Integer id, HttpSession session) {
+	public ModelAndView responderAtividade(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("aluno/submeterResposta");
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
@@ -88,15 +90,16 @@ public class AlunoController {
 
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
+		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
 		Atividade atv = atvDAO.consultarPorId(id);
 		Resposta controle = rDAO.consultarPorAtividadeAluno(atv, a);
 		
 		//se a atividade estiver expirada, volta para a home
-		if(!controle.getAtividade().verificaExpiracao())
+		if((controle!=null) && (controle.getAtividade().verificaExpiracao()==false))
 			return "redirect:home";
 		
 		//em caso de nova resposta, exclui a submissao anterior
-		if(controle != null){
+		if(controle != null && controle.getStatus()==StatusEntidade.ATIVO){
 			rDAO.remover(controle);
 		}
 		
@@ -108,7 +111,8 @@ public class AlunoController {
 		resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
 		resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
 		resposta.setStatusResposta(StatusResposta.NAO_CORRIGIDA);
-
+		resposta.setItens(irDAO.consultarPorAlunoAtividade(a, atv));
+		
 		rDAO.inserir(resposta);
 
 		MailSender.enviarEmail(a.getEmail(), "Resposta submetida com sucesso!",
@@ -188,5 +192,16 @@ public class AlunoController {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		ItemAtividade item = iaDAO.consultarPorId(idItem);
 		return item;
+	}
+	
+	@RequestMapping("salvarRespostaItem")
+	public String salvaRespostaItem(ItemResposta itemResposta, HttpSession session) {
+		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
+		itemResposta.setStatus(StatusEntidade.ATIVO);
+		itemResposta.setUsuarioLogado(a);
+		itemResposta.setAluno(a);
+		irDAO.inserir(itemResposta);
+		return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
 	}
 }
