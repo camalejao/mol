@@ -77,53 +77,7 @@
 				<li class="breadcrumb-item active">Visualizar Resposta</li>
 			</ol>
 			<div class="row">
-				<div class="col-md-6">
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fa fa-file-text"></i> Resposta -
-							${resposta.atividade.titulo}
-						</div>
-						<div class="card-body">
-							<div class="media">
-								<div class="media-body">
-									<h4 class="card-title mb-1"></h4>
-									<h6 class="card-title mb-1">
-										<strong>Aluno: </strong> ${resposta.aluno.nome}
-									</h6>
-									<h6 class="card-title mb-1">
-										<strong>Data de Envio: </strong>
-										<fmt:parseDate value="${resposta.atividade.dataCadastro}"
-											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-										<fmt:formatDate value="${parsedDateTime}"
-											pattern="dd/MM/yyyy HH:mm" />
-									</h6>
-									<label for="comentariosResp"><strong>Comentários
-											do Aluno: </strong></label>
-									<p id="comentariosResp">${resposta.comentarios}</p>
-									<label for="doc"><strong>Arquivo de resposta:
-									</strong></label>
-									<c:choose>
-										<c:when test="${not empty resposta.nomeDocumentoResposta}">
-											<p id="doc">${resposta.nomeDocumentoResposta}
-												<a class="btn btn-secondary btn-sm"
-													href="downloadResposta-${resposta.id}"> <i
-													class="fa fa-download "></i> Baixar
-												</a>
-											</p>
-										</c:when>
-										<c:otherwise>
-											<p id="doc">Não enviado.</p>
-										</c:otherwise>
-									</c:choose>
-								</div>
-							</div>
-							<div class="media">
-								<div class="media-body"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
+				<div class="col-md-9">
 					<div class="card mb-3">
 						<div class="card-header">Avaliar Resposta</div>
 						
@@ -133,12 +87,23 @@
 										<h5>${index.index + 1}. ${ir.item.enunciado}</h5>
 										<c:choose>
 											<c:when test="${ir.item.tipoItem == 'DISCURSIVO'}">
-												<h6>${ir.texto}</h6>
+												<div class="card border-secondary">
+													<div class="card-body">
+														<h6>${ir.texto}</h6>
+													</div>
+												</div>
 											</c:when>
 											<c:otherwise>
-												<h6>${ir.alternativa.enunciado}</h6>
+												<div class="card border-secondary">
+													<div class="card-body">
+														<h6>${ir.alternativa.enunciado}</h6>
+													</div>
+												</div>
 												<c:if test="${ir.alternativa.correta == true}">
-													<h6>(correta)</h6>
+													<h6 class="text-success"><i class="fa fa-check" ></i> Correta</h6>
+												</c:if>
+												<c:if test="${ir.alternativa.correta == false}">
+													<h6 class="text-danger"><i class="fa fa-times" ></i> Errada</h6>
 												</c:if>
 											</c:otherwise>
 										</c:choose>
@@ -182,6 +147,52 @@
 									</c:when>
 								</c:choose>
 							</form:form>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fa fa-file-text"></i> Resposta -
+							${resposta.atividade.titulo}
+						</div>
+						<div class="card-body">
+							<div class="media">
+								<div class="media-body">
+									<h4 class="card-title mb-1"></h4>
+									<h6 class="card-title mb-1">
+										<strong>Aluno: </strong> ${resposta.aluno.nome}
+									</h6>
+									<h6 class="card-title mb-1">
+										<strong>Data de Envio: </strong>
+										<fmt:parseDate value="${resposta.atividade.dataCadastro}"
+											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+										<fmt:formatDate value="${parsedDateTime}"
+											pattern="dd/MM/yyyy HH:mm" />
+									</h6>
+									<label for="comentariosResp"><strong>Comentários
+											do Aluno: </strong></label>
+									<p id="comentariosResp">${resposta.comentarios}</p>
+									<label for="doc"><strong>Arquivo de resposta:
+									</strong></label>
+									<c:choose>
+										<c:when test="${not empty resposta.nomeDocumentoResposta}">
+											<p id="doc">${resposta.nomeDocumentoResposta}
+												<a class="btn btn-secondary btn-sm"
+													href="downloadResposta-${resposta.id}"> <i
+													class="fa fa-download "></i> Baixar
+												</a>
+											</p>
+										</c:when>
+										<c:otherwise>
+											<p id="doc">Não enviado.</p>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
+							<div class="media">
+								<div class="media-body"></div>
+							</div>
 						</div>
 					</div>
 				</div>

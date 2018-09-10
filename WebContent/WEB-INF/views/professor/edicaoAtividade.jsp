@@ -78,10 +78,11 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="listarTurmas">Minhas Turmas</a></li>
+				<li class="breadcrumb-item"><a href="listarTurmas">Minhas
+						Turmas</a></li>
 				<li class="breadcrumb-item"><a
-					href="listarAtividades-${atividade.turmaDisciplina.id}">Lista de
-						Atividades</a></li>
+					href="listarAtividades-${atividade.turmaDisciplina.id}">Lista
+						de Atividades</a></li>
 				<li class="breadcrumb-item active">Editar Atividade</li>
 			</ol>
 			<div class="row">
@@ -213,23 +214,67 @@
 							<i class="fa fa-file-text"></i> Itens
 						</div>
 						<ul class="list-group list-group-flush">
-
+							<li class="list-group-item">
+								<div>
+									<a class="btn btn-primary" href="" data-toggle="modal"
+										data-target="#itemDiscursivoModal"
+										onclick="itemDiscursivo(${atividade.id},event)">Adicionar
+										Item Discursivo</a> <a class="btn btn-primary" href=""
+										data-toggle="modal" data-target="#itemMEModal"
+										onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
+										Item de Múltipla Escolha</a>
+								</div>
+							</li>
 							<c:forEach items="${itens}" var="item" varStatus="index">
 								<li class="list-group-item">
-									<h5>${index.index + 1}.${item.enunciado}</h5> <c:choose>
+									<div class="row">
+										<div class="col-md-10">
+											<h5>${index.index + 1}.${item.enunciado}</h5>
+										</div>
+										<c:choose>
+											<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+												<div class="col-md-2">
+													<div class="row">
+														<button class="btn btn-sm btn-secondary"
+															data-toggle="modal" data-target="#editaItemMEModal"
+															onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+															<i class="fa fa-pencil-square" aria-hidden="true"></i>
+														</button>
+														&nbsp;
+														<form action="excluirItem" method="POST"
+															onsubmit="return confirm('Confirma a exclusão?');">
+															<input name="item" value="${item.id}" type="text"
+																hidden="true" />
+															<button class="btn btn-sm btn-danger" type="submit">
+																<i class="fa fa-trash" aria-hidden="true"></i>
+															</button>
+														</form>
+													</div>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div class="col-md-2">
+													<div class="row">
+														<button class="btn btn-sm btn-secondary"
+															data-toggle="modal" data-target="#editaIDModal"
+															onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+															<i class="fa fa-pencil-square" aria-hidden="true"></i>
+														</button>
+														&nbsp;
+														<form action="excluirItem" method="POST"
+															onsubmit="return confirm('Confirma a exclusão?');">
+															<input name="item" value="${item.id}" type="text"
+																hidden="true" />
+															<button class="btn btn-sm btn-danger" type="submit">
+																<i class="fa fa-trash" aria-hidden="true"></i>
+															</button>
+														</form>
+													</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</div> <c:choose>
 										<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
-											<div class="row">
-												<button class="btn btn-sm btn-link" data-toggle="modal"
-													data-target="#editaItemMEModal"
-													onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',event)">Editar</button>
-												<form action="excluirItem" method="POST"
-													onsubmit="return confirm('Confirma a exclusão?');">
-													<input name="item" value="${item.id}" type="text"
-														hidden="true" />
-													<button class="btn btn-sm btn-link text-danger"
-														type="submit">Excluir</button>
-												</form>
-											</div>
 											<c:forEach items="${item.alternativas}" var="alt"
 												varStatus="index2">
 												<h6>
@@ -242,42 +287,19 @@
 													</c:choose>
 													<c:out value="${alt.enunciado}" />
 													<c:if test="${alt.correta == 'true'}">(correta)</c:if>
-													<button class="btn btn-sm btn-link" data-toggle="modal"
+													<button class="btn btn-sm btn-link text-secondary" data-toggle="modal"
 														data-target="#editaAlternativaModal"
-														onclick="editaAlternativa(${item.id},${alt.id},'${alt.enunciado}','${alt.correta}',event)">Editar</button>
+														onclick="editaAlternativa(${item.id},${alt.id},'${alt.enunciado}','${alt.correta}',event)">
+														<i class="fa fa-pencil-square" aria-hidden="true"></i></button>
 												</h6>
 											</c:forEach>
 
 										</c:when>
-										<c:otherwise>
-											<div class="row">
-												<button class="btn btn-sm btn-link" data-toggle="modal"
-													data-target="#editaIDModal"
-													onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',event)">Editar</button>
-												<form action="excluirItem" method="POST"
-													onsubmit="return confirm('Confirma a exclusão?');">
-													<input name="item" value="${item.id}" type="text"
-														hidden="true" />
-													<button class="btn btn-sm btn-link text-danger"
-														type="submit">Excluir</button>
-												</form>
-											</div>
-										</c:otherwise>
 									</c:choose>
 								</li>
 							</c:forEach>
 
-							<li class="list-group-item">
-								<div>
-									<a class="btn btn-primary" href="" data-toggle="modal"
-										data-target="#itemDiscursivoModal"
-										onclick="itemDiscursivo(${atividade.id},event)">Adicionar
-										Item Discursivo</a> <a class="btn btn-primary" href=""
-										data-toggle="modal" data-target="#itemMEModal"
-										onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
-										Item de Múltipla Escolha</a>
-								</div>
-							</li>
+							
 						</ul>
 					</div>
 				</div>
@@ -343,6 +365,10 @@
 									maxlength="400" rows="3" type="text" id="enunciadoDiscursivo"
 									placeholder="Digite o enunciado do item" />
 
+								<label for="inputValor">Valor</label>
+								<form:input path="valor" id="inputValor" class="form-control"
+									type="number" />
+
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
 									type="text" hidden="true" />
 
@@ -384,6 +410,10 @@
 									id="editaEnunciadoDiscursivo"
 									placeholder="Digite o enunciado do item" />
 
+								<label for="editValor">Valor</label>
+								<form:input path="valor" id="editValor" class="form-control"
+									type="number" />
+
 								<form:input path="atividade" id="idEdicaoAtividadeID"
 									type="text" hidden="true" />
 								<form:input path="id" id="idEdicaoID" type="text" hidden="true" />
@@ -421,10 +451,14 @@
 							modelAttribute="item" method="POST">
 
 							<div class="form-group">
-								<label for="enunciadoDiscursivo">Enunciado</label>
+								<label for="enunciadoME">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
-									maxlength="400" rows="3" type="text" id="enunciadoDiscursivo"
+									maxlength="400" rows="3" type="text" id="enunciadoME"
 									placeholder="Digite o enunciado do item" />
+
+								<label for="inputValor">Valor</label>
+								<form:input path="valor" id="inputValor" class="form-control"
+									type="number" />
 							</div>
 
 							<div class="form-group">
@@ -512,6 +546,10 @@
 								<form:textarea class="form-control" path="enunciado"
 									maxlength="400" rows="3" type="text" id="editaEnunciadoME"
 									placeholder="Digite o enunciado do item" />
+
+								<label for="editValorME">Valor</label>
+								<form:input id="editValorME" path="valor" class="form-control"
+									type="number" />
 							</div>
 							<form:input path="atividade" id="idEdicaoAtividadeME" type="text"
 								hidden="true" />
@@ -604,16 +642,18 @@
 				$("#idAtividadeItemME").attr("value",id);
 				e.preventDefault();
 			}
-			function editaItemD(id_atv, id_item, enunciado, e){
+			function editaItemD(id_atv, id_item, enunciado, valor, e){
 				$("#idEdicaoAtividadeID").attr("value",id_atv);
 				$("#idEdicaoID").attr("value",id_item);
 				$("#editaEnunciadoDiscursivo").val(enunciado);
+				$("#editValor").val(valor);
 				e.preventDefault();
 			}
-			function editaItemME(id_atv, id_item, enunciado, e){
+			function editaItemME(id_atv, id_item, enunciado, valor, e){
 				$("#idEdicaoAtividadeME").attr("value",id_atv);
 				$("#idEdicaoME").attr("value",id_item);
 				$("#editaEnunciadoME").val(enunciado);
+				$("#editValorME").val(valor);
 				e.preventDefault();
 			}
 			function editaAlternativa(id_item, id_alt, enunciado, correta, e){
