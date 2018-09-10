@@ -326,7 +326,10 @@ public class ProfessorController {
 	@RequestMapping("editarItem")
 	public String editaItemDiscursivo(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
-		iaDAO.alterar(item);
+		ItemAtividade itemAntigo = iaDAO.consultarPorId(item.getId());
+		itemAntigo.setEnunciado(item.getEnunciado());
+		itemAntigo.setValor(item.getValor());
+		iaDAO.alterar(itemAntigo);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
@@ -335,6 +338,7 @@ public class ProfessorController {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		ItemAtividade antigo = iaDAO.consultarPorId(item.getId());
 		antigo.setEnunciado(item.getEnunciado());
+		antigo.setValor(item.getValor());
 		iaDAO.alterar(antigo);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}

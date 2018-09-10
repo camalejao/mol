@@ -30,6 +30,8 @@ public class ItemAtividade extends Entidade {
 	private List<Alternativa> alternativas;
 		
 	private TipoItem tipoItem;
+	
+	private double valor;
 
 	
 	
@@ -63,6 +65,14 @@ public class ItemAtividade extends Entidade {
 
 	public void setTipoItem(TipoItem tipoItem) {
 		this.tipoItem = tipoItem;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 	
 }
