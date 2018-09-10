@@ -1,31 +1,34 @@
 package mol.model.curso.atividade;
 
-public enum NivelAprendizagem {
-	FACIL(1, "Fácil"), MEDIO(2, "Médio"), DIFICIL(3, "Difícil");
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-	private int id;
-	private String nivel;
+import mol.model.Entidade;
 
-	NivelAprendizagem(int id, String nivel) {
-		this.id = id;
-		this.nivel = nivel;
+@Entity
+@Table(name="t_nivel_aprendizagem")
+public class NivelAprendizagem extends Entidade {
+		
+	private String titulo;
+	
+	private Integer porcentagem;
+
+	
+	
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public int getId() {
-		return id;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
-	public String getNivel() {
-		return nivel;
+	public Integer getPorcentagem() {
+		return porcentagem;
 	}
 
-	public static NivelAprendizagem getById(int id) {
-		for (NivelAprendizagem n : values()) {
-			if (n.id == id) {
-				return n;
-			}
-		}
-		return null;
+	public void setPorcentagem(Integer porcentagem) {
+		this.porcentagem = porcentagem;
 	}
-
+	
 }

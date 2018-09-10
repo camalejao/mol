@@ -31,7 +31,7 @@ import mol.model.StatusEntidade;
 import mol.model.curso.atividade.Alternativa;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemAtividade;
-import mol.model.curso.atividade.NivelAprendizagem;
+import mol.model.curso.atividade.NivelAprendizagemEnum;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
@@ -59,7 +59,7 @@ public class ProfessorController {
 		mav.addObject("novaAtividade", new Atividade());
 		mav.addObject("turmaDisciplina", tdDAO.consultarPorId(id));
 		mav.addObject("unidades", Arrays.asList(Unidades.values()));
-		mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+		mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
 		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 		mav.addObject("tiposItem", Arrays.asList(TipoItem.values()));
 
@@ -75,7 +75,7 @@ public class ProfessorController {
 			mav.addObject("novaAtividade", atividade);
 			mav.addObject("turmaDisciplina", tdDAO.consultarPorId(atividade.getTurmaDisciplina().getId()));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
-			mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+			mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 
 			return mav;
@@ -109,7 +109,7 @@ public class ProfessorController {
 			mav.addObject("atividade", atv);
 			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
-			mav.addObject("niveis", Arrays.asList(NivelAprendizagem.values()));
+			mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
 			mav.addObject("itens", iDAO.consultarPorAtividade(atv));
 			mav.addObject("item", new ItemAtividade());

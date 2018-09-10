@@ -74,7 +74,19 @@ public class Atividade extends Entidade {
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="valor_aprendizagem", nullable=false)
-	private NivelAprendizagem nivel;
+	private NivelAprendizagemEnum nivel;
+	
+	@ManyToOne
+	@JoinColumn(name="nivel_aprendizagem_id")
+	private NivelAprendizagem nivelAprendizagem;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipo_submissao", nullable=false)
+	private TipoSubmissao tipoSubmissao;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="status_atividade", nullable=false)
+	private StatusAtividade statusAtividade;
 	
 	@Transient
 	private CommonsMultipartFile upload;
@@ -161,11 +173,11 @@ public class Atividade extends Entidade {
 		this.dataExpiracao = dataExpiracao;
 	}
 
-	public NivelAprendizagem getNivel() {
+	public NivelAprendizagemEnum getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(NivelAprendizagem nivel) {
+	public void setNivel(NivelAprendizagemEnum nivel) {
 		this.nivel = nivel;
 	}
 
@@ -177,6 +189,30 @@ public class Atividade extends Entidade {
 		this.upload = upload;
 	}
 	
+	public NivelAprendizagem getNivelAprendizagem() {
+		return nivelAprendizagem;
+	}
+
+	public void setNivelAprendizagem(NivelAprendizagem nivelAprendizagem) {
+		this.nivelAprendizagem = nivelAprendizagem;
+	}
+
+	public TipoSubmissao getTipoSubmissao() {
+		return tipoSubmissao;
+	}
+
+	public void setTipoSubmissao(TipoSubmissao tipoSubmissao) {
+		this.tipoSubmissao = tipoSubmissao;
+	}
+
+	public StatusAtividade getStatusAtividade() {
+		return statusAtividade;
+	}
+
+	public void setStatusAtividade(StatusAtividade statusAtividade) {
+		this.statusAtividade = statusAtividade;
+	}
+
 	//expirada retorna false, dentro do prazo retorna true
 	public boolean verificaExpiracao() {
 		if(this.dataExpiracao.isAfter(LocalDateTime.now()))

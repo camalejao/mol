@@ -9,7 +9,7 @@ import mol.model.user.*;
 import mol.model.*;
 import mol.model.curso.*;
 import mol.model.curso.atividade.Atividade;
-import mol.model.curso.atividade.NivelAprendizagem;
+import mol.model.curso.atividade.NivelAprendizagemEnum;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.Unidades;
 import mol.model.curso.disciplina.*;
@@ -268,7 +268,7 @@ public class Teste {
 		atv1.setPeso(1);
 		atv1.setStatus(StatusEntidade.ATIVO);
 		atv1.setUnidade(Unidades.UM);
-		atv1.setNivel(NivelAprendizagem.FACIL);
+		atv1.setNivel(NivelAprendizagemEnum.FACIL);
 		atv1.setDataExpiracao(LocalDateTime.of(2018, 07, 05, 22, 00));
 		atv1.setValorMaximo(4);
 		
@@ -278,7 +278,7 @@ public class Teste {
 		atv2.setPeso(2);
 		atv2.setStatus(StatusEntidade.ATIVO);
 		atv2.setUnidade(Unidades.DOIS);
-		atv2.setNivel(NivelAprendizagem.FACIL);
+		atv2.setNivel(NivelAprendizagemEnum.FACIL);
 		atv2.setDataExpiracao(LocalDateTime.of(2018, 07, 15, 19, 00));
 		atv2.setValorMaximo(2);
 		
