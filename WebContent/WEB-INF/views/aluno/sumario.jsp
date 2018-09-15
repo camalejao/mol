@@ -99,9 +99,9 @@
 										items="${t.materiaisDidaticos}" var="material">
 										<div class="mb-3 ml-4 pl-4">
 											<c:choose>
-												<c:when test="${material.tipo == 'SLIDE'}">
+												<c:when test="${material.tipo == 'ARQUIVO'}">
 													<h6>
-														<i class="fa fa-file-o"></i> <a href=""
+														<i class="fa fa-file-pdf-o"></i> <a href=""
 															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
 													</h6>
 													<form action="downloadMd" method="POST" id="${material.id}">
@@ -110,17 +110,7 @@
 													<hr class="mt-0 mb-0">
 													<p>${material.descricao}</p>
 												</c:when>
-												<c:when test="${material.tipo == 'APOSTILA'}">
-													<h6>
-														<i class="fa fa-book"></i> <a href=""
-															onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-													</h6>
-													<form action="downloadMd" method="POST" id="${material.id}">
-														<input type="hidden" name="md" value="${material.id}" />
-													</form>
-													<hr class="mt-0 mb-0">
-													<p>${material.descricao}</p>
-												</c:when>
+												
 												<c:when test="${material.tipo == 'LINK'}">
 													<h6>
 														<i class="fa fa-link"></i> <a href="${material.link}"
@@ -142,9 +132,9 @@
 											items="${subt.materiaisDidaticos}" var="material">
 											<div class="mb-3 ml-4 pl-4">
 												<c:choose>
-													<c:when test="${material.tipo == 'SLIDE'}">
+													<c:when test="${material.tipo == 'ARQUIVO'}">
 														<h6>
-															<i class="fa fa-file-o"></i> <a href=""
+															<i class="fa fa-file-pdf-o"></i> <a href=""
 																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
 														</h6>
 														<form action="downloadMd" method="POST"
@@ -154,18 +144,7 @@
 														<hr class="mt-0 mb-0">
 														<p>${material.descricao}</p>
 													</c:when>
-													<c:when test="${material.tipo == 'APOSTILA'}">
-														<h6>
-															<i class="fa fa-book"></i> <a href=""
-																onclick="downloadMd(${material.id},event)">${material.titulo}</a>
-														</h6>
-														<form action="downloadMd" method="POST"
-															id="${material.id}">
-															<input type="hidden" name="md" value="${material.id}" />
-														</form>
-														<hr class="mt-0 mb-0">
-														<p>${material.descricao}</p>
-													</c:when>
+													
 													<c:when test="${material.tipo == 'LINK'}">
 														<h6>
 															<i class="fa fa-link"></i> <a href="${material.link}"

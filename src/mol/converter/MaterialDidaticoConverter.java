@@ -10,11 +10,9 @@ public class MaterialDidaticoConverter implements Converter<String, MaterialDida
 	
 	@Override
 	public MaterialDidatico convert(String source) {
-		System.out.println(source);
 		Integer id = Integer.valueOf(source);
 		IMaterialDidaticoDAO mdDAO = DAOFactory.getMaterialDidaticoDAO();
 		MaterialDidatico md = mdDAO.consultarPorId(id);
-		System.out.println(md.getTitulo());
 		return md;
 	}
 }

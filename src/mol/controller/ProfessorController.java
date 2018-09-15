@@ -24,6 +24,7 @@ import mol.dao.IAlternativaDAO;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IItemAtividadeDAO;
 import mol.dao.IMaterialDidaticoDAO;
+import mol.dao.INivelAprendizagemDAO;
 import mol.dao.IRespostaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
@@ -33,8 +34,10 @@ import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemAtividade;
 import mol.model.curso.atividade.NivelAprendizagemEnum;
 import mol.model.curso.atividade.Resposta;
+import mol.model.curso.atividade.StatusAtividade;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
+import mol.model.curso.atividade.TipoSubmissao;
 import mol.model.curso.atividade.Unidades;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
@@ -55,12 +58,15 @@ public class ProfessorController {
 	public ModelAndView adicionarAtividade(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("professor/formAtividade");
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
-
+		INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
+		TurmaDisciplina td = tdDAO.consultarPorId(id);
 		mav.addObject("novaAtividade", new Atividade());
-		mav.addObject("turmaDisciplina", tdDAO.consultarPorId(id));
+		mav.addObject("turmaDisciplina", td);
 		mav.addObject("unidades", Arrays.asList(Unidades.values()));
-		mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
+		mav.addObject("niveis", naDAO.consultarPorTurmaDisciplina(td));
 		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+		mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
+		mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
 		mav.addObject("tiposItem", Arrays.asList(TipoItem.values()));
 
 		return mav;
@@ -72,11 +78,14 @@ public class ProfessorController {
 		if (bindingResult.hasErrors()) {
 			ModelAndView mav = new ModelAndView("professor/formAtividade");
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+			INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
 			mav.addObject("novaAtividade", atividade);
 			mav.addObject("turmaDisciplina", tdDAO.consultarPorId(atividade.getTurmaDisciplina().getId()));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
-			mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
+			mav.addObject("niveis", naDAO.consultarPorTurmaDisciplina(atividade.getTurmaDisciplina()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+			mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
+			mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
 
 			return mav;
 		} else {
@@ -103,14 +112,17 @@ public class ProfessorController {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 			IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
+			INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
 			Professor p = (Professor) session.getAttribute("usuarioLogado");
 			Atividade atv = aDAO.consultarPorId(id);
 			mav = new ModelAndView("professor/edicaoAtividade");
 			mav.addObject("atividade", atv);
 			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
-			mav.addObject("niveis", Arrays.asList(NivelAprendizagemEnum.values()));
+			mav.addObject("niveis",  naDAO.consultarPorTurmaDisciplina(atv.getTurmaDisciplina()));
 			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+			mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
+			mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
 			mav.addObject("itens", iDAO.consultarPorAtividade(atv));
 			mav.addObject("item", new ItemAtividade());
 			mav.addObject("alternativa", new Alternativa());
@@ -131,7 +143,7 @@ public class ProfessorController {
 			antiga.setTitulo(atividade.getTitulo());
 			antiga.setDescricao(atividade.getDescricao());
 			antiga.setValorMaximo(atividade.getValorMaximo());
-			antiga.setPeso(atividade.getPeso());
+			//antiga.setPeso(atividade.getPeso());
 			antiga.setUnidade(atividade.getUnidade());
 			antiga.setNivel(atividade.getNivel());
 			antiga.setStatus(atividade.getStatus());
@@ -164,8 +176,9 @@ public class ProfessorController {
 		ModelAndView mav = new ModelAndView("professor/listaAtividades");
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
-		mav.addObject("atividades", aDAO.consultarPorIdTurmaDisciplina(id));
-		mav.addObject("td", tdDAO.consultarPorId(id));
+		TurmaDisciplina td =  tdDAO.consultarPorId(id);
+		mav.addObject("atividades", aDAO.consultarPorTurmaDisciplina(td));
+		mav.addObject("td", td);
 		return mav;
 	}
 
@@ -300,10 +313,17 @@ public class ProfessorController {
 	public String addItemDiscursivo(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
 		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		item.setUsuarioLogado(u);
 		item.setTipoItem(TipoItem.DISCURSIVO);
 		item.setStatus(StatusEntidade.ATIVO);
 		iaDAO.inserir(item);
+		Atividade atv = item.getAtividade();
+		atv.setValorMaximo(0);
+		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
+			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
+		}
+		atvDAO.alterar(atv);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
@@ -311,6 +331,7 @@ public class ProfessorController {
 	public String addItemME(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
 		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		item.setUsuarioLogado(u);
 		item.setTipoItem(TipoItem.MULTIPLA_ESCOLHA);
 		item.setStatus(StatusEntidade.ATIVO);
@@ -320,26 +341,46 @@ public class ProfessorController {
 			a.setItem(item);
 		}
 		iaDAO.inserir(item);
+		Atividade atv = item.getAtividade();
+		atv.setValorMaximo(0);
+		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
+			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
+		}
+		atvDAO.alterar(atv);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
 	@RequestMapping("editarItem")
 	public String editaItemDiscursivo(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		ItemAtividade itemAntigo = iaDAO.consultarPorId(item.getId());
 		itemAntigo.setEnunciado(item.getEnunciado());
 		itemAntigo.setValor(item.getValor());
 		iaDAO.alterar(itemAntigo);
+		Atividade atv = item.getAtividade();
+		atv.setValorMaximo(0);
+		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
+			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
+		}
+		atvDAO.alterar(atv);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
 	@RequestMapping("editarItemME")
 	public String editaItemME(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		ItemAtividade antigo = iaDAO.consultarPorId(item.getId());
 		antigo.setEnunciado(item.getEnunciado());
 		antigo.setValor(item.getValor());
 		iaDAO.alterar(antigo);
+		Atividade atv = item.getAtividade();
+		atv.setValorMaximo(0);
+		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
+			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
+		}
+		atvDAO.alterar(atv);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
@@ -347,7 +388,14 @@ public class ProfessorController {
 	@RequestMapping("excluirItem")
 	public String excluiItem(@RequestParam("item") ItemAtividade item) {
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
+		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		iaDAO.remover(item);
+		Atividade atv = item.getAtividade();
+		atv.setValorMaximo(0);
+		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
+			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
+		}
+		atvDAO.alterar(atv);
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	

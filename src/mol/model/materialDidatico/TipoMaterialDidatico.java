@@ -1,7 +1,7 @@
 package mol.model.materialDidatico;
 
 public enum TipoMaterialDidatico {
-	SLIDE("Slide"), APOSTILA("Apostila"), LINK("Link");
+	ARQUIVO("Arquivo"), LINK("Link");
 	
 	private String tipoMaterial;
 	

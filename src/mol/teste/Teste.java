@@ -256,7 +256,7 @@ public class Teste {
 		
 		MaterialDidatico md = new MaterialDidatico();
 		md.setTitulo("slide if/else");
-		md.setTipo(TipoMaterialDidatico.SLIDE);
+		md.setTipo(TipoMaterialDidatico.ARQUIVO);
 		md.setDescricao("Aula sobre estruturas de decisão");
 		md.setStatus(StatusEntidade.ATIVO);
 		List<MaterialDidatico> lmd = new ArrayList<>();
@@ -265,7 +265,7 @@ public class Teste {
 		Atividade atv1 = new Atividade();
 		atv1.setTurmaDisciplina(td1);
 		atv1.setTitulo("Lista de Excercicios em Python - 1");
-		atv1.setPeso(1);
+		//atv1.setPeso(1);
 		atv1.setStatus(StatusEntidade.ATIVO);
 		atv1.setUnidade(Unidades.UM);
 		atv1.setNivel(NivelAprendizagemEnum.FACIL);
@@ -275,7 +275,7 @@ public class Teste {
 		Atividade atv2 = new Atividade();
 		atv2.setTurmaDisciplina(td3);
 		atv2.setTitulo("Pesquisa - protocolos de redes");
-		atv2.setPeso(2);
+		//atv2.setPeso(2);
 		atv2.setStatus(StatusEntidade.ATIVO);
 		atv2.setUnidade(Unidades.DOIS);
 		atv2.setNivel(NivelAprendizagemEnum.FACIL);
