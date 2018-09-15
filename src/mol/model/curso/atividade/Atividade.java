@@ -38,17 +38,17 @@ public class Atividade extends Entidade {
 	@Column(length=40, nullable=false)
 	private String titulo;
 	
-	@DecimalMin("0.25") @DecimalMax("10")
-	@Column(name="valor_maximo", nullable=false)
+	//@DecimalMin("0.25") @DecimalMax("10")
+	//@Column(name="valor_maximo", nullable=false)
 	private double valorMaximo;
 	
 	@ManyToOne
 	@JoinColumn(name="turma_disciplina_id")
 	private TurmaDisciplina turmaDisciplina;
 	
-	@Min(1) @Max(10)
-	@Column(nullable=false)
-	private int peso;
+	//@Min(1) @Max(10)
+	//@Column(nullable=false)
+	//private int peso;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Unidades unidade;
@@ -73,7 +73,7 @@ public class Atividade extends Entidade {
 	private LocalDateTime dataExpiracao;
 	
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name="valor_aprendizagem", nullable=false)
+	@Column(name="valor_aprendizagem")
 	private NivelAprendizagemEnum nivel;
 	
 	@ManyToOne
@@ -81,11 +81,11 @@ public class Atividade extends Entidade {
 	private NivelAprendizagem nivelAprendizagem;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="tipo_submissao", nullable=false)
+	@Column(name="tipo_submissao")
 	private TipoSubmissao tipoSubmissao;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name="status_atividade", nullable=false)
+	@Column(name="status_atividade")
 	private StatusAtividade statusAtividade;
 	
 	@Transient
@@ -117,13 +117,13 @@ public class Atividade extends Entidade {
 		this.turmaDisciplina = turmaDisciplina;
 	}
 
-	public int getPeso() {
+	/*public int getPeso() {
 		return peso;
 	}
 
 	public void setPeso(int peso) {
 		this.peso = peso;
-	}
+	} */
 
 	public Unidades getUnidade() {
 		return unidade;

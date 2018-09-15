@@ -134,11 +134,11 @@
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
-											<label for="selectNivel">Nível de Aprendizagem</label>
-											<form:select path="nivel" class="form-control"
-												id="selectNivel" value="${atividade.nivel.nivel}">
-												<c:forEach items="${niveis}" var="n">
-													<form:option value="${n}">${n.nivel}</form:option>
+											<label for="selectNivelAprendizagem">Nível de Aprendizagem</label>
+											<form:select path="nivelAprendizagem" value="${atividade.nivelAprendizagem}"
+												class="form-control" id="selectNivelAprendizagem">
+												<c:forEach items="${niveis}" var="n" >
+													<form:option value="${n.id}">${n.titulo}</form:option>
 												</c:forEach>
 											</form:select>
 										</div>
@@ -162,36 +162,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-2">
-											<label for="inputvalorMaximo">Valor</label>
-											<form:input path="valorMaximo"
-												value="${atividade.valorMaximo}" class="form-control"
-												id="inputvalorMaximo" type="number" step="0.25" min="0.25"
-												max="10" aria-describedby="valorMaximoHelp"
-												placeholder="Ex: 5" />
-										</div>
-										<div class="col-md-2">
-											<label for="inputPeso">Peso</label>
-											<c:choose>
-												<c:when
-													test="${atividade.turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
-													<form:input readonly="true" path="peso"
-														value="${atividade.peso}" class="form-control"
-														id="inputPeso" type="number" min="1" max="10"
-														aria-describedby="pesoHelp" placeholder="Ex: 2" />
-												</c:when>
-												<c:otherwise>
-													<form:input readonly="false" path="peso"
-														value="${atividade.peso}" class="form-control"
-														id="inputPeso" type="number" min="1" max="10"
-														aria-describedby="pesoHelp" placeholder="Ex: 2" />
-												</c:otherwise>
-											</c:choose>
-										</div>
-									</div>
-								</div>
+								<h5>Valor: ${atividade.valorMaximo}</h5>
 								<div class="form-group">
 									<label for="inputDescricao">Descrição</label>
 									<form:textarea value="${atividade.descricao}"
@@ -208,6 +179,7 @@
 						</div>
 					</div>
 				</div>
+				<c:if test="${atividade.tipoSubmissao == 'ITENS'}">
 				<div class="col-6">
 					<div class="card mb-3">
 						<div class="card-header">
@@ -218,18 +190,19 @@
 								<div>
 									<a class="btn btn-primary" href="" data-toggle="modal"
 										data-target="#itemDiscursivoModal"
-										onclick="itemDiscursivo(${atividade.id},event)">Adicionar
-										Item Discursivo</a> <a class="btn btn-primary" href=""
+										onclick="itemDiscursivo(${atividade.id},event)"><i
+											class="fa fa-plus-circle"></i> Item Discursivo</a>
+										<a class="btn btn-primary" href=""
 										data-toggle="modal" data-target="#itemMEModal"
-										onclick="itemMultiplaEscolha(${atividade.id},event)">Adicionar
-										Item de Múltipla Escolha</a>
+										onclick="itemMultiplaEscolha(${atividade.id},event)"><i
+										class="fa fa-plus-circle"></i> Item de Múltipla Escolha</a>
 								</div>
 							</li>
 							<c:forEach items="${itens}" var="item" varStatus="index">
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-10">
-											<h5>${index.index + 1}.${item.enunciado}</h5>
+											<h5>${index.index + 1}.${item.enunciado} (${item.valor})</h5>
 										</div>
 										<c:choose>
 											<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
@@ -303,6 +276,7 @@
 						</ul>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</div>
 		<!-- /.container-fluid-->

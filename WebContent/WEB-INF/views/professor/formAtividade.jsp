@@ -128,13 +128,14 @@
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
-											<label for="selectNivel">Nível de Aprendizagem</label>
-											<form:select path="nivel" class="form-control"
-												id="selectNivel">
-												<c:forEach items="${niveis}" var="n">
-													<form:option value="${n}">${n.nivel}</form:option>
+											<label for="selectNivelAprendizagem">Nível de Aprendizagem</label>
+											<form:select path="nivelAprendizagem"
+												class="form-control" id="selectNivelAprendizagem">
+												<c:forEach items="${niveis}" var="n" >
+													<form:option value="${n.id}">${n.titulo}</form:option>
 												</c:forEach>
 											</form:select>
+											<form:input hidden="true" path="nivel" class="form-control" value="1" />
 										</div>
 										<div class="col-md-2">
 											<label for="selectUnidade">Unidade</label>
@@ -156,44 +157,34 @@
 										</div>
 									</div>
 								</div>
+								<form:select hidden="true" path="turmaDisciplina"
+									class="form-control" id="selectTurmaDisciplina">
+									<form:option value="${turmaDisciplina.id}">${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.sigla}</form:option>
+								</form:select>
+								
 								<div class="form-group">
 									<div class="form-row">
-										<div class="col-md-6" hidden>
-											<label for="selectTurmaDisciplina">Turma/Disciplina</label>
-											<form:select hidden="true" path="turmaDisciplina"
-												class="form-control" id="selectTurmaDisciplina">
-												<form:option value="${turmaDisciplina.id}">${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.sigla}</form:option>
+										<div class="col-md-6">
+											<label for="selectTipoSubmissao">Tipo de Submissão</label>
+											<form:select path="tipoSubmissao"
+												class="form-control" id="selectTipoSubmissao">
+												<c:forEach items="${tipoSubmissao}" var="ts" >
+													<form:option value="${ts}">${ts.tipoSubmissao}</form:option>
+												</c:forEach>
 											</form:select>
 										</div>
-										<div class="col-md-2">
-											<label for="inputvalorMaximo">Valor</label>
-											<form:input path="valorMaximo" value="1" class="form-control"
-												id="inputvalorMaximo" type="number" step="0.25" min="0.25"
-												max="10" aria-describedby="valorMaximoHelp"
-												placeholder="Ex: 5" />
-											<form:errors path="valorMaximo" cssClass="text-danger" />
-										</div>
-										<div class="col-md-2">
-											<label for="inputPeso">Peso</label>
-											<c:choose>
-												<c:when
-													test="${turmaDisciplina.tipoCalculo.tipoCalculo != 'Média Ponderada'}">
-													<form:input readonly="true" path="peso" value="1"
-														class="form-control" id="inputPeso" type="number" min="1"
-														max="10" aria-describedby="pesoHelp" placeholder="Ex: 2" />
-													<form:errors path="peso" cssClass="text-danger" />
-												</c:when>
-												<c:otherwise>
-													<form:input readonly="false" path="peso" value="1"
-														class="form-control" id="inputPeso" type="number" min="1"
-														max="10" aria-describedby="pesoHelp" placeholder="Ex: 2" />
-													<form:errors path="peso" cssClass="text-danger" />
-												</c:otherwise>
-											</c:choose>
+										<div class="col-md-6">
+											<label for="selectStatusAtividade">Status da Atividade</label>
+											<form:select path="statusAtividade"
+												class="form-control" id="selectStatusAtividade">
+												<c:forEach items="${statusAtividade}" var="sa" >
+													<form:option value="${sa}">${sa.statusAtividade}</form:option>
+												</c:forEach>
+											</form:select>
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
+								<div id="divUploadArquivo" class="form-group">
 									<div class="form-row">
 										<div class="col-md-12">
 											<label for="uploadArquivo">Selecione o arquivo</label>
@@ -278,6 +269,22 @@
 					sideBySide : true
 				});
 
+			});
+		</script>
+		<script>
+			$(document).ready(function(){
+				var tipo = $("#selectTipoSubmissao").val();
+				if(tipo == 'ARQUIVO')
+					$("#divUploadArquivo").show();
+				else if(tipo == 'ITENS')
+					$("#divUploadArquivo").hide();
+			});
+			$("#selectTipoSubmissao").change(function(){
+				var tipo = $("#selectTipoSubmissao").val();
+				if(tipo == 'ARQUIVO')
+					$("#divUploadArquivo").show();
+				else if(tipo == 'ITENS')
+					$("#divUploadArquivo").hide();
 			});
 		</script>
 	</div>
