@@ -12,15 +12,17 @@ import mol.model.user.Aluno;
 public class ItemResposta extends Entidade {
 	
 	@ManyToOne
-	Aluno aluno;
+	private Aluno aluno;
 		
 	@ManyToOne
-	ItemAtividade item;
+	private ItemAtividade item;
 	
-	String texto;
+	private String texto;
 	
 	@ManyToOne
-	Alternativa alternativa;
+	private Alternativa alternativa;
+	
+	private double nota;
 	
 	boolean enviado;
 	
@@ -56,6 +58,14 @@ public class ItemResposta extends Entidade {
 
 	public void setAlternativa(Alternativa alternativa) {
 		this.alternativa = alternativa;
+	}
+
+	public double getNota() {
+		return nota;
+	}
+
+	public void setNota(double nota) {
+		this.nota = nota;
 	}
 
 	public boolean isEnviado() {
