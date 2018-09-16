@@ -32,7 +32,6 @@ import mol.model.StatusEntidade;
 import mol.model.curso.atividade.Alternativa;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemAtividade;
-import mol.model.curso.atividade.NivelAprendizagemEnum;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusAtividade;
 import mol.model.curso.atividade.StatusResposta;
@@ -94,11 +93,10 @@ public class ProfessorController {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 
 			atividade.setUsuarioLogado(u);
-			atividade.setStatus(StatusEntidade.ATIVO);
 			atividade.setDocumento(atividade.getUpload().getBytes());
 			atividade.setTipoDocumento(atividade.getUpload().getContentType());
 			atividade.setNomeDocumento(atividade.getUpload().getOriginalFilename());
-
+			
 			aDAO.inserir(atividade);
 		}
 		ModelAndView mav = new ModelAndView("redirect:listarAtividades-" + atividade.getTurmaDisciplina().getId());
@@ -145,7 +143,6 @@ public class ProfessorController {
 			antiga.setValorMaximo(atividade.getValorMaximo());
 			//antiga.setPeso(atividade.getPeso());
 			antiga.setUnidade(atividade.getUnidade());
-			antiga.setNivel(atividade.getNivel());
 			antiga.setStatus(atividade.getStatus());
 			antiga.setDataExpiracao(atividade.getDataExpiracao());
 			antiga.setTurmaDisciplina(tdDAO.consultarPorId(atividade.getTurmaDisciplina().getId()));

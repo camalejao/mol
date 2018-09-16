@@ -135,7 +135,6 @@
 													<form:option value="${n.id}">${n.titulo}</form:option>
 												</c:forEach>
 											</form:select>
-											<form:input hidden="true" path="nivel" class="form-control" value="1" />
 										</div>
 										<div class="col-md-2">
 											<label for="selectUnidade">Unidade</label>
@@ -146,6 +145,7 @@
 												</c:forEach>
 											</form:select>
 										</div>
+										<form:input path="valorMaximo" value="1" hidden="true" />
 										<div class="col-md-4">
 											<label for="selectStatus">Status</label>
 											<form:select path="status" class="form-control"
@@ -187,7 +187,7 @@
 								<div id="divUploadArquivo" class="form-group">
 									<div class="form-row">
 										<div class="col-md-12">
-											<label for="uploadArquivo">Selecione o arquivo</label>
+											<label for="uploadArquivo">Arquivo (opcional)</label>
 											<form:input class="form-control-file" path="upload"
 												id="uploadArquivo" type="file" />
 										</div>
@@ -271,7 +271,7 @@
 
 			});
 		</script>
-		<script>
+		<!--<script>
 			$(document).ready(function(){
 				var tipo = $("#selectTipoSubmissao").val();
 				if(tipo == 'ARQUIVO')
@@ -286,7 +286,7 @@
 				else if(tipo == 'ITENS')
 					$("#divUploadArquivo").hide();
 			});
-		</script>
+		</script>-->
 	</div>
 </body>
 </html>

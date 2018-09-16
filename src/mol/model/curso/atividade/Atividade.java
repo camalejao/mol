@@ -38,17 +38,13 @@ public class Atividade extends Entidade {
 	@Column(length=40, nullable=false)
 	private String titulo;
 	
-	//@DecimalMin("0.25") @DecimalMax("10")
-	//@Column(name="valor_maximo", nullable=false)
+	@DecimalMin("0.25")
+	@Column(name="valor_maximo", nullable=false)
 	private double valorMaximo;
 	
 	@ManyToOne
 	@JoinColumn(name="turma_disciplina_id")
 	private TurmaDisciplina turmaDisciplina;
-	
-	//@Min(1) @Max(10)
-	//@Column(nullable=false)
-	//private int peso;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Unidades unidade;
@@ -71,10 +67,6 @@ public class Atividade extends Entidade {
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
 	@Column(name="data_expiracao", nullable=false)
 	private LocalDateTime dataExpiracao;
-	
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name="valor_aprendizagem")
-	private NivelAprendizagemEnum nivel;
 	
 	@ManyToOne
 	@JoinColumn(name="nivel_aprendizagem_id")
@@ -116,14 +108,6 @@ public class Atividade extends Entidade {
 	public void setTurmaDisciplina(TurmaDisciplina turmaDisciplina) {
 		this.turmaDisciplina = turmaDisciplina;
 	}
-
-	/*public int getPeso() {
-		return peso;
-	}
-
-	public void setPeso(int peso) {
-		this.peso = peso;
-	} */
 
 	public Unidades getUnidade() {
 		return unidade;
@@ -171,14 +155,6 @@ public class Atividade extends Entidade {
 
 	public void setDataExpiracao(LocalDateTime dataExpiracao) {
 		this.dataExpiracao = dataExpiracao;
-	}
-
-	public NivelAprendizagemEnum getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(NivelAprendizagemEnum nivel) {
-		this.nivel = nivel;
 	}
 
 	public CommonsMultipartFile getUpload() {

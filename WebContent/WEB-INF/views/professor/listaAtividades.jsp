@@ -134,7 +134,7 @@
 										</c:choose>
 										<td>${atividade.status}</td>
 										<td>${atividade.unidade.unidade}</td>
-										<td>${atividade.nivel.nivel}</td>
+										<td>nivel</td>
 										<fmt:parseDate value="${atividade.dataExpiracao}"
 											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
 										<td><fmt:formatDate value="${parsedDateTime}"
