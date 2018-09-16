@@ -1,4 +1,4 @@
-package mol.teste;
+package mol.util;
 
 import java.util.Properties;
 
@@ -35,10 +35,11 @@ public class MailSender {
 	public static void enviarEmail(String destino, String assunto, String mensagem) {
 		try {
 			String remetente = "monitoriaonline.ifal@gmail.com";
+			String nome = "Monitoria On-Line IFAL";
 			Message message = new MimeMessage(criarSessionEmail());
 			Address[] toAddress = InternetAddress.parse(destino.trim().toLowerCase());
 			
-			message.setFrom(new InternetAddress(remetente));
+			message.setFrom(new InternetAddress(remetente, nome));
 			message.setRecipients(Message.RecipientType.TO, toAddress);
 	        message.setSubject(assunto);
 	        message.setContent(mensagem, "text/html");

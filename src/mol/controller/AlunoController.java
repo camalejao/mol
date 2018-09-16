@@ -35,7 +35,7 @@ import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
 import mol.model.user.Usuario;
-import mol.teste.MailSender;
+import mol.util.MailSender;
 
 @Controller
 public class AlunoController {
