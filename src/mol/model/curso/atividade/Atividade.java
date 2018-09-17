@@ -38,7 +38,6 @@ public class Atividade extends Entidade {
 	@Column(length=40, nullable=false)
 	private String titulo;
 	
-	@DecimalMin("0.25")
 	@Column(name="valor_maximo", nullable=false)
 	private double valorMaximo;
 	

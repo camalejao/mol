@@ -84,13 +84,14 @@ public class ProfessorAtividadeController {
 			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 
 			atividade.setUsuarioLogado(u);
+			atividade.setStatusAtividade(StatusAtividade.CONSTRUCAO);
 			atividade.setDocumento(atividade.getUpload().getBytes());
 			atividade.setTipoDocumento(atividade.getUpload().getContentType());
 			atividade.setNomeDocumento(atividade.getUpload().getOriginalFilename());
 			
 			aDAO.inserir(atividade);
 		}
-		ModelAndView mav = new ModelAndView("redirect:listarAtividades-" + atividade.getTurmaDisciplina().getId());
+		ModelAndView mav = new ModelAndView("redirect:editarAtividade-" + atividade.getId());
 		return mav;
 	}
 
@@ -104,7 +105,10 @@ public class ProfessorAtividadeController {
 			INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
 			Professor p = (Professor) session.getAttribute("usuarioLogado");
 			Atividade atv = aDAO.consultarPorId(id);
-			mav = new ModelAndView("professor/edicaoAtividade");
+			if(atv.getStatusAtividade() == StatusAtividade.CONSTRUCAO)
+				mav = new ModelAndView("professor/edicaoAtividade");
+			else
+				mav = new ModelAndView("professor/atividadeLiberada");
 			mav.addObject("atividade", atv);
 			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
@@ -150,4 +154,23 @@ public class ProfessorAtividadeController {
 		return mav;
 	}
 	
+	@RequestMapping("valorArquivo")
+	public String defineValorArquivo(double valor, Atividade atividade) {
+		if(valor > 0) {
+			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+			atividade.setValorMaximo(valor);
+			aDAO.alterar(atividade);
+		}
+		return "redirect:editarAtividade-"+atividade.getId();
+	}
+	
+	@RequestMapping("liberarAtividade")
+	public String liberaAtividade(Atividade atividade) {
+		if(atividade.getValorMaximo() > 0) {
+			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+			atividade.setStatusAtividade(StatusAtividade.LIBERADA);
+			aDAO.alterar(atividade);
+		}
+		return "redirect:editarAtividade-"+atividade.getId();
+	}
 }

@@ -3,13 +3,13 @@ package mol.model.curso.atividade;
 public enum TipoSubmissao {
 	ARQUIVO("Envio de Arquivo"), ITENS("Itens Online");
 	
-	private String tipo;
+	private String tipoSubmissao;
 	
 	TipoSubmissao(String tipo){
-		this.tipo = tipo;
+		this.tipoSubmissao = tipo;
 	}
 	
 	public String getTipoSubmissao() {
-		return tipo;
+		return tipoSubmissao;
 	}
 }

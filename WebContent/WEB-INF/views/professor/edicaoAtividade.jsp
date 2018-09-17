@@ -91,191 +91,251 @@
 						<div class="card-header">
 							<i class="fa fa-file-text"></i> Informações Gerais
 						</div>
-						<div class="card-body">
-							<form:form modelAttribute="atividade"
-								action="editaAtividade-${atividade.id}" method="POST"
-								enctype="multipart/form-data">
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-12">
-											<label for="inputTitulo">Título</label>
-											<form:input path="titulo" class="form-control"
-												id="inputTitulo" type="text" aria-describedby="tituloHelp"
-												value="${atividade.titulo}"
-												placeholder="Título da Atividade" />
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<form method="POST" action="liberarAtividade"
+									onSubmit="return confirm('Após ser liberada para resposta, esta atividade não poderá mais ser alterada. Prosseguir?');">
+									<input hidden name="atividade" value="${atividade.id}" />
+									<label for="statusAtividade">Status da Atividade
+										<span data-toggle="tooltip" data-placement="top" title="Em Construção: Editável, 
+											não disponível para os alunos; Liberada para Resposta: Não editável, alunos já podem responder.">
+											<i class="fa fa-question-circle" aria-hidden="true"></i>
+										</span>
+									</label>
+									<div class="form-group">
+										<div class="card border-secondary mb-3">
+											<div class="card-body">
+												<h6>${atividade.statusAtividade.statusAtividade}</h6>
+											</div>
 										</div>
-
+										<c:choose>
+											<c:when test="${atividade.valorMaximo > 0}">
+												<button class="btn btn-sm btn-primary">Liberar para Resposta</button>
+											</c:when>
+											<c:otherwise>
+												<button disabled class="btn btn-sm btn-primary">Liberar para Resposta</button>
+												<span data-toggle="tooltip" data-placement="top" title="Para liberar uma atividade,
+													é necessário que o seu valor seja maior que zero. Por favor cadastre itens ou defina o valor
+													da submissão por arquivo.">
+													<i class="fa fa-question-circle" aria-hidden="true"></i>
+												</span>
+											</c:otherwise>
+										</c:choose>
 									</div>
-								</div>
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-6" hidden>
-											<label for="inputTurmaDisciplina">Turma/Disciplina</label>
-											<form:input id="inputTurmaDisciplina" path="turmaDisciplina"
-												value="${atividade.turmaDisciplina.id}" />
+								</form>
+							</li>
+							<li class="list-group-item">
+								<form:form modelAttribute="atividade"
+									action="editaAtividade-${atividade.id}" method="POST"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<div class="form-row">
+											<div class="col-md-12">
+												<label for="inputTitulo">Título</label>
+												<form:input path="titulo" class="form-control"
+													id="inputTitulo" type="text" aria-describedby="tituloHelp"
+													value="${atividade.titulo}"
+													placeholder="Título da Atividade" />
+											</div>
+	
 										</div>
-										<div class="col-md-12">
-											<label for="datetimepicker">Data e Hora de Expiração</label>
-											<div class="input-group date" id="datetimepicker"
-												data-target-input="nearest">
-												<form:input class="form-control" path="dataExpiracao"
-													id="datetimepicker" data-target="#datetimepicker"
-													type="text" placeholder="dd/MM/aaaa HH:mm" />
-												<div class="input-group-append"
-													data-target="#datetimepicker" data-toggle="datetimepicker">
-													<div class="input-group-text">
-														<i class="fa fa-calendar"></i>
+									</div>
+									<div class="form-group">
+										<div class="form-row">
+											<div class="col-md-6" hidden>
+												<label for="inputTurmaDisciplina">Turma/Disciplina</label>
+												<form:input id="inputTurmaDisciplina" path="turmaDisciplina"
+													value="${atividade.turmaDisciplina.id}" />
+											</div>
+											<div class="col-md-12">
+												<label for="datetimepicker">Data e Hora de Expiração</label>
+												<div class="input-group date" id="datetimepicker"
+													data-target-input="nearest">
+													<form:input class="form-control" path="dataExpiracao"
+														id="datetimepicker" data-target="#datetimepicker"
+														type="text" placeholder="dd/MM/aaaa HH:mm" />
+													<div class="input-group-append"
+														data-target="#datetimepicker" data-toggle="datetimepicker">
+														<div class="input-group-text">
+															<i class="fa fa-calendar"></i>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-6">
-											<label for="selectNivelAprendizagem">Nível de Aprendizagem</label>
-											<form:select path="nivelAprendizagem" value="${atividade.nivelAprendizagem}"
-												class="form-control" id="selectNivelAprendizagem">
-												<c:forEach items="${niveis}" var="n" >
-													<form:option value="${n.id}">${n.titulo}</form:option>
-												</c:forEach>
-											</form:select>
-										</div>
-										<div class="col-md-2">
-											<label for="selectUnidade">Unidade</label>
-											<form:select path="unidade" class="form-control"
-												id="selectUnidade" value="${atividade.unidade}">
-												<c:forEach items="${unidades}" var="unidade">
-													<form:option value="${unidade}">${unidade.unidade}</form:option>
-												</c:forEach>
-											</form:select>
-										</div>
-										<div class="col-md-4">
-											<label for="selectStatus">Status</label>
-											<form:select path="status" class="form-control"
-												id="selectStatus" value="${atividade.status}">
-												<c:forEach items="${status}" var="s">
-													<form:option value="${s}">${s}</form:option>
-												</c:forEach>
-											</form:select>
+									<div class="form-group">
+										<label for="inputDescricao">Descrição</label>
+										<form:textarea value="${atividade.descricao}"
+											class="form-control" path="descricao" id="inputDescricao"
+											rows="3" type="text" />
+									</div>
+									<div class="form-group">
+										<label for="uploadArquivo">Arquivo Anexo</label>
+										<form:input class="form-control-file" path="upload"
+											id="uploadArquivo" type="file" />
+									</div>
+									<div class="form-group">
+										<div class="form-row">
+											<div class="col-md-6">
+												<label for="inputNivelAprendizagem">Nível de Aprendizagem</label>
+												<input class="form-control" disabled id="inputNivelAprendizagem"
+												value="${atividade.nivelAprendizagem.titulo}" />
+											</div>
+											<div class="col-md-2">
+												<label for="selectUnidade">Unidade</label>
+												<form:select path="unidade" class="form-control"
+													id="selectUnidade" value="${atividade.unidade}">
+													<c:forEach items="${unidades}" var="unidade">
+														<form:option value="${unidade}">${unidade.unidade}</form:option>
+													</c:forEach>
+												</form:select>
+											</div>
+											<div class="col-md-4">
+												<label for="selectStatus">Status</label>
+												<form:select path="status" class="form-control"
+													id="selectStatus" value="${atividade.status}">
+													<c:forEach items="${status}" var="s">
+														<form:option value="${s}">${s}</form:option>
+													</c:forEach>
+												</form:select>
+											</div>
 										</div>
 									</div>
-								</div>
-								<h5>Valor: ${atividade.valorMaximo}</h5>
-								<div class="form-group">
-									<label for="inputDescricao">Descrição</label>
-									<form:textarea value="${atividade.descricao}"
-										class="form-control" path="descricao" id="inputDescricao"
-										rows="3" type="text" />
-								</div>
-								<div class="form-group">
-									<label for="uploadArquivo">Selecione o arquivo</label>
-									<form:input class="form-control-file" path="upload"
-										id="uploadArquivo" type="file" />
-								</div>
-								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
-							</form:form>
-						</div>
-					</div>
-				</div>
-				<c:if test="${atividade.tipoSubmissao == 'ITENS'}">
-				<div class="col-6">
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fa fa-file-text"></i> Itens
-						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">
-								<div>
-									<a class="btn btn-primary" href="" data-toggle="modal"
-										data-target="#itemDiscursivoModal"
-										onclick="itemDiscursivo(${atividade.id},event)"><i
-											class="fa fa-plus-circle"></i> Item Discursivo</a>
-										<a class="btn btn-primary" href=""
-										data-toggle="modal" data-target="#itemMEModal"
-										onclick="itemMultiplaEscolha(${atividade.id},event)"><i
-										class="fa fa-plus-circle"></i> Item de Múltipla Escolha</a>
-								</div>
+									<div>
+										<label for="selectTipoSubmissao">Tipo de Submissão
+											<span data-toggle="tooltip" data-placement="top" title="Arquivo: o aluno enviará a resposta via arquivo;
+												Itens Online: o aluno responderá questões cadastradas no sistema pelo professor.">
+												<i class="fa fa-question-circle" aria-hidden="true"></i>
+											</span>
+										</label>
+										<input class="form-control mb-3" disabled id="inputTipoSubmissao"
+												value="${atividade.tipoSubmissao.tipoSubmissao}" />
+									</div>
+									<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+								</form:form>
 							</li>
-							<c:forEach items="${itens}" var="item" varStatus="index">
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-10">
-											<h5>${index.index + 1}.${item.enunciado} (${item.valor})</h5>
-										</div>
-										<c:choose>
-											<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
-												<div class="col-md-2">
-													<div class="row">
-														<button class="btn btn-sm btn-secondary"
-															data-toggle="modal" data-target="#editaItemMEModal"
-															onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
-															<i class="fa fa-pencil-square" aria-hidden="true"></i>
-														</button>
-														&nbsp;
-														<form action="excluirItem" method="POST"
-															onsubmit="return confirm('Confirma a exclusão?');">
-															<input name="item" value="${item.id}" type="text"
-																hidden="true" />
-															<button class="btn btn-sm btn-danger" type="submit">
-																<i class="fa fa-trash" aria-hidden="true"></i>
-															</button>
-														</form>
-													</div>
-												</div>
-											</c:when>
-											<c:otherwise>
-												<div class="col-md-2">
-													<div class="row">
-														<button class="btn btn-sm btn-secondary"
-															data-toggle="modal" data-target="#editaIDModal"
-															onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
-															<i class="fa fa-pencil-square" aria-hidden="true"></i>
-														</button>
-														&nbsp;
-														<form action="excluirItem" method="POST"
-															onsubmit="return confirm('Confirma a exclusão?');">
-															<input name="item" value="${item.id}" type="text"
-																hidden="true" />
-															<button class="btn btn-sm btn-danger" type="submit">
-																<i class="fa fa-trash" aria-hidden="true"></i>
-															</button>
-														</form>
-													</div>
-												</div>
-											</c:otherwise>
-										</c:choose>
-									</div> <c:choose>
-										<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
-											<c:forEach items="${item.alternativas}" var="alt"
-												varStatus="index2">
-												<h6>
-													<c:choose>
-														<c:when test="${index2.index == 0}">A)</c:when>
-														<c:when test="${index2.index == 1}">B)</c:when>
-														<c:when test="${index2.index == 2}">C)</c:when>
-														<c:when test="${index2.index == 3}">D)</c:when>
-														<c:when test="${index2.index == 4}">E)</c:when>
-													</c:choose>
-													<c:out value="${alt.enunciado}" />
-													<c:if test="${alt.correta == 'true'}">(correta)</c:if>
-													<button class="btn btn-sm btn-link text-secondary" data-toggle="modal"
-														data-target="#editaAlternativaModal"
-														onclick="editaAlternativa(${item.id},${alt.id},'${alt.enunciado}','${alt.correta}',event)">
-														<i class="fa fa-pencil-square" aria-hidden="true"></i></button>
-												</h6>
-											</c:forEach>
-
-										</c:when>
-									</c:choose>
-								</li>
-							</c:forEach>
-
-							
 						</ul>
 					</div>
 				</div>
+				<c:if test="${atividade.tipoSubmissao == 'ARQUIVO'}">
+					<div class="col-6">
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fa fa-file-text"></i> Arquivo de Resposta
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">
+									<h5>Valor Total: ${atividade.valorMaximo} ponto(s)</h5></li>
+								<li class="list-group-item">
+									<form method="POST" action="valorArquivo">
+										<label for="valorArquivo">Valor do arquivo de resposta</label>
+										<input id="valorArquivo" name="valor" class="form-control mb-3" value="${atividade.valorMaximo}" type="decimal" />
+										<input hidden name="atividade" value="${atividade.id}" />
+										<button class="btn btn-primary" type="submit">Salvar</button>
+									</form>	
+								</li>
+							</ul>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${atividade.tipoSubmissao == 'ITENS'}">
+					<div class="col-6">
+						<div class="card mb-3">
+							<div class="card-header">
+								<i class="fa fa-file-text"></i> Itens
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">
+									<div>
+										<a class="btn btn-primary" href="" data-toggle="modal"
+											data-target="#itemDiscursivoModal"
+											onclick="itemDiscursivo(${atividade.id},event)"><i
+												class="fa fa-plus-circle"></i> Item Discursivo</a>
+											<a class="btn btn-primary" href=""
+											data-toggle="modal" data-target="#itemMEModal"
+											onclick="itemMultiplaEscolha(${atividade.id},event)"><i
+											class="fa fa-plus-circle"></i> Item de Múltipla Escolha</a>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<h5>Valor Total: ${atividade.valorMaximo} ponto(s)</h5>
+								</li>
+								<c:forEach items="${itens}" var="item" varStatus="index">
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-10">
+												<h5>${index.index + 1}.${item.enunciado} (${item.valor})</h5>
+											</div>
+											<c:choose>
+												<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+													<div class="col-md-2">
+														<div class="row">
+															<button class="btn btn-sm btn-secondary"
+																data-toggle="modal" data-target="#editaItemMEModal" title="Editar"
+																onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+																<i class="fa fa-pencil-square" aria-hidden="true"></i>
+															</button>
+															&nbsp;
+															<form action="excluirItem" method="POST"
+																onsubmit="return confirm('Confirma a exclusão?');">
+																<input name="item" value="${item.id}" type="text"
+																	hidden="true" />
+																<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
+																	<i class="fa fa-trash" aria-hidden="true"></i>
+																</button>
+															</form>
+														</div>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="col-md-2">
+														<div class="row">
+															<button class="btn btn-sm btn-secondary"
+																data-toggle="modal" data-target="#editaIDModal" title="Editar"
+																onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+																<i class="fa fa-pencil-square" aria-hidden="true"></i>
+															</button>
+															&nbsp;
+															<form action="excluirItem" method="POST"
+																onsubmit="return confirm('Confirma a exclusão?');">
+																<input name="item" value="${item.id}" type="text"
+																	hidden="true" />
+																<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
+																	<i class="fa fa-trash" aria-hidden="true"></i>
+																</button>
+															</form>
+														</div>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div> <c:choose>
+											<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+												<c:forEach items="${item.alternativas}" var="alt"
+													varStatus="index2">
+													<h6>
+														<c:choose>
+															<c:when test="${index2.index == 0}">A)</c:when>
+															<c:when test="${index2.index == 1}">B)</c:when>
+															<c:when test="${index2.index == 2}">C)</c:when>
+															<c:when test="${index2.index == 3}">D)</c:when>
+															<c:when test="${index2.index == 4}">E)</c:when>
+														</c:choose>
+														<c:out value="${alt.enunciado}" />
+														<c:if test="${alt.correta == 'true'}">(correta)</c:if>
+														<button class="btn btn-sm btn-link text-secondary" data-toggle="modal"
+															data-target="#editaAlternativaModal" title="Editar"
+															onclick="editaAlternativa(${item.id},${alt.id},'${alt.enunciado}','${alt.correta}',event)">
+															<i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+													</h6>
+												</c:forEach>
+											</c:when>
+										</c:choose>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
 				</c:if>
 			</div>
 		</div>
@@ -341,7 +401,7 @@
 
 								<label for="inputValor">Valor</label>
 								<form:input path="valor" id="inputValor" class="form-control"
-									type="number" />
+									type="decimal" />
 
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
 									type="text" hidden="true" />
@@ -386,7 +446,7 @@
 
 								<label for="editValor">Valor</label>
 								<form:input path="valor" id="editValor" class="form-control"
-									type="number" />
+									type="decimal" />
 
 								<form:input path="atividade" id="idEdicaoAtividadeID"
 									type="text" hidden="true" />
@@ -432,7 +492,7 @@
 
 								<label for="inputValor">Valor</label>
 								<form:input path="valor" id="inputValor" class="form-control"
-									type="number" />
+									type="decimal" />
 							</div>
 
 							<div class="form-group">
@@ -523,7 +583,7 @@
 
 								<label for="editValorME">Valor</label>
 								<form:input id="editValorME" path="valor" class="form-control"
-									type="number" />
+									type="decimal" />
 							</div>
 							<form:input path="atividade" id="idEdicaoAtividadeME" type="text"
 								hidden="true" />

@@ -122,12 +122,14 @@
 													<form:textarea class="form-control" path="comentarios"
 														id="inputObs" rows="3" type="text" />
 												</div>
-												<div class="col-md-6">
-													<label for="uploadArquivo">Selecione o arquivo de
-														resposta </label>
-													<form:input class="form-control-file" path="upload"
-														id="uploadArquivo" type="file" />
-												</div>
+												<c:if test="${atividade.tipoSubmissao == 'ARQUIVO'}">
+													<div class="col-md-6">
+														<label for="uploadArquivo">Selecione o arquivo de
+															resposta </label>
+														<form:input class="form-control-file" path="upload"
+															id="uploadArquivo" type="file" />
+													</div>
+												</c:if>
 											</div>
 										</div>
 										<c:choose>

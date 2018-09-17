@@ -154,19 +154,6 @@ public class AlunoController {
 
 		return "redirect:index";
 	}
-
-	@RequestMapping(value = { "downloadAtividade-{id}" }, method = RequestMethod.GET)
-	public void downloadAtividade(@PathVariable Integer id, HttpServletResponse resp) throws IOException {
-
-		if (id != null && id > 0) {
-			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-			Atividade atividade = aDAO.consultarPorId(id);
-			resp.setContentType(atividade.getTipoDocumento());
-			resp.setContentLength(atividade.getDocumento().length);
-			resp.setHeader("Content-Disposition", "attachment; filename=\"" + atividade.getNomeDocumento() + "\"");
-			FileCopyUtils.copy(atividade.getDocumento(), resp.getOutputStream());
-		}
-	}
 	
 	@RequestMapping("disciplinas")
 	public ModelAndView telaDisciplinas(HttpSession session) {

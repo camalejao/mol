@@ -98,6 +98,7 @@
 									<th>Un.</th>
 									<th>Nível</th>
 									<th>Data Expiração</th>
+									<th>Ações</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -108,18 +109,13 @@
 									<th>Un.</th>
 									<th>Nível</th>
 									<th>Data Expiração</th>
+									<th>Ações</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<c:forEach items="${atividades}" var="atividade">
 									<tr>
-										<td>${atividade.titulo}<a
-											class="btn btn-secondary btn-sm"
-											href="editarAtividade-${atividade.id}"> <i
-												class="fa fa-pencil-square "></i> Editar
-										</a> <a class="btn btn-secondary btn-sm"
-											href="respostasAtividade-${atividade.id}">Ver Respostas </a>
-										</td>
+										<td>${atividade.titulo}</td>
 										<c:choose>
 											<c:when test="${not empty atividade.nomeDocumento}">
 												<td>${atividade.nomeDocumento}<a
@@ -132,13 +128,19 @@
 												<td>-</td>
 											</c:otherwise>
 										</c:choose>
-										<td>${atividade.status}</td>
+										<td>${atividade.statusAtividade.statusAtividade}</td>
 										<td>${atividade.unidade.unidade}</td>
 										<td>nivel</td>
 										<fmt:parseDate value="${atividade.dataExpiracao}"
 											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
 										<td><fmt:formatDate value="${parsedDateTime}"
 												pattern="dd/MM/yyyy HH:mm" /></td>
+										<td>
+											<a class="btn btn-secondary btn-sm" title="Editar"
+												href="editarAtividade-${atividade.id}"> <i class="fa fa-pencil-square "></i></a>
+											<a class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">
+												Ver Respostas </a>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -90,7 +90,7 @@
 							${turmaDisciplina.disciplina.nome}
 						</div>
 						<div class="card-body justify-content-center">
-							<form:form modelAttribute="novaAtividade"
+							<form:form modelAttribute="novaAtividade" onSubmit="verificaStatus();"
 								action="cadastraAtividade" method="POST"
 								enctype="multipart/form-data">
 
@@ -127,6 +127,25 @@
 								</div>
 								<div class="form-group">
 									<div class="form-row">
+										<div class="col-md-12">
+											<label for="inputDescricao">Descrição</label>
+											<form:textarea class="form-control" path="descricao"
+												id="inputDescricao" rows="3" type="text" />
+											<form:errors path="descricao" cssClass="text-danger" />
+										</div>
+									</div>
+								</div>
+								<div id="divUploadArquivo" class="form-group">
+									<div class="form-row">
+										<div class="col-md-12">
+											<label for="uploadArquivo">Arquivo Anexo</label>
+											<form:input class="form-control-file" path="upload"
+												id="uploadArquivo" type="file" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="form-row">
 										<div class="col-md-6">
 											<label for="selectNivelAprendizagem">Nível de Aprendizagem</label>
 											<form:select path="nivelAprendizagem"
@@ -145,7 +164,7 @@
 												</c:forEach>
 											</form:select>
 										</div>
-										<form:input path="valorMaximo" value="1" hidden="true" />
+										<form:input path="valorMaximo" value="0" hidden="true" />
 										<div class="col-md-4">
 											<label for="selectStatus">Status</label>
 											<form:select path="status" class="form-control"
@@ -165,41 +184,18 @@
 								<div class="form-group">
 									<div class="form-row">
 										<div class="col-md-6">
-											<label for="selectTipoSubmissao">Tipo de Submissão</label>
+											<label for="selectTipoSubmissao">Tipo de Submissão
+												<span data-toggle="tooltip" data-placement="top" title="Arquivo: o aluno enviará a resposta via arquivo;
+													Itens Online: o aluno responderá questões cadastradas no sistema pelo professor.">
+													<i class="fa fa-question-circle" aria-hidden="true"></i>
+												</span>
+											</label>
 											<form:select path="tipoSubmissao"
 												class="form-control" id="selectTipoSubmissao">
 												<c:forEach items="${tipoSubmissao}" var="ts" >
 													<form:option value="${ts}">${ts.tipoSubmissao}</form:option>
 												</c:forEach>
 											</form:select>
-										</div>
-										<div class="col-md-6">
-											<label for="selectStatusAtividade">Status da Atividade</label>
-											<form:select path="statusAtividade"
-												class="form-control" id="selectStatusAtividade">
-												<c:forEach items="${statusAtividade}" var="sa" >
-													<form:option value="${sa}">${sa.statusAtividade}</form:option>
-												</c:forEach>
-											</form:select>
-										</div>
-									</div>
-								</div>
-								<div id="divUploadArquivo" class="form-group">
-									<div class="form-row">
-										<div class="col-md-12">
-											<label for="uploadArquivo">Arquivo (opcional)</label>
-											<form:input class="form-control-file" path="upload"
-												id="uploadArquivo" type="file" />
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-12">
-											<label for="inputDescricao">Descrição</label>
-											<form:textarea class="form-control" path="descricao"
-												id="inputDescricao" rows="3" type="text" />
-											<form:errors path="descricao" cssClass="text-danger" />
 										</div>
 									</div>
 								</div>
@@ -269,6 +265,10 @@
 					sideBySide : true
 				});
 
+			});
+			
+			$(function () {
+				  $('[data-toggle="tooltip"]').tooltip()
 			});
 		</script>
 		<!--<script>

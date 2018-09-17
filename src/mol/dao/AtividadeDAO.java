@@ -58,7 +58,7 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
 	@Override
 	public List<Atividade> consultarRespondidas(TurmaDisciplina td, Aluno a){
 		try {
-			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
+			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.statusAtividade = 'LIBERADA' and exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
 			query.setParameter("turmad", td);
 			query.setParameter("aluno", a);
             return query.getResultList();
@@ -72,7 +72,7 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
 	@Override
 	public List<Atividade> consultarNaoRespondidas(TurmaDisciplina td, Aluno a){
 		try {
-			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and not exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
+			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.statusAtividade = 'LIBERADA' and not exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
 			query.setParameter("turmad", td);
 			query.setParameter("aluno", a);
             return query.getResultList();
