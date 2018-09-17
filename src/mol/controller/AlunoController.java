@@ -30,6 +30,7 @@ import mol.model.curso.atividade.ItemResposta;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
+import mol.model.curso.atividade.TipoSubmissao;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
@@ -133,6 +134,16 @@ public class AlunoController {
 			}
 		}
 		
+		if(atv.getTipoSubmissao() == TipoSubmissao.ARQUIVO)
+			resposta.setNota(0);
+		else if(atv.getTipoSubmissao() == TipoSubmissao.ITENS) {
+			double nota = 0;
+			for(ItemResposta ir : listaIR) {
+				nota += ir.getNota();
+			}
+			resposta.setNota(nota);
+		}
+		
 		resposta.setAluno(a);
 		resposta.setAtividade(atv);
 		resposta.setStatus(StatusEntidade.ATIVO);
@@ -233,14 +244,28 @@ public class AlunoController {
 		if(controle!=null) {
 			if(itemResposta.getItem().getTipoItem()==TipoItem.DISCURSIVO)
 				controle.setTexto(itemResposta.getTexto());
-			else if (itemResposta.getItem().getTipoItem()==TipoItem.MULTIPLA_ESCOLHA)
+			else if (itemResposta.getItem().getTipoItem()==TipoItem.MULTIPLA_ESCOLHA) {
 				controle.setAlternativa(itemResposta.getAlternativa());
+				if(itemResposta.getAlternativa().getCorreta())
+					controle.setNota(itemResposta.getItem().getValor());
+				else
+					controle.setNota(0);
+			}
 			irDAO.alterar(controle);
 		}else {
 			itemResposta.setStatus(StatusEntidade.ATIVO);
 			itemResposta.setUsuarioLogado(a);
 			itemResposta.setAluno(a);
 			itemResposta.setEnviado(false);
+			if(itemResposta.getItem().getTipoItem()==TipoItem.DISCURSIVO)
+				itemResposta.setNota(0);
+			else if (itemResposta.getItem().getTipoItem()==TipoItem.MULTIPLA_ESCOLHA) {
+				if(itemResposta.getAlternativa().getCorreta())
+					itemResposta.setNota(itemResposta.getItem().getValor());
+				else
+					itemResposta.setNota(0);
+			}
+				
 			irDAO.inserir(itemResposta);
 		}		
 		return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();

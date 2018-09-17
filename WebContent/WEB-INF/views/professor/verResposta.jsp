@@ -84,14 +84,30 @@
 						<ul class="list-group list-group-flush">
 								<c:forEach items="${itensResp}" var="ir" varStatus="index" >
 									<li class="list-group-item">
-										<h5>${index.index + 1}. ${ir.item.enunciado}</h5>
+										<h5>${index.index + 1}. ${ir.item.enunciado} (${ir.item.valor})</h5>
 										<c:choose>
 											<c:when test="${ir.item.tipoItem == 'DISCURSIVO'}">
-												<div class="card border-secondary">
+												<div class="card border-secondary mb-3">
 													<div class="card-body">
 														<h6>${ir.texto}</h6>
 													</div>
 												</div>
+												<form method="POST" action="avaliarItem">
+													<input hidden name="resposta" value="${resposta.id}" />
+													<input hidden name="item" value="${ir.id}" />
+													<div class="form-row">
+														<div class="col-1">
+															<label for="inputNotaItem">Nota: </label>
+														</div>
+														<div class="col-2">
+															<input id="inputNotaItem" name="nota" class="form-control form-control-sm"
+																type="decimal" />
+														</div>
+														<div class="col-md-6">
+															<button class="btn btn-sm btn-primary">Avaliar Item</button>
+														</div>
+													</div>
+												</form>
 											</c:when>
 											<c:otherwise>
 												<div class="card border-secondary">
@@ -100,54 +116,58 @@
 													</div>
 												</div>
 												<c:if test="${ir.alternativa.correta == true}">
-													<h6 class="text-success"><i class="fa fa-check" ></i> Correta</h6>
+													<h6><span class="text-success"><i class="fa fa-check" ></i> Correta</span>
+														<span> - Nota: ${ir.nota}/${ir.item.valor}</span>
+													</h6>
+													
 												</c:if>
 												<c:if test="${ir.alternativa.correta == false}">
-													<h6 class="text-danger"><i class="fa fa-times" ></i> Errada</h6>
+													<h6><span class="text-danger"><i class="fa fa-times" ></i> Errada</span>
+														<span> - Nota: ${ir.nota}/${ir.item.valor}</span>
+													</h6>
 												</c:if>
 											</c:otherwise>
 										</c:choose>
 									</li>	
 								</c:forEach>
-							</ul>
-						<div class="card-body">
-							<form:form modelAttribute="resposta" action="avaliarResposta"
-								method="POST">
-								<div class="form-group">
-									<div class="form-row">
-										<div class="col-md-10">
-											<form:select hidden="true" path="id" class="form-control"
-												id="inputResp">
-												<form:option value="${resposta.id}">${resposta.aluno.nome}</form:option>
-											</form:select>
+							<li class="list-group-item">
+								<form:form modelAttribute="resposta" action="avaliarResposta"
+									method="POST">
+									<div class="form-group">
+										<div class="form-row">
+											<div class="col-md-10">
+												<form:select hidden="true" path="id" class="form-control"
+													id="inputResp">
+													<form:option value="${resposta.id}">${resposta.aluno.nome}</form:option>
+												</form:select>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="col-md-6">
+												<h5>Nota: <span id="nota">${resposta.nota}</span> / ${resposta.atividade.valorMaximo}</h5>
+											</div>
 										</div>
 									</div>
-									<div class="form-row">
-										<div class="col-md-2">
-											<label for="inputNota">Nota</label>
-											<form:input path="nota" class="form-control" id="inputNota"
-												type="number" min="0"
-												max="${resposta.atividade.valorMaximo}"
-												aria-describedby="notaHelp" placeholder="" />
+									<div class="form-group">
+										<div class="form-row">
+											<label for="inputObs">Observações</label>
+											<form:textarea path="observacoesProfessor"
+												class="form-control" id="inputObs" type="text" rows="3"
+												aria-describedby="obsHelp"
+												placeholder="Observações sobre a resposta" />
 										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<div class="form-row">
-										<label for="inputObs">Observações</label>
-										<form:textarea path="observacoesProfessor"
-											class="form-control" id="inputObs" type="text" rows="3"
-											aria-describedby="obsHelp"
-											placeholder="Observações sobre a resposta" />
-									</div>
-								</div>
-								<c:choose>
-									<c:when test="${not resposta.atividade.verificaExpiracao()}">
-										<button class="btn btn-primary btn-block" type="submit">Avaliar</button>
-									</c:when>
-								</c:choose>
-							</form:form>
-						</div>
+									<c:choose>
+										<c:when test="${not resposta.atividade.verificaExpiracao()}">
+											<button class="btn btn-primary btn-block" type="submit">Avaliar</button>
+										</c:when>
+										<c:otherwise>
+											<button disabled class="btn btn-primary btn-block">Enviar Avaliação</button>
+										</c:otherwise>
+									</c:choose>
+								</form:form>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<div class="col-md-3">

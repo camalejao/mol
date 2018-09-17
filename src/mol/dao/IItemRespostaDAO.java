@@ -15,5 +15,7 @@ public interface IItemRespostaDAO extends IDAOGenerico<ItemResposta>{
 	List<ItemResposta> consultarNaoEnviadosPorAlunoAtividade(Aluno aluno, Atividade atividade);
 
 	ItemResposta consultarNaoEnviadoPorIdItemIdAluno(Integer idItem, Integer idAluno);
+
+	List<ItemResposta> consultarEnviadosPorAlunoAtividade(Aluno aluno, Atividade atividade);
 	
 }
