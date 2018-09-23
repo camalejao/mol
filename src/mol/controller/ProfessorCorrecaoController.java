@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
@@ -43,37 +44,63 @@ public class ProfessorCorrecaoController {
 	}
 	
 	@RequestMapping("avaliarItem")
-	public String avaliarItem(ItemResposta item, double nota, Resposta resposta) {
+	public String avaliarItem(@RequestParam ItemResposta item, double nota, @RequestParam Resposta resposta) {
+		
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
-		ItemResposta itemControle = irDAO.consultarPorId(item.getId());
-		itemControle.setNota(nota);
-		irDAO.alterar(itemControle);
-		double n=0;
+		
+		if(nota < 0)
+			item.setNota(0);
+		else if(nota > item.getItem().getValor())
+			item.setNota(item.getItem().getValor());
+		else
+			item.setNota(nota);
+		
+		irDAO.alterar(item);
+		
+		
 		List<ItemResposta> listaIR = irDAO.consultarEnviadosPorAlunoAtividade(resposta.getAluno(), resposta.getAtividade());
+		double n=0;
 		for(ItemResposta ir : listaIR) {
 			n += ir.getNota();
 		}
-		Resposta respControle = rDAO.consultarPorId(resposta.getId());
-		respControle.setNota(n);
-		rDAO.alterar(respControle);
+		resposta.setNota(n);
+		rDAO.alterar(resposta);
 		
-		return "redirect:verResposta-"+resposta.getId();
+		return "redirect:visualizarResposta-"+resposta.getId();
+	}
+	
+	@RequestMapping("avaliarArquivo")
+	public String avaliarArquivo(double nota, @RequestParam Resposta resposta) {
+		
+		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+				
+		if(nota < 0)
+			resposta.setNota(0);
+		else if(nota > resposta.getAtividade().getValorMaximo())
+			resposta.setNota(resposta.getAtividade().getValorMaximo());
+		else
+			resposta.setNota(nota);
+		
+		rDAO.alterar(resposta);
+		
+		
+		return "redirect:visualizarResposta-"+resposta.getId();
 	}
 	
 	@RequestMapping("avaliarResposta")
-	public ModelAndView avaliarResposta(Resposta avaliacao) {
+	public String avaliarResposta(@RequestParam Resposta resposta, String observacoes) {
 		//se o prazo para envio ainda não estiver expirado, volta para a home
-		if(avaliacao.getAtividade().verificaExpiracao())
-			return new ModelAndView("redirect:home");
+		if(resposta.getAtividade().verificaExpiracao())
+			return "redirect:verResposta-" + resposta.getId();
 		
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
-		Resposta resposta = rDAO.consultarPorId(avaliacao.getId());
-		ModelAndView mav = new ModelAndView("redirect:respostasAtividade-" + resposta.getAtividade().getId());
-		resposta.setNota(avaliacao.getNota());
-		resposta.setObservacoesProfessor(avaliacao.getObservacoesProfessor());
+		
+		resposta.setObservacoesProfessor(observacoes);
 		resposta.setStatusResposta(StatusResposta.CORRIGIDA);
+		
 		rDAO.alterar(resposta);
-		return mav;
+		
+		return "redirect:respostasAtividade-" + resposta.getAtividade().getId();
 	}
 }

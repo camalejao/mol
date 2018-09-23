@@ -93,15 +93,15 @@
 													</div>
 												</div>
 												<form method="POST" action="avaliarItem">
-													<input hidden name="resposta" value="${resposta.id}" />
-													<input hidden name="item" value="${ir.id}" />
+													<input hidden="true" name="resposta" value="${resposta.id}" type="text" />
+													<input hidden="true" name="item" value="${ir.id}" />
 													<div class="form-row">
 														<div class="col-1">
 															<label for="inputNotaItem">Nota: </label>
 														</div>
 														<div class="col-2">
-															<input id="inputNotaItem" name="nota" class="form-control form-control-sm"
-																type="decimal" />
+															<input id="inputNotaItem" name="nota" value="${ir.nota}" class="form-control form-control-sm"
+																type="number" step="0.01" min="0" max="${ir.item.valor}" />
 														</div>
 														<div class="col-md-6">
 															<button class="btn btn-sm btn-primary">Avaliar Item</button>
@@ -130,18 +130,40 @@
 										</c:choose>
 									</li>	
 								</c:forEach>
-							<li class="list-group-item">
-								<form:form modelAttribute="resposta" action="avaliarResposta"
-									method="POST">
-									<div class="form-group">
+							<c:if test="${resposta.atividade.tipoSubmissao == 'ARQUIVO'}">
+								<li class="list-group-item">
+									<c:if test="${not empty resposta.nomeDocumentoResposta}">
+										<h5>Arquivo de resposta</h5>
+										<p id="doc">${resposta.nomeDocumentoResposta}
+											<a class="btn btn-secondary btn-sm"
+												href="downloadResposta-${resposta.id}"> <i
+												class="fa fa-download "></i> Baixar
+											</a>
+										</p>
+									</c:if>
+									<form method="POST" action="avaliarArquivo">
+										<input hidden="true" name="resposta" value="${resposta.id}" type="text" />
 										<div class="form-row">
-											<div class="col-md-10">
-												<form:select hidden="true" path="id" class="form-control"
-													id="inputResp">
-													<form:option value="${resposta.id}">${resposta.aluno.nome}</form:option>
-												</form:select>
+											<div class="col-1">
+												<label for="inputNotaItem">Nota: </label>
+											</div>
+											<div class="col-2">
+												<input id="inputNotaItem" name="nota" value="${resposta.nota}"
+													class="form-control form-control-sm" type="number"
+													step="0.01" min="0" max="${resposta.atividade.valorMaximo}" />
+											</div>
+											<div class="col-md-6">
+												<button class="btn btn-sm btn-primary">Avaliar</button>
 											</div>
 										</div>
+									</form>
+								</li>
+							</c:if>
+							<li class="list-group-item">
+								<form action="avaliarResposta" method="POST">
+									<div class="form-group">
+										<input hidden="true" name="resposta" class="form-control"
+											id="inputResp" value="${resposta.id}" />
 										<div class="form-row">
 											<div class="col-md-6">
 												<h5>Nota: <span id="nota">${resposta.nota}</span> / ${resposta.atividade.valorMaximo}</h5>
@@ -151,21 +173,20 @@
 									<div class="form-group">
 										<div class="form-row">
 											<label for="inputObs">Observações</label>
-											<form:textarea path="observacoesProfessor"
-												class="form-control" id="inputObs" type="text" rows="3"
-												aria-describedby="obsHelp"
-												placeholder="Observações sobre a resposta" />
+											<textarea name="observacoes"
+												class="form-control" id="inputObs" rows="3"
+												placeholder="Observações sobre a resposta"></textarea>
 										</div>
 									</div>
 									<c:choose>
 										<c:when test="${not resposta.atividade.verificaExpiracao()}">
-											<button class="btn btn-primary btn-block" type="submit">Avaliar</button>
+											<button class="btn btn-primary btn-block" type="submit">Enviar Avaliação</button>
 										</c:when>
 										<c:otherwise>
 											<button disabled class="btn btn-primary btn-block">Enviar Avaliação</button>
 										</c:otherwise>
 									</c:choose>
-								</form:form>
+								</form>
 							</li>
 						</ul>
 					</div>
@@ -193,21 +214,6 @@
 									<label for="comentariosResp"><strong>Comentários
 											do Aluno: </strong></label>
 									<p id="comentariosResp">${resposta.comentarios}</p>
-									<label for="doc"><strong>Arquivo de resposta:
-									</strong></label>
-									<c:choose>
-										<c:when test="${not empty resposta.nomeDocumentoResposta}">
-											<p id="doc">${resposta.nomeDocumentoResposta}
-												<a class="btn btn-secondary btn-sm"
-													href="downloadResposta-${resposta.id}"> <i
-													class="fa fa-download "></i> Baixar
-												</a>
-											</p>
-										</c:when>
-										<c:otherwise>
-											<p id="doc">Não enviado.</p>
-										</c:otherwise>
-									</c:choose>
 								</div>
 							</div>
 							<div class="media">
