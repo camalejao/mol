@@ -95,7 +95,7 @@
 							<li class="list-group-item">
 								<form method="POST" action="liberarAtividade"
 									onSubmit="return confirm('Após ser liberada para resposta, esta atividade não poderá mais ser alterada. Prosseguir?');">
-									<input hidden name="atividade" value="${atividade.id}" />
+									<input hidden="true" name="atividade" value="${atividade.id}" />
 									<label for="statusAtividade">Status da Atividade
 										<span data-toggle="tooltip" data-placement="top" title="Em Construção: Editável, 
 											não disponível para os alunos; Liberada para Resposta: Não editável, alunos já podem responder.">
@@ -142,11 +142,8 @@
 									</div>
 									<div class="form-group">
 										<div class="form-row">
-											<div class="col-md-6" hidden>
-												<label for="inputTurmaDisciplina">Turma/Disciplina</label>
-												<form:input id="inputTurmaDisciplina" path="turmaDisciplina"
+											<form:input hidden="true" id="inputTurmaDisciplina" path="turmaDisciplina"
 													value="${atividade.turmaDisciplina.id}" />
-											</div>
 											<div class="col-md-12">
 												<label for="datetimepicker">Data e Hora de Expiração</label>
 												<div class="input-group date" id="datetimepicker"
@@ -230,8 +227,9 @@
 								<li class="list-group-item">
 									<form method="POST" action="valorArquivo">
 										<label for="valorArquivo">Valor do arquivo de resposta</label>
-										<input id="valorArquivo" name="valor" class="form-control mb-3" value="${atividade.valorMaximo}" type="decimal" />
-										<input hidden name="atividade" value="${atividade.id}" />
+										<input id="valorArquivo" name="valor" class="form-control mb-3"
+											value="${atividade.valorMaximo}" type="number" step="0.01" min="0" />
+										<input hidden="true" name="atividade" value="${atividade.id}" />
 										<button class="btn btn-primary" type="submit">Salvar</button>
 									</form>	
 								</li>
@@ -391,17 +389,17 @@
 					<div class="modal-body">
 
 						<form:form action="adicionarItemDiscursivo" modelAttribute="item"
-							method="POST">
+							method="POST" id="formItemD" >
 							<div class="form-group">
-
 								<label for="enunciadoDiscursivo">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
 									maxlength="400" rows="3" type="text" id="enunciadoDiscursivo"
 									placeholder="Digite o enunciado do item" />
-
-								<label for="inputValor">Valor</label>
-								<form:input path="valor" id="inputValor" class="form-control"
-									type="decimal" />
+							</div>
+							<div class="form-group">
+								<label for="inputValorD">Valor</label>
+								<form:input path="valor" id="inputValorD" class="form-control"
+									type="number" step="0.01" min="0" />
 
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
 									type="text" hidden="true" />
@@ -444,9 +442,9 @@
 									id="editaEnunciadoDiscursivo"
 									placeholder="Digite o enunciado do item" />
 
-								<label for="editValor">Valor</label>
-								<form:input path="valor" id="editValor" class="form-control"
-									type="decimal" />
+								<label for="editValorD">Valor</label>
+								<form:input path="valor" id="editValorD" class="form-control"
+									type="number" step="0.01" min="0" />
 
 								<form:input path="atividade" id="idEdicaoAtividadeID"
 									type="text" hidden="true" />
@@ -482,17 +480,19 @@
 					<div class="modal-body">
 
 						<form:form action="adicionarItemMultiplaEscolha"
-							modelAttribute="item" method="POST">
+							modelAttribute="item" method="POST" id="formItemME">
 
 							<div class="form-group">
 								<label for="enunciadoME">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
 									maxlength="400" rows="3" type="text" id="enunciadoME"
 									placeholder="Digite o enunciado do item" />
-
-								<label for="inputValor">Valor</label>
-								<form:input path="valor" id="inputValor" class="form-control"
-									type="decimal" />
+							</div>
+							
+							<div class="form-group">
+								<label for="inputValorME">Valor</label>
+								<form:input path="valor" id="inputValorME" class="form-control"
+									type="number" step="0.01" min="0" />
 							</div>
 
 							<div class="form-group">
@@ -531,17 +531,17 @@
 								</div>
 							</div>
 
-							<div class="form-group">
-								<span>Selecione as alternativas corretas:</span><br /> A
-								<form:checkbox path="alternativas[0].correta" />
+							<div class="form-group" id="radioAlternativas" >
+								<span>Selecione a alternativa correta:</span><br /> A
+								<form:radiobutton id="alt1" path="alternativas[0].correta" value="true" />
 								B
-								<form:checkbox path="alternativas[1].correta" />
+								<form:radiobutton id="alt2" path="alternativas[1].correta" value="true" />
 								C
-								<form:checkbox path="alternativas[2].correta" />
+								<form:radiobutton id="alt3" path="alternativas[2].correta" value="true" />
 								D
-								<form:checkbox path="alternativas[3].correta" />
+								<form:radiobutton id="alt4" path="alternativas[3].correta" value="true" />
 								E
-								<form:checkbox path="alternativas[4].correta" />
+								<form:radiobutton id="alt5" path="alternativas[4].correta" value="true" />
 							</div>
 
 							<form:input path="atividade" id="idAtividadeItemME" type="text"
@@ -573,7 +573,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form:form action="editarItemME" modelAttribute="item"
+						<form:form action="editarItem" modelAttribute="item"
 							method="POST">
 							<div class="form-group">
 								<label for="editaEnunciadoME">Enunciado</label>
@@ -583,7 +583,7 @@
 
 								<label for="editValorME">Valor</label>
 								<form:input id="editValorME" path="valor" class="form-control"
-									type="decimal" />
+									type="number" step="0.01" min="0" />
 							</div>
 							<form:input path="atividade" id="idEdicaoAtividadeME" type="text"
 								hidden="true" />
@@ -621,7 +621,6 @@
 								<form:input class="form-control" path="enunciado" type="text"
 									id="editaEnunciadoAlt" placeholder="Digite a alternativa" />
 							</div>
-							Correta <form:checkbox path="correta" id="editaAltCorreta" />
 							<form:input path="item" id="idEditaItemAlt" type="text"
 								hidden="true" />
 							<form:input path="id" id="idEditaAlt" type="text" hidden="true" />
@@ -665,40 +664,10 @@
 					locale : 'pt-br',
 					sideBySide : true
 				});
-			});
+			})
 		</script>
-		<script>
-			function itemDiscursivo(id, e) {
-				$("#idAtividadeItemDiscursivo").attr("value",id);
-				e.preventDefault();
-			}
-			function itemMultiplaEscolha(id, e) {
-				$("#idAtividadeItemME").attr("value",id);
-				e.preventDefault();
-			}
-			function editaItemD(id_atv, id_item, enunciado, valor, e){
-				$("#idEdicaoAtividadeID").attr("value",id_atv);
-				$("#idEdicaoID").attr("value",id_item);
-				$("#editaEnunciadoDiscursivo").val(enunciado);
-				$("#editValor").val(valor);
-				e.preventDefault();
-			}
-			function editaItemME(id_atv, id_item, enunciado, valor, e){
-				$("#idEdicaoAtividadeME").attr("value",id_atv);
-				$("#idEdicaoME").attr("value",id_item);
-				$("#editaEnunciadoME").val(enunciado);
-				$("#editValorME").val(valor);
-				e.preventDefault();
-			}
-			function editaAlternativa(id_item, id_alt, enunciado, correta, e){
-				$("#idEditaItemAlt").attr("value",id_item);
-				$("#idEditaAlt").attr("value",id_alt);
-				$("#editaEnunciadoAlt").val(enunciado);
-				if(correta == 'true') $("#editaAltCorreta").prop("checked",true);
-				else if(correta == 'false') $("#editaAltCorreta").prop("checked",false);
-				e.preventDefault();
-			}
-		</script>
+		<!-- scripts para CRUD Itens / Alternativas -->
+		<script src="resources/scripts/validacaoFormItens.js"></script>
 	</div>
 </body>
 </html>

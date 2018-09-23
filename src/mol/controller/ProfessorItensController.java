@@ -63,36 +63,27 @@ public class ProfessorItensController {
 	}
 	
 	@RequestMapping("editarItem")
-	public String editaItemDiscursivo(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
+	public String editaItem(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
+		
+		if(item.getValor() <= 0 || item.getEnunciado().trim().isEmpty())
+			return "redirect:editarAtividade-"+item.getAtividade().getId();
+		
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
+		
 		ItemAtividade itemAntigo = iaDAO.consultarPorId(item.getId());
+		
 		itemAntigo.setEnunciado(item.getEnunciado());
 		itemAntigo.setValor(item.getValor());
 		iaDAO.alterar(itemAntigo);
+		
 		Atividade atv = item.getAtividade();
 		atv.setValorMaximo(0);
 		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
 			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
 		}
 		atvDAO.alterar(atv);
-		return "redirect:editarAtividade-"+item.getAtividade().getId();
-	}
-	
-	@RequestMapping("editarItemME")
-	public String editaItemME(@ModelAttribute("item") ItemAtividade item, HttpSession session) {
-		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
-		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
-		ItemAtividade antigo = iaDAO.consultarPorId(item.getId());
-		antigo.setEnunciado(item.getEnunciado());
-		antigo.setValor(item.getValor());
-		iaDAO.alterar(antigo);
-		Atividade atv = item.getAtividade();
-		atv.setValorMaximo(0);
-		for(ItemAtividade i : iaDAO.consultarPorAtividade(atv)) {
-			atv.setValorMaximo(atv.getValorMaximo()+i.getValor());
-		}
-		atvDAO.alterar(atv);
+		
 		return "redirect:editarAtividade-"+item.getAtividade().getId();
 	}
 	
@@ -114,7 +105,6 @@ public class ProfessorItensController {
 	public String editaAlternativa(@ModelAttribute("alternativa") Alternativa alt, HttpSession session) {
 		IAlternativaDAO aDAO = DAOFactory.getAlternativaDAO();
 		Alternativa antiga = aDAO.consultarPorId(alt.getId());
-		antiga.setCorreta(alt.getCorreta());
 		antiga.setEnunciado(alt.getEnunciado());
 		aDAO.alterar(antiga);
 		return "redirect:editarAtividade-"+alt.getItem().getAtividade().getId();
