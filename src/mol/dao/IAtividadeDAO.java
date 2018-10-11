@@ -17,4 +17,6 @@ public interface IAtividadeDAO extends IDAOGenerico<Atividade> {
 	List<Atividade> consultarRespondidas(TurmaDisciplina td, Aluno a);
 
 	List<Atividade> consultarNaoRespondidas(TurmaDisciplina td, Aluno a);
+
+	boolean verfificarAtividadesNoNivelAnterior(Integer nivelAprendizagem, TurmaDisciplina turmaDisciplina);
 }

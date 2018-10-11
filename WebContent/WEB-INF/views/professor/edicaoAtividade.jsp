@@ -177,7 +177,7 @@
 											<div class="col-md-6">
 												<label for="inputNivelAprendizagem">Nível de Aprendizagem</label>
 												<input class="form-control" disabled id="inputNivelAprendizagem"
-												value="${atividade.nivelAprendizagem.titulo}" />
+												value="Nível ${atividade.nivelAprendizagem}" />
 											</div>
 											<div class="col-md-2">
 												<label for="selectUnidade">Unidade</label>

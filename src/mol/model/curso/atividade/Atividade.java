@@ -67,9 +67,8 @@ public class Atividade extends Entidade {
 	@Column(name="data_expiracao", nullable=false)
 	private LocalDateTime dataExpiracao;
 	
-	@ManyToOne
-	@JoinColumn(name="nivel_aprendizagem_id")
-	private NivelAprendizagem nivelAprendizagem;
+	@Column(name="nivel_aprendizagem_id")
+	private Integer nivelAprendizagem;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_submissao")
@@ -164,11 +163,11 @@ public class Atividade extends Entidade {
 		this.upload = upload;
 	}
 	
-	public NivelAprendizagem getNivelAprendizagem() {
+	public Integer getNivelAprendizagem() {
 		return nivelAprendizagem;
 	}
 
-	public void setNivelAprendizagem(NivelAprendizagem nivelAprendizagem) {
+	public void setNivelAprendizagem(Integer nivelAprendizagem) {
 		this.nivelAprendizagem = nivelAprendizagem;
 	}
 

@@ -148,9 +148,15 @@ public class AlunoController {
 		resposta.setAtividade(atv);
 		resposta.setStatus(StatusEntidade.ATIVO);
 		resposta.setUsuarioLogado(a);
-		resposta.setDocumentoResposta(resposta.getUpload().getBytes());
-		resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
-		resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
+		if(atv.getTipoSubmissao() == TipoSubmissao.ARQUIVO) {
+			if(resposta.getUpload()!=null) {
+				resposta.setDocumentoResposta(resposta.getUpload().getBytes());
+				resposta.setTipoDocumentoResposta(resposta.getUpload().getContentType());
+				resposta.setNomeDocumentoResposta(resposta.getUpload().getOriginalFilename());
+			}
+			else
+				return "redirect:home";
+		}
 		resposta.setStatusResposta(StatusResposta.NAO_CORRIGIDA);
 		for(ItemResposta ir : listaIR) {
 			ir.setEnviado(true);

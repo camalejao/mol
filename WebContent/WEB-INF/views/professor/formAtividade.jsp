@@ -150,8 +150,8 @@
 											<label for="selectNivelAprendizagem">Nível de Aprendizagem</label>
 											<form:select path="nivelAprendizagem"
 												class="form-control" id="selectNivelAprendizagem">
-												<c:forEach items="${niveis}" var="n" >
-													<form:option value="${n.id}">${n.titulo}</form:option>
+												<c:forEach var="n" begin="1" end="${turmaDisciplina.quantidadeNiveis + 1}" >
+													<form:option value="${n}">Nível ${n}</form:option>
 												</c:forEach>
 											</form:select>
 										</div>
@@ -271,22 +271,6 @@
 				  $('[data-toggle="tooltip"]').tooltip()
 			});
 		</script>
-		<!--<script>
-			$(document).ready(function(){
-				var tipo = $("#selectTipoSubmissao").val();
-				if(tipo == 'ARQUIVO')
-					$("#divUploadArquivo").show();
-				else if(tipo == 'ITENS')
-					$("#divUploadArquivo").hide();
-			});
-			$("#selectTipoSubmissao").change(function(){
-				var tipo = $("#selectTipoSubmissao").val();
-				if(tipo == 'ARQUIVO')
-					$("#divUploadArquivo").show();
-				else if(tipo == 'ITENS')
-					$("#divUploadArquivo").hide();
-			});
-		</script>-->
 	</div>
 </body>
 </html>

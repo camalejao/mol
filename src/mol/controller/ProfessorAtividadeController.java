@@ -65,7 +65,9 @@ public class ProfessorAtividadeController {
 	@RequestMapping("cadastraAtividade")
 	public ModelAndView salvaAtividade(@Valid @ModelAttribute("novaAtividade") Atividade atividade,
 			BindingResult bindingResult, Model model, HttpSession session) {
-		if (bindingResult.hasErrors()) {
+		
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		if (bindingResult.hasErrors() || !aDAO.verfificarAtividadesNoNivelAnterior(atividade.getNivelAprendizagem(), atividade.getTurmaDisciplina())) {
 			ModelAndView mav = new ModelAndView("professor/formAtividade");
 			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 			INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
@@ -79,10 +81,9 @@ public class ProfessorAtividadeController {
 
 			return mav;
 		} else {
+			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 			Usuario u = (Usuario) session.getAttribute("usuarioLogado");
-
-			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-
+			
 			atividade.setUsuarioLogado(u);
 			atividade.setStatusAtividade(StatusAtividade.CONSTRUCAO);
 			atividade.setDocumento(atividade.getUpload().getBytes());
@@ -90,6 +91,12 @@ public class ProfessorAtividadeController {
 			atividade.setNomeDocumento(atividade.getUpload().getOriginalFilename());
 			
 			aDAO.inserir(atividade);
+			
+			Integer quantidadeNiveis = atividade.getTurmaDisciplina().getQuantidadeNiveis();
+			if(atividade.getNivelAprendizagem() > quantidadeNiveis)
+				atividade.getTurmaDisciplina().setQuantidadeNiveis(quantidadeNiveis + 1);
+			
+			tdDAO.alterar(atividade.getTurmaDisciplina());
 		}
 		ModelAndView mav = new ModelAndView("redirect:editarAtividade-" + atividade.getId());
 		return mav;
@@ -135,8 +142,6 @@ public class ProfessorAtividadeController {
 			Usuario u = (Usuario) session.getAttribute("usuarioLogado");
 			antiga.setTitulo(atividade.getTitulo());
 			antiga.setDescricao(atividade.getDescricao());
-			antiga.setValorMaximo(atividade.getValorMaximo());
-			//antiga.setPeso(atividade.getPeso());
 			antiga.setUnidade(atividade.getUnidade());
 			antiga.setStatus(atividade.getStatus());
 			antiga.setDataExpiracao(atividade.getDataExpiracao());

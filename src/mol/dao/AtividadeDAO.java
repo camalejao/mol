@@ -83,4 +83,25 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
 		return null;
 	}
 
+	@Override
+	public boolean verfificarAtividadesNoNivelAnterior(Integer nivelAprendizagem, TurmaDisciplina turmaDisciplina) {
+		try {
+			if(nivelAprendizagem == 1)
+				return true;
+			
+			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.nivelAprendizagem = :n and a.status = 'ATIVO'", Atividade.class);
+			query.setParameter("turmad", turmaDisciplina);
+			query.setParameter("n", nivelAprendizagem-1);
+            
+			if(query.getResultList().isEmpty())
+            	return false;
+            else
+            	return true;
+			
+		} catch (RuntimeException re) {
+            re.printStackTrace();
+		}
+		return false;
+	}
+
 }

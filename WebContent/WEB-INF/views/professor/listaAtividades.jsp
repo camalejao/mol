@@ -130,7 +130,7 @@
 										</c:choose>
 										<td>${atividade.statusAtividade.statusAtividade}</td>
 										<td>${atividade.unidade.unidade}</td>
-										<td>nivel</td>
+										<td>${atividade.nivelAprendizagem}</td>
 										<fmt:parseDate value="${atividade.dataExpiracao}"
 											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
 										<td><fmt:formatDate value="${parsedDateTime}"
@@ -148,6 +148,45 @@
 					</div>
 				</div>
 			</div>
+			<div class="card mb-3">
+				<div class="card-header">
+					<span>Níveis</span>
+				</div>
+				<div class="card-body">
+					<c:forEach var="n" begin="1" end="${td.quantidadeNiveis}">
+						<a href="#nivel-${n}" class="btn btn-outline-primary">${n}</a>
+					</c:forEach>
+				</div>
+			</div>
+			<c:forEach var="n" begin="1" end="${td.quantidadeNiveis}">
+				<div class="card mb-3" id="nivel-${n}">
+					<div class="card-header">
+						<h5>Nível ${n}</h5>
+					</div>
+					<ul class="list-group">
+						<c:forEach items="${atividades}" var="atividade">
+							<c:if test="${atividade.nivelAprendizagem == n}">
+								<li class="list-group-item">
+									<p>${atividade.titulo} (${atividade.statusAtividade.statusAtividade}) - 
+										<c:if test="${not empty atividade.nomeDocumento}">
+											<a class="btn btn-secondary btn-sm" title="Download Arquivo"
+												href="downloadDocumento-${atividade.id}"> <i
+												class="fa fa-download"></i></a>
+										</c:if>
+										<a class="btn btn-secondary btn-sm" title="Editar"
+											href="editarAtividade-${atividade.id}"> <i class="fa fa-pencil-square "></i></a>
+										<a class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">
+											Ver Respostas </a>
+									</p>
+									<fmt:parseDate value="${atividade.dataExpiracao}"
+											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+									<h6>Prazo: <fmt:formatDate value="${parsedDateTime}" pattern="dd/MM/yyyy HH:mm" /></h6>
+								</li>
+							</c:if>
+						</c:forEach>
+					</ul>
+				</div>
+			</c:forEach>
 
 		</div>
 		<!-- /.container-fluid-->

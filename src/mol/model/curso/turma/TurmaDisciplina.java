@@ -40,6 +40,8 @@ public class TurmaDisciplina extends Entidade {
 	@JoinColumn(name="sumario_id")
 	private Sumario sumarioTurma;
 	
+	@Column(name="quantidade_niveis")
+	private Integer quantidadeNiveis;
 	
 	
 	public Turma getTurma() {
@@ -88,6 +90,14 @@ public class TurmaDisciplina extends Entidade {
 
 	public void setSumarioTurma(Sumario sumarioTurma) {
 		this.sumarioTurma = sumarioTurma;
+	}
+
+	public Integer getQuantidadeNiveis() {
+		return quantidadeNiveis;
+	}
+
+	public void setQuantidadeNiveis(Integer quantidadeNiveis) {
+		this.quantidadeNiveis = quantidadeNiveis;
 	}
 		
 }
