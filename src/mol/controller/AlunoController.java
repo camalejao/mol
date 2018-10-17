@@ -51,20 +51,20 @@ public class AlunoController {
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		List<Atividade> listResp = new ArrayList<>();
 		List<Atividade> listNaoResp = new ArrayList<>();
-		List<TurmaDisciplinaAluno> turmasDisc = tdaDAO.consultarPorAluno(aluno);
+		List<TurmaDisciplinaAluno> turmasDiscAluno = tdaDAO.consultarPorAluno(aluno);
 
-		for (TurmaDisciplinaAluno tda : turmasDisc) {
-			List<Atividade> lr = atvDAO.consultarRespondidas(tda.getTurmaDisciplina(), aluno);
+		for (TurmaDisciplinaAluno tda : turmasDiscAluno) {
+			List<Atividade> lr = atvDAO.consultarRespondidas(tda);
 			if (!lr.isEmpty()) {
 				listResp.addAll(lr);
 			}
-			List<Atividade> lnr = atvDAO.consultarNaoRespondidas(tda.getTurmaDisciplina(), aluno);
+			List<Atividade> lnr = atvDAO.consultarNaoRespondidas(tda);
 			if (!lnr.isEmpty()) {
 				listNaoResp.addAll(lnr);
 			}
 		}
 
-		mav.addObject("turmasDisc", turmasDisc);
+		mav.addObject("turmasDisc", turmasDiscAluno);
 		mav.addObject("respondidas", listResp);
 		mav.addObject("naoRespondidas", listNaoResp);
 
@@ -79,11 +79,17 @@ public class AlunoController {
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		IItemAtividadeDAO iaDAO = DAOFactory.getItemAtividadeDAO();
 		IItemRespostaDAO irDAO = DAOFactory.getItemRespostaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
 		
 		session.setAttribute("idAtv", id);
 		
 		Atividade atv = atvDAO.consultarPorId(id);
 		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
+		TurmaDisciplinaAluno tda = tdaDAO.consultarPorAlunoETurmaDisciplina(a, atv.getTurmaDisciplina());		
+		
+		//verifica se o aluno é da turma da atividade e se é adequada para o nível dele
+		if(tda==null || tda.getNivelAtual()<atv.getNivelAprendizagem())
+			return new ModelAndView("redirect:home");
 		
 		mav.addObject("atividade", atv);
 		mav.addObject("resposta", new Resposta());

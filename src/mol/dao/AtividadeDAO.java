@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.turma.TurmaDisciplina;
+import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
 import mol.model.user.Professor;
 
@@ -56,11 +57,12 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
 	}
 	
 	@Override
-	public List<Atividade> consultarRespondidas(TurmaDisciplina td, Aluno a){
+	public List<Atividade> consultarRespondidas(TurmaDisciplinaAluno tda){
 		try {
-			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.statusAtividade = 'LIBERADA' and exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
-			query.setParameter("turmad", td);
-			query.setParameter("aluno", a);
+			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.nivelAprendizagem <= :nivel and a.statusAtividade = 'LIBERADA' and exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
+			query.setParameter("turmad", tda.getTurmaDisciplina());
+			query.setParameter("aluno", tda.getAluno());
+			query.setParameter("nivel", tda.getNivelAtual());
             return query.getResultList();
             		
         } catch (RuntimeException re) {
@@ -70,11 +72,12 @@ public class AtividadeDAO extends DAOGenerico<Atividade> implements IAtividadeDA
 	}
 	
 	@Override
-	public List<Atividade> consultarNaoRespondidas(TurmaDisciplina td, Aluno a){
+	public List<Atividade> consultarNaoRespondidas(TurmaDisciplinaAluno tda){
 		try {
-			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.statusAtividade = 'LIBERADA' and not exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
-			query.setParameter("turmad", td);
-			query.setParameter("aluno", a);
+			TypedQuery<Atividade> query = getEntityManager().createQuery("select a from Atividade a where a.turmaDisciplina = :turmad and a.status = 'ATIVO' and a.nivelAprendizagem <= :nivel and a.statusAtividade = 'LIBERADA' and not exists (select r from Resposta r where r.atividade = a and r.aluno = :aluno )", Atividade.class);
+			query.setParameter("turmad", tda.getTurmaDisciplina());
+			query.setParameter("aluno", tda.getAluno());
+			query.setParameter("nivel", tda.getNivelAtual());
             return query.getResultList();
             		
         } catch (RuntimeException re) {

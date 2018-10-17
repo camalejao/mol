@@ -97,7 +97,7 @@
 											<div class="media">
 												<div class="media-body">
 													<h6 class="card-title mb-1">
-														<strong>${td.turmaDisciplina.disciplina.nome}</strong>
+														<strong>${td.turmaDisciplina.disciplina.nome} | Nível ${td.nivelAtual}/${td.turmaDisciplina.quantidadeNiveis}</strong>
 													</h6>
 												</div>
 											</div>
@@ -139,7 +139,8 @@
 													<h6 class="card-title mb-1">
 														<strong>Disciplina: </strong>
 														${nr.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${nr.titulo} <strong>Prazo: </strong>
+														</strong> ${nr.titulo} <strong>Nível: </strong> ${nr.nivelAprendizagem} 
+														<strong>Prazo: </strong>
 														<fmt:parseDate value="${nr.dataExpiracao}"
 															pattern="yyyy-MM-dd'T'HH:mm" var="expiracao" type="both" />
 														<fmt:formatDate value="${expiracao}"
@@ -188,7 +189,8 @@
 													<h6 class="card-title mb-1">
 														<strong>Disciplina: </strong>
 														${r.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${r.titulo} <strong>Data de envio: </strong>
+														</strong> ${r.titulo} <strong>Nível: </strong> ${r.nivelAprendizagem}
+														<strong>Data de envio: </strong>
 														<fmt:parseDate value="${r.dataCadastro}"
 															pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
 															type="both" />

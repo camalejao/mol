@@ -4,7 +4,7 @@ import java.util.List;
 
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.turma.TurmaDisciplina;
-import mol.model.user.Aluno;
+import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Professor;
 
 public interface IAtividadeDAO extends IDAOGenerico<Atividade> {
@@ -14,9 +14,9 @@ public interface IAtividadeDAO extends IDAOGenerico<Atividade> {
 
 	List<Atividade> consultarPorIdTurmaDisciplina(Integer id);
 
-	List<Atividade> consultarRespondidas(TurmaDisciplina td, Aluno a);
+	List<Atividade> consultarRespondidas(TurmaDisciplinaAluno tda);
 
-	List<Atividade> consultarNaoRespondidas(TurmaDisciplina td, Aluno a);
+	List<Atividade> consultarNaoRespondidas(TurmaDisciplinaAluno tda);
 
 	boolean verfificarAtividadesNoNivelAnterior(Integer nivelAprendizagem, TurmaDisciplina turmaDisciplina);
 }

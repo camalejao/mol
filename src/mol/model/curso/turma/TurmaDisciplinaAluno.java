@@ -17,12 +17,15 @@ public class TurmaDisciplinaAluno extends Entidade {
 	private TurmaDisciplina turmaDisciplina;
 	
 	@ManyToOne
-	@JoinColumn(name="aluno_id")	
+	@JoinColumn(name="aluno_id")
 	private Aluno aluno;
 	
 	private Double media;
+	
+	private Integer nivelAtual;
 
 
+	
 	public TurmaDisciplina getTurmaDisciplina() {
 		return turmaDisciplina;
 	}
@@ -50,6 +53,16 @@ public class TurmaDisciplinaAluno extends Entidade {
 
 	public void setMedia(Double media) {
 		this.media = media;
+	}
+
+
+	public Integer getNivelAtual() {
+		return nivelAtual;
+	}
+
+
+	public void setNivelAtual(Integer nivelAtual) {
+		this.nivelAtual = nivelAtual;
 	}
 	
 }
