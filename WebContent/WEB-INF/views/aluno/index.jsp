@@ -136,15 +136,15 @@
 										<div class="list-group-item list-group-item-action">
 											<div class="media">
 												<div class="media-body">
-													<h6 class="card-title mb-1">
-														<strong>Disciplina: </strong>
-														${nr.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${nr.titulo} <strong>Nível: </strong> ${nr.nivelAprendizagem} 
-														<strong>Prazo: </strong>
-														<fmt:parseDate value="${nr.dataExpiracao}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="expiracao" type="both" />
-														<fmt:formatDate value="${expiracao}"
-															pattern="dd/MM/yyyy HH:mm" />
+													<p class="card-title mb-1">
+														<h6><strong>${nr.titulo}</strong> - Nível ${nr.nivelAprendizagem}</h6>
+														<h6>Disciplina: ${nr.turmaDisciplina.disciplina.nome}</h6>
+														<h6>Prazo:
+															<fmt:parseDate value="${nr.dataExpiracao}"
+																pattern="yyyy-MM-dd'T'HH:mm" var="prazo" type="both" />
+															<fmt:formatDate value="${prazo}"
+																pattern="dd/MM/yyyy HH:mm" />
+														</h6>
 														<c:choose>
 															<c:when test="${nr.verificaExpiracao()}">
 																<a href="responderAtividade-${nr.id}"
@@ -154,7 +154,7 @@
 																<span class="btn btn-sm btn-danger">Expirada</span>
 															</c:otherwise>
 														</c:choose>
-													</h6>
+													</p>
 												</div>
 											</div>
 										</div>
@@ -186,28 +186,30 @@
 										<div class="list-group-item list-group-item-action">
 											<div class="media">
 												<div class="media-body">
-													<h6 class="card-title mb-1">
-														<strong>Disciplina: </strong>
-														${r.turmaDisciplina.disciplina.nome} <strong>Atividade:
-														</strong> ${r.titulo} <strong>Nível: </strong> ${r.nivelAprendizagem}
-														<strong>Data de envio: </strong>
-														<fmt:parseDate value="${r.dataCadastro}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-															type="both" />
-														<fmt:formatDate value="${parsedDateTime}"
-															pattern="dd/MM/yyyy HH:mm" />
-														<strong>Prazo: </strong>
-														<fmt:parseDate value="${r.dataExpiracao}"
-															pattern="yyyy-MM-dd'T'HH:mm" var="prazo" type="both" />
-														<fmt:formatDate value="${prazo}"
-															pattern="dd/MM/yyyy HH:mm" />
+													<p class="card-title mb-1">
+														<h6><strong>${r.titulo}</strong> - Nível ${r.nivelAprendizagem}</h6>
+														<h6>Disciplina: ${r.turmaDisciplina.disciplina.nome}</h6>
+														<h6>Prazo:
+															<fmt:parseDate value="${r.dataExpiracao}"
+																pattern="yyyy-MM-dd'T'HH:mm" var="prazo" type="both" />
+															<fmt:formatDate value="${prazo}"
+																pattern="dd/MM/yyyy HH:mm" />
+														</h6>
+														<h6>Data de envio: 
+															<fmt:parseDate value="${r.dataCadastro}"
+																pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+																type="both" />
+															<fmt:formatDate value="${parsedDateTime}"
+																pattern="dd/MM/yyyy HH:mm" />
+														</h6>
 														<c:choose>
 															<c:when test="${r.verificaExpiracao()}">
 																<a href="responderAtividade-${r.id}"
-																	class="btn btn-sm btn-primary">Responder Novamente</a>
+																	class="btn btn-sm btn-primary">Responder Novamente
+																</a>
 															</c:when>
 														</c:choose>
-													</h6>
+													</p>
 												</div>
 											</div>
 										</div>

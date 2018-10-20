@@ -95,20 +95,15 @@
 									</h6>
 									<label for="descricaoAtv">Descrição:</label>
 									<p id="descricaoAtv">${atividade.descricao}</p>
-									<label for="doc">Arquivo da atividade:</label>
-									<c:choose>
-										<c:when test="${not empty atividade.nomeDocumento}">
-											<p id="doc">${atividade.nomeDocumento}<a
-													class="btn btn-secondary btn-sm"
-													href="downloadAtividade-${atividade.id}"> <i
-													class="fa fa-download "></i> Baixar
-												</a>
-											</p>
-										</c:when>
-										<c:otherwise>
-											<p id="doc">Não disponibilizado.</p>
-										</c:otherwise>
-									</c:choose>
+									<c:if test="${not empty atividade.nomeDocumento}" >
+										<label for="doc">Arquivo da atividade:</label>
+										<p id="doc">${atividade.nomeDocumento}<a
+											class="btn btn-secondary btn-sm"
+											href="downloadAtividade-${atividade.id}"> <i
+											class="fa fa-download "></i> Baixar
+											</a>
+										</p>
+									</c:if>
 								</div>
 							</div>
 							<div class="media">
