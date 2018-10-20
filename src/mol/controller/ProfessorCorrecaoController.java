@@ -10,12 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
+import mol.dao.IDesempenhoAlunoDAO;
 import mol.dao.IItemRespostaDAO;
 import mol.dao.IRespostaDAO;
+import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemResposta;
 import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
+import mol.model.curso.atividade.analiseDesempenho.DesempenhoAluno;
+import mol.model.curso.turma.TurmaDisciplinaAluno;
+import mol.util.ParametrosGlobais;
 
 @Controller
 public class ProfessorCorrecaoController {
@@ -95,11 +100,34 @@ public class ProfessorCorrecaoController {
 			return "redirect:verResposta-" + resposta.getId();
 		
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();  
+		IDesempenhoAlunoDAO daDAO = DAOFactory.getDesempenhoAlunoDAO();
+		
+		TurmaDisciplinaAluno tda = tdaDAO.consultarPorAlunoETurmaDisciplina(
+				resposta.getAluno(), resposta.getAtividade().getTurmaDisciplina());
 		
 		resposta.setObservacoesProfessor(observacoes);
 		resposta.setStatusResposta(StatusResposta.CORRIGIDA);
 		
 		rDAO.alterar(resposta);
+		
+		if(resposta.getAtividade().isMudancaNivel()) {
+			
+			double percentual = (resposta.getNota() / resposta.getAtividade().getValorMaximo()) * 100;
+			DesempenhoAluno da = new DesempenhoAluno();
+			da.setPercentual(percentual);
+			da.setNivel(resposta.getAtividade().getNivelAprendizagem());
+			da.setTurmaDisciplinaAluno(tda);
+			daDAO.inserir(da);
+			
+			if(percentual >= ParametrosGlobais.PERCENTUAL_APRENDIZAGEM_MINIMO) {
+				Integer nivel = tda.getNivelAtual();
+				nivel += 1;
+				tda.setNivelAtual(nivel);
+				tdaDAO.alterar(tda);
+			}
+				
+		}
 		
 		return "redirect:respostasAtividade-" + resposta.getAtividade().getId();
 	}

@@ -25,6 +25,7 @@ public abstract class DAOFactory {
     private static IAlternativaDAO alternativaDAO;
     private static IItemRespostaDAO itemRespostaDAO;
     private static INivelAprendizagemDAO nivelAprendizagemDAO;
+    private static IDesempenhoAlunoDAO desempenhoAlunoDAO;
     
     static {
         emf = Persistence.createEntityManagerFactory("mol_local");
@@ -131,6 +132,11 @@ public abstract class DAOFactory {
 	public static INivelAprendizagemDAO getNivelAprendizagemDAO() {
 		nivelAprendizagemDAO = new NivelAprendizagemDAO(emf.createEntityManager());
 		return nivelAprendizagemDAO;
+	}
+	
+	public static IDesempenhoAlunoDAO getDesempenhoAlunoDAO() {
+		desempenhoAlunoDAO = new DesempenhoAlunoDAO(emf.createEntityManager());
+		return desempenhoAlunoDAO;
 	}
 
 	public static void close() {

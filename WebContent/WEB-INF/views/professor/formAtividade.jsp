@@ -176,6 +176,15 @@
 										</div>
 									</div>
 								</div>
+								<div class="form-check">
+									<form:checkbox path="mudancaNivel" id="checkMudancaNivel" class="form-check-input" />
+									<label class="form-check-label mb-3" for="checkMudancaNivel">Mudança de Nível
+										<span data-toggle="tooltip" data-placement="top" title="Ao responder essa atividade, o aluno poderá passar de nível.">
+											<i class="fa fa-question-circle" aria-hidden="true"></i>
+										</span>
+									</label>
+								</div>
+								
 								<form:select hidden="true" path="turmaDisciplina"
 									class="form-control" id="selectTurmaDisciplina">
 									<form:option value="${turmaDisciplina.id}">${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.sigla}</form:option>

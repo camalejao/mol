@@ -78,6 +78,8 @@ public class Atividade extends Entidade {
 	@Column(name="status_atividade")
 	private StatusAtividade statusAtividade;
 	
+	private boolean mudancaNivel;
+	
 	@Transient
 	private CommonsMultipartFile upload;
 		
@@ -185,6 +187,14 @@ public class Atividade extends Entidade {
 
 	public void setStatusAtividade(StatusAtividade statusAtividade) {
 		this.statusAtividade = statusAtividade;
+	}
+
+	public boolean isMudancaNivel() {
+		return mudancaNivel;
+	}
+
+	public void setMudancaNivel(boolean mudancaNivel) {
+		this.mudancaNivel = mudancaNivel;
 	}
 
 	//expirada retorna false, dentro do prazo retorna true
