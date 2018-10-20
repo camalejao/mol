@@ -84,72 +84,6 @@
 			</div>
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-file-text"></i> Lista de Atividades
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable" width="100%"
-							cellspacing="0">
-							<thead>
-								<tr>
-									<th>Título</th>
-									<th>Arquivo</th>
-									<th>Status</th>
-									<th>Un.</th>
-									<th>Nível</th>
-									<th>Data Expiração</th>
-									<th>Ações</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>Título</th>
-									<th>Arquivo</th>
-									<th>Status</th>
-									<th>Un.</th>
-									<th>Nível</th>
-									<th>Data Expiração</th>
-									<th>Ações</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<c:forEach items="${atividades}" var="atividade">
-									<tr>
-										<td>${atividade.titulo}</td>
-										<c:choose>
-											<c:when test="${not empty atividade.nomeDocumento}">
-												<td>${atividade.nomeDocumento}<a
-													class="btn btn-secondary btn-sm"
-													href="downloadDocumento-${atividade.id}"> <i
-														class="fa fa-download "></i> Baixar
-												</a></td>
-											</c:when>
-											<c:otherwise>
-												<td>-</td>
-											</c:otherwise>
-										</c:choose>
-										<td>${atividade.statusAtividade.statusAtividade}</td>
-										<td>${atividade.unidade.unidade}</td>
-										<td>${atividade.nivelAprendizagem}</td>
-										<fmt:parseDate value="${atividade.dataExpiracao}"
-											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-										<td><fmt:formatDate value="${parsedDateTime}"
-												pattern="dd/MM/yyyy HH:mm" /></td>
-										<td>
-											<a class="btn btn-secondary btn-sm" title="Editar"
-												href="editarAtividade-${atividade.id}"> <i class="fa fa-pencil-square "></i></a>
-											<a class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">
-												Ver Respostas </a>
-										</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="card mb-3">
-				<div class="card-header">
 					<span>Níveis</span>
 				</div>
 				<div class="card-body">
@@ -158,16 +92,39 @@
 					</c:forEach>
 				</div>
 			</div>
+			<jsp:useBean id="alertas" class="java.util.HashMap"/>
+			<c:forEach var="n" begin="1" end="${td.quantidadeNiveis}">
+				<c:set target="${alertas}" property="${n}" value="true" />
+			</c:forEach>
 			<c:forEach var="n" begin="1" end="${td.quantidadeNiveis}">
 				<div class="card mb-3" id="nivel-${n}">
 					<div class="card-header">
-						<h5>Nível ${n}</h5>
+						<h5>Nível ${n} &nbsp; 
+							<span id="alertaMudancaNivel-${n}" class="badge badge-warning" hidden="true">
+								Não há atividades de mudança de nível!
+							</span>
+						</h5>
 					</div>
 					<ul class="list-group">
 						<c:forEach items="${atividades}" var="atividade">
 							<c:if test="${atividade.nivelAprendizagem == n}">
 								<li class="list-group-item">
-									<p>${atividade.titulo} (${atividade.statusAtividade.statusAtividade}) - 
+									<p><strong>${atividade.titulo}</strong>
+										<c:if test="${atividade.statusAtividade == 'LIBERADA'}">
+											<span class="badge badge-primary">${atividade.statusAtividade.statusAtividade}</span>
+										</c:if>
+										<c:if test="${atividade.statusAtividade == 'CONSTRUCAO'}">
+											<span class="badge badge-warning">${atividade.statusAtividade.statusAtividade}</span>
+										</c:if>
+										<c:if test="${atividade.mudancaNivel == true}">
+											<span class="badge badge-primary">Mudança de nível</span>
+										</c:if>
+										<h6>Unidade ${atividade.unidade.unidade}</h6>
+										<fmt:parseDate value="${atividade.dataExpiracao}"
+											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
+										<h6>Prazo: <fmt:formatDate value="${parsedDateTime}" pattern="dd/MM/yyyy HH:mm" /></h6>
+									</p>
+									<p>
 										<c:if test="${not empty atividade.nomeDocumento}">
 											<a class="btn btn-secondary btn-sm" title="Download Arquivo"
 												href="downloadDocumento-${atividade.id}"> <i
@@ -178,13 +135,18 @@
 										<a class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">
 											Ver Respostas </a>
 									</p>
-									<fmt:parseDate value="${atividade.dataExpiracao}"
-											pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" type="both" />
-									<h6>Prazo: <fmt:formatDate value="${parsedDateTime}" pattern="dd/MM/yyyy HH:mm" /></h6>
 								</li>
+							</c:if>
+							<c:if test="${atividade.mudancaNivel == true && atividade.nivelAprendizagem == n}">
+								<c:set target="${alertas}" property="${n}" value="false" />
 							</c:if>
 						</c:forEach>
 					</ul>
+					<c:forEach items="${alertas}" var="alerta">
+						<c:if test="${alerta.key == n && alerta.value == true}">
+							<div id="${n}" title="alerta"></div>
+						</c:if>
+					</c:forEach>
 				</div>
 			</c:forEach>
 
@@ -241,6 +203,14 @@
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!-- Custom scripts for this page-->
 		<script src="resources/scripts/datatables-PT-BR.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("div[title='alerta']").each(function(){
+					var n = $(this).attr("id");
+					$("#alertaMudancaNivel-"+n).attr("hidden", false);
+				});
+			})
+		</script>
 	</div>
 </body>
 </html>
