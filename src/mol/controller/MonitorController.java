@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
+import mol.dao.IDuvidaDAO;
 import mol.dao.IMonitorDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.curso.turma.TurmaDisciplina;
@@ -33,5 +34,13 @@ public class MonitorController {
 		List<TurmaDisciplina> ltd = tdDAO.consultarPorDisciplina(m.getDisciplina());
         return new ModelAndView("monitor/listaTurmas", "turmasDisc", ltd);
     }
+	
+	@RequestMapping("acompanharDuvidas")
+	public ModelAndView duvidas() {
+		ModelAndView mav = new ModelAndView("monitor/listaDuvidas");
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		mav.addObject("duvidas", dDAO.consultarTodos());
+		return mav;
+	}
 	
 }

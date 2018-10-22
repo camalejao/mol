@@ -73,6 +73,13 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("valorArquivo", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("liberarAtividade", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("avaliarItem", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("adicionarDuvida", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("minhasDuvidas", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("listarDuvidas", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("verDuvidas", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("acompanharDuvidas", TipoUsuario.MONITOR));
+		lp.add(new Permissoes("responderDuvida", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("responderDuvida", TipoUsuario.MONITOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

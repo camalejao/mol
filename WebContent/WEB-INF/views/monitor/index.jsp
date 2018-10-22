@@ -44,6 +44,16 @@
 					<ul class="sidenav-second-level collapse" id="collapseTurmas">
 						<li><a href="turmasDisciplina">Minhas Turmas</a></li>
 					</ul></li>
+					
+				<li class="nav-item" data-toggle="tooltip" data-placement="right"
+					title="Dúvidas"><a
+					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+					href="#collapseDuvidas" data-parent="#exampleAccordion"> <i
+						class="fa fa-fw fa-question "></i> <span class="nav-link-text">Acompanhar
+							Dúvidas </span></a>
+					<ul class="sidenav-second-level collapse" id="collapseDuvidas">
+						<li><a href="acompanharDuvidas">Todas as Dúvidas</a></li>
+					</ul></li>
 			</ul>
 			
 			<ul class="navbar-nav sidenav-toggler">

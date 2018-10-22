@@ -22,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import mol.dao.DAOFactory;
 import mol.dao.IAlternativaDAO;
 import mol.dao.IAtividadeDAO;
+import mol.dao.IDuvidaDAO;
 import mol.dao.IItemAtividadeDAO;
 import mol.dao.IMaterialDidaticoDAO;
 import mol.dao.INivelAprendizagemDAO;
@@ -59,6 +60,14 @@ public class ProfessorController {
 		Professor p = (Professor) session.getAttribute("usuarioLogado");
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		mav.addObject("turmasDisciplinas", tdDAO.consultarPorProfessor(p));
+		return mav;
+	}
+	
+	@RequestMapping("verDuvidas")
+	public ModelAndView duvidas() {
+		ModelAndView mav = new ModelAndView("professor/listaDuvidas");
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		mav.addObject("duvidas", dDAO.consultarTodos());
 		return mav;
 	}
 

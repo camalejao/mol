@@ -1,18 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-<title>MOL - Professor</title>
-<!-- Bootstrap core CSS-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MOL - Monitor</title>
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -26,9 +20,11 @@
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+	
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 		id="mainNav">
+		
 		<a class="navbar-brand" href="home">Monitoria On-line</a>
 		<button class="navbar-toggler navbar-toggler-right" type="button"
 			data-toggle="collapse" data-target="#navbarResponsive"
@@ -36,16 +32,20 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+		
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
-					title="Turmas"><a class="nav-link nav-link-collapse collapsed"
-					data-toggle="collapse" href="#collapseListas"
-					data-parent="#exampleAccordion"> <i class="fa fa-fw fa-table"></i>
-						<span class="nav-link-text">Gerenciar Turmas</span></a>
-					<ul class="sidenav-second-level collapse" id="collapseListas">
-						<li><a href="listarTurmas">Minhas turmas</a></li>
+					title="Turmas"><a
+					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
+					href="#collapseTurmas" data-parent="#exampleAccordion"> <i
+						class="fa fa-fw fa-file-text "></i> <span class="nav-link-text">Turmas
+					</span></a>
+					<ul class="sidenav-second-level collapse" id="collapseTurmas">
+						<li><a href="turmasDisciplina">Minhas Turmas</a></li>
 					</ul></li>
+				
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
 					title="Dúvidas"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -53,14 +53,16 @@
 						class="fa fa-fw fa-question "></i> <span class="nav-link-text">Acompanhar
 							Dúvidas </span></a>
 					<ul class="sidenav-second-level collapse" id="collapseDuvidas">
-						<li><a href="verDuvidas">Todas as Dúvidas</a></li>
+						<li><a href="acompanharDuvidas">Todas as Dúvidas</a></li>
 					</ul></li>
 			</ul>
+			
 			<ul class="navbar-nav sidenav-toggler">
 				<li class="nav-item"><a class="nav-link text-center"
 					id="sidenavToggler"> <i class="fa fa-fw fa-angle-left"></i>
 				</a></li>
 			</ul>
+			
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
 						<c:out value="${sessionScope.usuarioLogado.nome}" />
@@ -69,22 +71,63 @@
 					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
 				</a></li>
 			</ul>
+			
 		</div>
 	</nav>
+	
 	<div class="content-wrapper">
 		<div class="container-fluid">
+			
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item active">Acompanhar Dúvidas</li>
 			</ol>
+			<div class="mb-0 mt-4">
+				<i class="fa fa-question"></i> Dúvidas
+			</div>
+			<hr class="mt-2">
 			<div class="row">
 				<div class="col-12">
-					<h1>Bem-vindo</h1>
-					<p>Página Inicial</p>
+					<c:choose>
+						<c:when test="${not empty duvidas}">
+							<c:forEach items="${duvidas}" var="d">
+								<div class="col-6">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h6><strong>Dúvida #${d.id}</strong></h6>
+										</div>
+										<div class="card-body">
+											<p class="row ml-1">
+												Aluno: ${d.aluno.nome}
+												/ Turma: ${d.item.atividade.turmaDisciplina.turma.identificacao} <br >
+												Disciplina: ${d.item.atividade.turmaDisciplina.disciplina.nome}
+												<fmt:parseDate value="${d.dataCadastro}"
+													pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
+												/ Data: <fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" /><br>
+												Visibilidade: ${d.visibilidade.visibilidadeDuvida}
+											</p>
+											<p>Item: ${d.item.enunciado}</p>
+											<p>Dúvida: <br><strong>${d.duvida}</strong></p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="col-6">
+								<div class="card mb-3">
+									<div class="card-body">
+										<h6 class="card-title mb-1">Nenhuma dúvida encontrada.</h6>
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>
+				
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
 		<footer class="sticky-footer">
@@ -94,10 +137,12 @@
 				</div>
 			</div>
 		</footer>
+		
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
 		</a>
+		
 		<!-- Logout Modal-->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -120,6 +165,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>

@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,12 +76,56 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item active">Acompanhar Dúvidas</li>
 			</ol>
+			<div class="mb-0 mt-4">
+				<i class="fa fa-question"></i> Dúvidas
+			</div>
+			<hr class="mt-2">
 			<div class="row">
 				<div class="col-12">
-					<h1>Bem-vindo</h1>
-					<p>Página Inicial</p>
+					<c:choose>
+						<c:when test="${not empty duvidas}">
+							<c:forEach items="${duvidas}" var="d">
+								<div class="col-6">
+									<div class="card mb-3">
+										<div class="card-header">
+											<h6>
+												<strong>Dúvida #${d.id}</strong>
+											</h6>
+										</div>
+										<div class="card-body">
+											<p class="row ml-1">
+												Aluno: ${d.aluno.nome} / Turma:
+												${d.item.atividade.turmaDisciplina.turma.identificacao} <br>
+												Disciplina:
+												${d.item.atividade.turmaDisciplina.disciplina.nome}
+												<fmt:parseDate value="${d.dataCadastro}"
+													pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
+												/ Data:
+												<fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" />
+												<br> Visibilidade: ${d.visibilidade.visibilidadeDuvida}
+											</p>
+											<p>Item: ${d.item.enunciado}</p>
+											<p>
+												Dúvida: <br>
+												<strong>${d.duvida}</strong>
+											</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<div class="col-6">
+								<div class="card mb-3">
+									<div class="card-body">
+										<h6 class="card-title mb-1">Nenhuma dúvida encontrada.</h6>
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</div>
