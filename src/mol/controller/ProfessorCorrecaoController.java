@@ -111,7 +111,7 @@ public class ProfessorCorrecaoController {
 		
 		rDAO.alterar(resposta);
 		
-		if(resposta.getAtividade().isMudancaNivel()) {
+		if(resposta.getAtividade().isMudancaNivel() && resposta.getAtividade().getNivelAprendizagem() == tda.getNivelAtual()) {
 			
 			double percentual = (resposta.getNota() / resposta.getAtividade().getValorMaximo()) * 100;
 			DesempenhoAluno da = new DesempenhoAluno();
