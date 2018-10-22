@@ -2,6 +2,7 @@ package mol.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
+import mol.dao.IDuvidaDAO;
 import mol.dao.IItemAtividadeDAO;
 import mol.dao.IItemRespostaDAO;
 import mol.dao.IRespostaDAO;
@@ -31,6 +34,8 @@ import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
 import mol.model.curso.atividade.TipoSubmissao;
+import mol.model.curso.atividade.duvida.Duvida;
+import mol.model.curso.atividade.duvida.VisibilidadeDuvida;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
@@ -93,8 +98,11 @@ public class AlunoController {
 		
 		mav.addObject("atividade", atv);
 		mav.addObject("resposta", new Resposta());
+		mav.addObject("duvida", new Duvida());
+		mav.addObject("aluno", a);
 		mav.addObject("itens", iaDAO.consultarPorAtividade(atv));
 		mav.addObject("respostaItens", irDAO.consultarNaoEnviadosPorAlunoAtividade(a, atv));
+		mav.addObject("visibilidade", Arrays.asList(VisibilidadeDuvida.values()));
 
 		return mav;
 	}
@@ -281,5 +289,39 @@ public class AlunoController {
 			irDAO.inserir(itemResposta);
 		}		
 		return "redirect:responderAtividade-" + itemResposta.getItem().getAtividade().getId();
+	}
+	
+	@RequestMapping("adicionarDuvida")
+	public String adicionarDuvida(@ModelAttribute("duvida") Duvida duvida, HttpSession session) {
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
+		duvida.setStatus(StatusEntidade.ATIVO);
+		duvida.setUsuarioLogado(a);
+		duvida.setAluno(a);
+		dDAO.inserir(duvida);
+		return "redirect:responderAtividade-"+duvida.getItem().getAtividade().getId();
+	}
+	
+	@RequestMapping("minhasDuvidas")
+	public ModelAndView minhasDuvidas(HttpSession session) {
+		ModelAndView mav = new ModelAndView("aluno/duvidasAluno");
+		
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
+		
+		mav.addObject("duvidas", dDAO.consultarDuvidasPorAluno(a));
+		
+		return mav;
+	}
+	
+	@RequestMapping("listarDuvidas")
+	public ModelAndView listaDuvidas(HttpSession session) {
+		ModelAndView mav = new ModelAndView("aluno/todasDuvidas");
+		
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		
+		mav.addObject("duvidas", dDAO.consultarDuvidasPublicas());
+		
+		return mav;
 	}
 }

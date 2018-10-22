@@ -247,8 +247,24 @@
 								<button class="btn btn-secondary" type="button"
 									data-dismiss="modal">Cancelar</button>
 								<button class="btn btn-primary" type="submit">Salvar</button>
+								<button onClick="mostrarFormDuvida(event)" class="btn btn-warning">Dúvida</button>
 							</div>
 						</form>
+						<div id="formDuvida" hidden="true">
+							<form:form modelAttribute="duvida" action="adicionarDuvida" method="POST">
+								<label for="inputDuvida">Descreva sua dúvida</label>
+								<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+								<form:input id="itemDuvida" hidden="true" path="item" />
+								<form:select path="visibilidade" class="form-control">
+									<c:forEach items="${visibilidade}" var="v">
+										<form:option value="${v}">${v.visibilidadeDuvida}</form:option>
+									</c:forEach>
+								</form:select>
+								<div class="modal-footer">
+									<form:button type="submit" class="btn btn-primary">Enviar Dúvida</form:button>
+								</div>
+							</form:form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -271,6 +287,7 @@
 		</script>
 		<script>
 			function getItem(idItem, index, e){
+				$("#formDuvida").attr("hidden", true);
 				$("#idItem").val(idItem);
 				$.post("requisitaItem", {'idItem' : idItem}, function(item){
 					$("#itemModalLabel").html('Item ' + index);
@@ -294,6 +311,7 @@
 				e.preventDefault();
 			}
 			function getItemResposta(idItem, idAluno, index, e){
+				$("#formDuvida").attr("hidden", true);
 				$("#idItem").val(idItem);
 				$.post("requisitaItemResposta", {'idItem':idItem, 'idAluno':idAluno}, function(itemResp){
 					$("#itemModalLabel").html('Item ' + index);
@@ -319,6 +337,11 @@
 					}
 				});
 				e.preventDefault();
+			}
+			function mostrarFormDuvida(event){
+				$("#formDuvida").attr("hidden", false);
+				$("#itemDuvida").attr("value", $("#idItem").val());
+				event.preventDefault();
 			}
 		</script>
 	</div>
