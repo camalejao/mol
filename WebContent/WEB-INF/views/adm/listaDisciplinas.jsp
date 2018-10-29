@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +53,7 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastrarUsuario">Cadastrar Usuário</a></li>
+						<li><a href="cadastrarUsuario">Cadastrar UsuÃ¡rio</a></li>
 					</ul></li>
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -62,7 +63,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
-						<li><a href="listarUsuarios">Listar Usuários</a></li>
+						<li><a href="listarUsuarios">Listar UsuÃ¡rios</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -84,7 +85,7 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="homeAdm">Página
+				<li class="breadcrumb-item"><a href="homeAdm">PÃ¡gina
 						Inicial</a></li>
 				<li class="breadcrumb-item active">Listar Disciplinas</li>
 			</ol>
@@ -102,7 +103,7 @@
 									<th>Nome</th>
 									<th>Sigla</th>
 									<th>Data de cadastro</th>
-									<th>Ações</th>
+									<th>AÃ§Ãµes</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -110,7 +111,7 @@
 									<th>Nome</th>
 									<th>Sigla</th>
 									<th>Data de cadastro</th>
-									<th>Ações</th>
+									<th>AÃ§Ãµes</th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -123,14 +124,22 @@
 										<td><fmt:formatDate value="${parsedDate}"
 												pattern="dd/MM/yyyy" /></td>
 										<td>
-											<form action="excluirDisciplina" method="POST"
-												onsubmit="return confirm('Confirma a exclusão?');">
-												<input name="disciplina" value="${disciplina.sigla}" type="text"
-														hidden="true" />
-												<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
-													<i class="fa fa-trash" aria-hidden="true"></i>
-												</button>
-											</form>
+											<div class="row">
+													<button class="btn btn-sm btn-secondary ml-2 mr-1" data-toggle="modal"
+														data-target="#editaDisciplinaModal" title="Editar"
+														onclick="editaDisciplina(${disciplina.id},'${disciplina.nome}','${disciplina.sigla}',event)">
+														<i class="fa fa-pencil-square" aria-hidden="true"></i>
+													</button>
+													<form action="excluirDisciplina" method="POST"
+														onsubmit="return confirm('Confirma a exclusÃ£o?');">
+														<input name="disciplina" value="${disciplina.sigla}" type="text"
+																hidden="true" />
+														<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
+															<i class="fa fa-trash" aria-hidden="true"></i>
+														</button>
+													</form>
+												</div>
+											
 										</td>
 									</tr>
 								</c:forEach>
@@ -146,7 +155,7 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © 2018</small>
+					<small>Copyright Â© 2018</small>
 				</div>
 			</div>
 		</footer>
@@ -160,18 +169,51 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Já Vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">JÃ¡ Vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
-							<span aria-hidden="true">×</span>
+							<span aria-hidden="true">Ã—</span>
 						</button>
 					</div>
 					<div class="modal-body">Selecione "sair" se deseja encerrar a
-						sessão atual.</div>
+						sessÃ£o atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
 						<a class="btn btn-primary" href="logout">Sair</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal EDITAR Disciplina -->
+		<div class="modal fade" id="editaDisciplinaModal" tabindex="-1" role="dialog"
+			aria-labelledby="editaDisciplinaModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaDisciplinaModalLabel">Editar Disciplina</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">Ã—</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form action="editaDisciplina" method="POST">
+							<div class="form-group">
+								<label for="inputNome">Nome</label>
+								<input class="form-control" id="inputNome" name="nome"
+									type="text" placeholder="Digite o nome da Disciplina" maxlength="40" />
+							</div>
+							<div class="form-group">
+								<label for="inputNome">Sigla</label>
+								<input class="form-control" id="inputSigla" name="sigla"
+									type="text" placeholder="Ex: ESTD" maxlength="5" />
+							</div>
+							<input id="inputId" name="id" hidden="true" />
+							<div>
+								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -194,6 +236,16 @@
 		<!-- Custom scripts for this page-->
 		<script
 			src="resources/scripts/datatables-PT-BR.js"></script>
+		<!-- ValidaÃ§Ã£o com Ajax -->
+		<script src="resources/scripts/validacaoAjax.js"></script>
+		<script>
+			function editaDisciplina(id, nome, sigla, e){
+				$("#inputId").attr("value", id);
+				$("#inputNome").val(nome);
+				$("#inputSigla").val(sigla);
+				e.preventDefault();
+			}
+		</script>
 	</div>
 </body>
 </html>
