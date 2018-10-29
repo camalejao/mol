@@ -84,6 +84,7 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("editarUsuario", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("excluirDisciplina", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("editaDisciplina", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("removerMonitor", TipoUsuario.ADMINISTRADOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

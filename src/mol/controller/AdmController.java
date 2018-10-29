@@ -1,5 +1,6 @@
 package mol.controller;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
@@ -275,6 +276,19 @@ public class AdmController {
 			}
 			pDAO.alterar(p);
 		}
+		
+		return "redirect:listarUsuarios";
+	}
+	
+	@RequestMapping("removerMonitor")
+	public String removerMonitor(@RequestParam("usuario") Usuario u) {
+		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
+		IMonitorDAO mDAO = DAOFactory.getMonitorDAO();
+		Monitor m = mDAO.consultarPorAluno((Aluno)u);
+		u.setTipo(TipoUsuario.ALUNO);
+		uDAO.alterar(u);
+		m.setStatus(StatusEntidade.INATIVO);
+		mDAO.alterar(m);
 		
 		return "redirect:listarUsuarios";
 	}

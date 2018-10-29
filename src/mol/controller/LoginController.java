@@ -63,19 +63,7 @@ public class LoginController {
 			case PROFESSOR:
 				return "redirect:homeProfessor";
 			case MONITOR:
-				IMonitorDAO mDAO = DAOFactory.getMonitorDAO();
-				Monitor m = mDAO.consultarPorAluno((Aluno)controle);
-				
-				if(LocalDate.now().isBefore(m.getDataInicioContrato()))
-					return "redirect:homeAluno";
-				else if(LocalDate.now().isAfter(m.getDataTerminoContrato())) {
-					controle.setTipo(TipoUsuario.ALUNO);
-					uDAO.alterar(controle);
-					m.setStatus(StatusEntidade.INATIVO);
-					mDAO.alterar(m);
-					return "redirect:homeAluno";
-				}else
-					return "redirect:homeMonitor";
+				return "redirect:homeMonitor";
 			}
 
 		}
