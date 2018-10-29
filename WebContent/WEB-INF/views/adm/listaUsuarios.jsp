@@ -101,6 +101,7 @@
 									<th>Tipo</th>
 									<th>Status</th>
 									<th>Data de cadastro</th>
+									<th>Ações</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -110,6 +111,7 @@
 									<th>Tipo</th>
 									<th>Status</th>
 									<th>Data de cadastro</th>
+									<th>Ações</th>
 								</tr>
 							</tfoot>
 							<tbody>
@@ -123,6 +125,16 @@
 											pattern="yyyy-MM-dd" var="parsedDate" type="date" />
 										<td><fmt:formatDate value="${parsedDate}"
 												pattern="dd/MM/yyyy" /></td>
+										<td>
+											<form action="excluirUsuario" method="POST"
+												onsubmit="return confirm('Confirma a exclusão?');">
+												<input name="usuario" value="${usuario.id}" type="text"
+														hidden="true" />
+												<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
+													<i class="fa fa-trash" aria-hidden="true"></i>
+												</button>
+											</form>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
