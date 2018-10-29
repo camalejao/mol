@@ -81,6 +81,7 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("responderDuvida", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("responderDuvida", TipoUsuario.MONITOR));
 		lp.add(new Permissoes("excluirUsuario", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("editarUsuario", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("excluirDisciplina", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("editaDisciplina", TipoUsuario.ADMINISTRADOR));
 		

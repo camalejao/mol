@@ -126,14 +126,41 @@
 										<td><fmt:formatDate value="${parsedDate}"
 												pattern="dd/MM/yyyy" /></td>
 										<td>
-											<form action="excluirUsuario" method="POST"
-												onsubmit="return confirm('Confirma a exclusão?');">
-												<input name="usuario" value="${usuario.id}" type="text"
-														hidden="true" />
-												<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
-													<i class="fa fa-trash" aria-hidden="true"></i>
-												</button>
-											</form>
+											<div class="row">
+												<c:if test="${usuario.tipo == 'ADMINISTRADOR'}">
+													<button class="btn btn-sm btn-secondary ml-2 mr-1"
+														data-toggle="modal" data-target="#editaAdmModal"
+														title="Editar"
+														onclick="editaAdm(${usuario.id},'${usuario.nome}','${usuario.email}',event)">
+														<i class="fa fa-pencil-square" aria-hidden="true"></i>
+													</button>	
+												</c:if>
+												<c:if test="${usuario.tipo == 'ALUNO' || usuario.tipo == 'PROFESSOR' || usuario.tipo == 'MONITOR'}">
+													<button class="btn btn-sm btn-secondary ml-2 mr-1"
+														data-toggle="modal" data-target="#editaAlunoProfModal"
+														title="Editar"
+														onclick="editaAlunoProf(${usuario.id},'${usuario.nome}','${usuario.email}','${usuario.matricula}',event)">
+														<i class="fa fa-pencil-square" aria-hidden="true"></i>
+													</button>	
+												</c:if>
+												<form action="excluirUsuario" method="POST"
+													onsubmit="return confirm('Confirma a exclusão?');">
+													<input name="usuario" value="${usuario.id}" type="text"
+															hidden="true" />
+													<button class="btn btn-sm btn-danger mr-1" title="Excluir" type="submit">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</button>
+												</form>
+												<c:if test="${usuario.tipo == 'MONITOR'}">
+													<form action="removerMonitor" method="POST"
+														onsubmit="return confirm('Confirma a remoção do monitor?');">
+														<input name="usuario" value="${usuario.id}" type="text"
+															hidden="true" />
+														<button class="btn btn-sm btn-danger mr-1" title="remover Monitor"
+															type="submit">Remover Monitor</button>
+													</form>
+												</c:if>
+											</div>
 										</td>
 									</tr>
 								</c:forEach>
@@ -179,6 +206,83 @@
 				</div>
 			</div>
 		</div>
+		<!-- Modal EDITAR adm -->
+		<div class="modal fade" id="editaAdmModal" tabindex="-1"
+			role="dialog" aria-labelledby="editaAdmModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaAdmModalLabel">Editar
+							Usuário</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form action="editarUsuario" method="POST">
+							<div class="form-group">
+								<label for="inputNomeAdm">Nome</label> <input class="form-control"
+									id="inputNomeAdm" name="nome" type="text"
+									placeholder="Digite o nome do Usuário" maxlength="50" />
+							</div>
+							<div class="form-group">
+								<label for="inputEmailAdm">Email</label> <input class="form-control"
+									id="inputEmailAdm" name="email" type="email" placeholder="email@exemplo.com"
+									maxlength="50" />
+							</div>
+							<input id="inputIdAdm" name="usuario" hidden="true" />
+							<input id="inputMatAdm" name="matricula" hidden="true" value="" />
+							<div>
+								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal EDITAR aluno/professor -->
+		<div class="modal fade" id="editaAlunoProfModal" tabindex="-1"
+			role="dialog" aria-labelledby="editaAlunoProfModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editaAlunoProfModalLabel">Editar
+							Usuário</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form action="editarUsuario" method="POST">
+							<div class="form-group">
+								<label for="inputNome">Nome</label> <input class="form-control"
+									id="inputNome" name="nome" type="text"
+									placeholder="Digite o nome do Usuário" maxlength="50" />
+							</div>
+							<div class="form-group">
+								<label for="inputEmail">Email</label> <input class="form-control"
+									id="inputEmail" name="email" type="email" placeholder="email@exemplo.com"
+									maxlength="50" />
+							</div>
+							<div class="form-group">
+								<label for="inputMatricula">Matrícula</label> <input class="form-control"
+									id="inputMatricula" name="matricula" type="text"
+									maxlength="10" />
+							</div>
+							<input id="inputId" name="usuario" hidden="true" />
+							<div>
+								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Bootstrap core JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery/jquery.min.js"></script>
@@ -197,6 +301,21 @@
 		<!-- Custom scripts for this page-->
 		<script
 			src="resources/scripts/datatables-PT-BR.js"></script>
+		<script>
+			function editaAdm(id, nome, email, e){
+				$("#inputIdAdm").attr("value", id);
+				$("#inputNomeAdm").val(nome);
+				$("#inputEmailAdm").val(email);
+				e.preventDefault();
+			}
+			function editaAlunoProf(id, nome, email, matricula, e){
+				$("#inputId").attr("value", id);
+				$("#inputNome").val(nome);
+				$("#inputEmail").val(email);
+				$("#inputMatricula").val(matricula);
+				e.preventDefault();
+			}
+		</script>
 	</div>
 </body>
 </html>
