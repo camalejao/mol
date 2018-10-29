@@ -20,6 +20,8 @@ import mol.model.StatusEntidade;
 import mol.model.user.Aluno;
 import mol.model.user.Professor;
 import mol.model.user.TipoUsuario;
+import mol.util.MailSender;
+import mol.util.PasswordGenerator;
 
 @Controller
 public class CadastroController {
@@ -42,9 +44,14 @@ public class CadastroController {
 		}
 		aluno.setStatus(StatusEntidade.ATIVO);
 		aluno.setTipo(TipoUsuario.ALUNO);
+		String senha = PasswordGenerator.generatePassword(6);
+		aluno.setSenha(senha);
 		aluno.setSenha(aluno.senhaSHA());
 		IAlunoDAO aDAO = DAOFactory.getAlunoDAO();
 		aDAO.inserir(aluno);
+		MailSender.enviarEmail(aluno.getEmail(), "Você está cadastrado na Monitoria Online do IFAL!",
+				"Sua senha é: " + senha);
+		
 		return new ModelAndView("index");
 	}
 	
@@ -56,9 +63,13 @@ public class CadastroController {
 		}
 		professor.setStatus(StatusEntidade.ATIVO);
 		professor.setTipo(TipoUsuario.PROFESSOR);
+		String senha = PasswordGenerator.generatePassword(6);
+		professor.setSenha(senha);
 		professor.setSenha(professor.senhaSHA());
 		IProfessorDAO pDAO = DAOFactory.getProfessorDAO();
 		pDAO.inserir(professor);
+		MailSender.enviarEmail(professor.getEmail(), "Você está cadastrado na Monitoria Online do IFAL!",
+				"Sua senha é :" + senha);
 		return new ModelAndView("index");
 	}
 	

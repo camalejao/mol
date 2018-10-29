@@ -52,21 +52,6 @@
 							onchange="verificaEmail(this.value)" />
 						<form:errors path="email" cssClass="text-danger" />
 					</div>
-					<div class="form-group">
-						<div class="form-row">
-							<div class="col-md-6">
-								<label for="inputSenha">Senha</label> <input name="senha"
-									class="form-control" id="inputSenha" type="password"
-									placeholder="Senha" onkeyup="confirmaSenha()" />
-								<form:errors path="senha" cssClass="text-danger" />
-							</div>
-							<div class="col-md-6">
-								<label for="confirmacaoSenha">Confirmação de senha</label> <input
-									class="form-control" id="confirmacaoSenha" type="password"
-									placeholder="Repita a senha" onkeyup="confirmaSenha()" />
-							</div>
-						</div>
-					</div>
 					<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
 				</form:form>
 				<div class="text-center">

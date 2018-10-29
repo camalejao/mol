@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
@@ -17,6 +18,8 @@ import mol.dao.IDisciplinaDAO;
 import mol.dao.IUsuarioDAO;
 import mol.model.user.TipoUsuario;
 import mol.model.user.Usuario;
+import mol.util.MailSender;
+import mol.util.PasswordGenerator;
 import mol.dao.IMonitorDAO;
 import mol.model.user.Monitor;
 import mol.dao.IProfessorDAO;
@@ -108,7 +111,7 @@ public class AdmController {
 
 		ModelAndView mav = new ModelAndView("adm/formularioAluno");
 		mav.addObject("aluno", new Aluno());
-
+		
 		return mav;
 	}
 
@@ -122,12 +125,17 @@ public class AdmController {
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		aluno.setUsuarioLogado(user);
+		String senha = PasswordGenerator.generatePassword(6);
+		aluno.setSenha(senha);
 		aluno.setSenha(aluno.senhaSHA());
 		aluno.setTipo(TipoUsuario.ALUNO);
 		aluno.setStatus(StatusEntidade.ATIVO);
 
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		alunoDAO.inserir(aluno);
+		
+		MailSender.enviarEmail(aluno.getEmail(), "Você está cadastrado na Monitoria Online do IFAL!",
+				"Sua senha é: " + senha);
 
 		return new ModelAndView("adm/sucesso");
 	}
@@ -151,14 +159,19 @@ public class AdmController {
 		
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
+		String senha = PasswordGenerator.generatePassword(6);
 		adm.setUsuarioLogado(user);
+		adm.setSenha(senha);
 		adm.setSenha(adm.senhaSHA());
 		adm.setTipo(TipoUsuario.ADMINISTRADOR);
 		adm.setStatus(StatusEntidade.ATIVO);
 
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		uDAO.inserir(adm);
-
+		
+		MailSender.enviarEmail(adm.getEmail(), "Você está cadastrado na Monitoria Online do IFAL!",
+				"Sua senha é: " + senha);
+		
 		return new ModelAndView("adm/sucesso");
 	}
 
@@ -181,12 +194,17 @@ public class AdmController {
 		
 		Usuario user = (Usuario) session.getAttribute("usuarioLogado");
 		professor.setUsuarioLogado(user);
+		String senha = PasswordGenerator.generatePassword(6);
+		professor.setSenha(senha);
 		professor.setSenha(professor.senhaSHA());
 		professor.setTipo(TipoUsuario.PROFESSOR);
 		professor.setStatus(StatusEntidade.ATIVO);
 
 		IProfessorDAO professorDAO = DAOFactory.getProfessorDAO();
 		professorDAO.inserir(professor);
+		
+		MailSender.enviarEmail(professor.getEmail(), "Você está cadastrado na Monitoria Online do IFAL!",
+				"Sua senha é: " + senha);
 
 		return new ModelAndView("adm/sucesso");
 	}
@@ -220,6 +238,13 @@ public class AdmController {
 		alunoDAO.alterar(monitor.getAluno());
 
 		return "adm/sucesso";
+	}
+	
+	@RequestMapping("excluirUsuario")
+	public String excluiusuario(@RequestParam("usuario") Usuario u) {
+		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
+		uDAO.remover(u);
+		return "redirect:listarUsuarios";
 	}
 
 }

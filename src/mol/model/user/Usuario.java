@@ -35,8 +35,6 @@ public class Usuario extends Entidade {
 	@Column(length = 50, nullable = false, unique = true)
 	private String email;
 	
-	@NotEmpty @NotBlank
-	@Size(min=6, max=64)
 	@Column(length = 64, nullable = false)
 	private String senha;
 	
