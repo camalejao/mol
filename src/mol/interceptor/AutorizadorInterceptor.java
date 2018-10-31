@@ -60,7 +60,10 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 						|| (uri.contains("verCorrecoes") && p.getServico().contains("verCorrecoes"))
 						|| (uri.contains("sumario") && p.getServico().contains("sumario"))
 						|| (uri.contains("editarSumario") && p.getServico().contains("editarSumario"))
-						|| (uri.contains("editaMaterialDidatico") && p.getServico().contains("editaMaterialDidatico"))){
+						|| (uri.contains("editaMaterialDidatico") && p.getServico().contains("editaMaterialDidatico"))
+						|| (uri.contains("duvidasAtividade") && p.getServico().contains("duvidasAtividade"))
+						|| (uri.contains("verDuvidas") && p.getServico().contains("verDuvidas"))
+						|| (uri.contains("duvidasTurmaDisciplina") && p.getServico().contains("duvidasTurmaDisciplina"))){
 					return true;
 				}
 			}

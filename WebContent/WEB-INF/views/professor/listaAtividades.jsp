@@ -134,6 +134,8 @@
 											href="editarAtividade-${atividade.id}"> <i class="fa fa-pencil-square "></i></a>
 										<a class="btn btn-secondary btn-sm" href="respostasAtividade-${atividade.id}">
 											Ver Respostas </a>
+										<a class="btn btn-secondary btn-sm" href="duvidasAtividade-${atividade.id}">
+											Ver Dúvidas </a>
 									</p>
 								</li>
 							</c:if>

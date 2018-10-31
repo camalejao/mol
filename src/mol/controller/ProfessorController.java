@@ -27,6 +27,7 @@ import mol.dao.IItemAtividadeDAO;
 import mol.dao.IMaterialDidaticoDAO;
 import mol.dao.INivelAprendizagemDAO;
 import mol.dao.IRespostaDAO;
+import mol.dao.IRespostaDuvidaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
@@ -39,6 +40,7 @@ import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
 import mol.model.curso.atividade.TipoSubmissao;
 import mol.model.curso.atividade.Unidades;
+import mol.model.curso.atividade.duvida.RespostaDuvida;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.materialDidatico.MaterialDidatico;
@@ -64,11 +66,56 @@ public class ProfessorController {
 	}
 	
 	@RequestMapping("verDuvidas")
-	public ModelAndView duvidas() {
-		ModelAndView mav = new ModelAndView("professor/listaDuvidas");
-		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
-		mav.addObject("duvidas", dDAO.consultarTodos());
+	public ModelAndView duvidas(HttpSession session) {
+		ModelAndView mav = new ModelAndView("professor/selecionarTurma");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
+		mav.addObject("turmasDisc", tdDAO.consultarPorProfessor(p));
 		return mav;
 	}
-
+	
+	@RequestMapping("responderDuvida")
+	public ModelAndView responderDuvida(@Valid @ModelAttribute("resposta") RespostaDuvida resposta,
+			BindingResult bindingResult, Model model, HttpSession session) {
+		
+		if (bindingResult.hasErrors()) {
+			ModelAndView mav = new ModelAndView("professor/listaDuvidas");
+			IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+			mav.addObject("duvidas", dDAO.consultarTodos());
+			mav.addObject("resposta", new RespostaDuvida());
+			return mav;
+		} else {
+			IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
+			Usuario autor = (Usuario) session.getAttribute("usuarioLogado");
+			resposta.setAutor(autor);
+			resposta.setUsuarioLogado(autor);
+			resposta.setStatus(StatusEntidade.ATIVO);
+			rdDAO.inserir(resposta);
+		}
+		return new ModelAndView("redirect:verDuvidas");
+	}
+	
+	@RequestMapping("duvidasAtividade-{id}")
+	public ModelAndView duvidasAtividade(@PathVariable Integer id, HttpSession session) {
+		ModelAndView mav = new ModelAndView("professor/duvidasAtividade");
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		Atividade atv = aDAO.consultarPorId(id);
+		mav.addObject("atividade", atv);
+		mav.addObject("duvidas", dDAO.consultarDuvidasPorAtividade(atv));
+		mav.addObject("resposta", new RespostaDuvida());
+		return mav;
+	}
+	
+	@RequestMapping("duvidasTurmaDisciplina-{id}")
+	public ModelAndView duvidasTurmaDisciplina(@PathVariable Integer id, HttpSession session) {
+		ModelAndView mav = new ModelAndView("professor/listaDuvidas");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
+		mav.addObject("turmaDisc", turmaDisc);
+		mav.addObject("duvidas", dDAO.consultarDuvidasPorTurmaDisciplina(turmaDisc));
+		mav.addObject("resposta", new RespostaDuvida());
+		return mav;
+	}
 }

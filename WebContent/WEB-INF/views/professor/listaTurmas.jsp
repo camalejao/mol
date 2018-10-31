@@ -111,10 +111,13 @@
 										<td>${td.turma.turno.turno}</td>
 										<td>${td.tipoCalculo.tipoCalculo}</td>
 										<td><a href="editarSumario-${td.id}"
-											class="btn btn-sm btn-primary"><i class="fa fa-list-ul"></i>
-												Sumário</a> <a class="btn btn-primary btn-sm"
+											class="btn btn-sm btn-primary mb-1"><i class="fa fa-list-ul"></i>
+												Sumário</a> <a class="btn btn-primary btn-sm  mb-1"
 											href="listarAtividades-${td.id}"><i
-												class="fa fa-file-text "></i> Atividades</a></td>
+												class="fa fa-file-text "></i> Atividades</a>
+											<a class="btn btn-primary btn-sm mb-1"
+											href="duvidasTurmaDisciplina-${td.id}"><i
+												class="fa fa-question "></i> Dúvidas</a></td>
 
 									</tr>
 								</c:forEach>

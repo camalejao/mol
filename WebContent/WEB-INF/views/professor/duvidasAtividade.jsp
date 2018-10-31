@@ -80,7 +80,7 @@
 				<li class="breadcrumb-item active">Acompanhar Dúvidas</li>
 			</ol>
 			<div class="mb-0 mt-4">
-				<i class="fa fa-question"></i> Dúvidas
+				<i class="fa fa-question"></i> Dúvidas da Atividade - ${atividade.titulo}
 			</div>
 			<hr class="mt-2">
 			<div class="row">
@@ -171,7 +171,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
-						<a class="btn btn-primary " href="logout">Sair</a>
+						<a class="btn btn-primary" href="logout">Sair</a>
 					</div>
 				</div>
 			</div>

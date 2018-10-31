@@ -85,59 +85,35 @@
 			<hr class="mt-2">
 			<div class="row">
 				<div class="col-12">
-					<c:choose>
-						<c:when test="${not empty duvidas}">
-							<c:forEach items="${duvidas}" var="d">
-								<div class="col-6">
-									<div class="card mb-3">
-										<div class="card-header">
-											<h6>
-												<strong>Dúvida #${d.id}</strong>
-											</h6>
+				<div class="card mb-3">
+					<div class="list-group list-group-flush small">
+						<c:choose>
+							<c:when test="${not empty turmasDisc}">
+								<c:forEach items="${turmasDisc}" var="td">
+									<a class="list-group-item list-group-item-action" href="duvidasTurmaDisciplina-${td.id}">
+										<div class="media">
+											<div class="media-body">
+												<h6 class="card-title mb-1">
+													<strong>Turma ${td.turma.identificacao} / ${td.disciplina.nome}</strong>
+												</h6>
+											</div>
 										</div>
-										<div class="card-body">
-											<p class="row ml-1">
-												Aluno: ${d.aluno.nome} / Turma:
-												${d.item.atividade.turmaDisciplina.turma.identificacao} <br>
-												Disciplina:
-												${d.item.atividade.turmaDisciplina.disciplina.nome}
-												<fmt:parseDate value="${d.dataCadastro}"
-													pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
-												/ Data:
-												<fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" />
-												<br> Visibilidade: ${d.visibilidade.visibilidadeDuvida}
-											</p>
-											<p>Item: ${d.item.enunciado}</p>
-											<p>
-												Dúvida: <br>
-												<strong>${d.duvida}</strong>
-											</p>
-										</div>
-										<hr class="my-0">
-										<div class="card-body">
-											<form:form action="responderDuvida" modelAttribute="resposta" method="POST">
-												<div class="form-group">
-													<form:textarea class="form-control" id="inputResposta" path="resposta" maxlength="400" />
-													<form:errors path="resposta" cssClass="text-danger" />
-													<form:input hidden="true" path="duvida" value="${d.id}" />
-													<button type="submit" class="btn btn-sm btn-primary mt-2">Responder</button>
-												</div>
-											</form:form>
+									</a>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<div class="media">
+									<div class="media-body">
+										<div class="list-group-item list-group-item-action">
+											<h6 class="card-title mb-1">Você não está cadastrado em
+												nenhuma disciplina.</h6>
 										</div>
 									</div>
 								</div>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<div class="col-6">
-								<div class="card mb-3">
-									<div class="card-body">
-										<h6 class="card-title mb-1">Nenhuma dúvida encontrada.</h6>
-									</div>
-								</div>
-							</div>
-						</c:otherwise>
-					</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -171,7 +147,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
-						<a class="btn btn-primary " href="logout">Sair</a>
+						<a class="btn btn-primary" href="logout">Sair</a>
 					</div>
 				</div>
 			</div>
