@@ -51,6 +51,7 @@
 				<bean class="mol.converter.RespostaConverter" />
 				<bean class="mol.converter.NivelAprendizagemConverter" />
 				<bean class="mol.converter.UsuarioConverter" />
+				<bean class="mol.converter.DuvidaConverter" />
 				<bean class="mol.converter.StringParaDataConverter">
 					<constructor-arg value="dd/MM/yyyy HH:mm" />
 				</bean>
