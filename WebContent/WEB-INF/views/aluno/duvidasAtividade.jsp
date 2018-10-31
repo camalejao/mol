@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -66,7 +67,6 @@
 							Dúvidas </span></a>
 					<ul class="sidenav-second-level collapse" id="collapseDuvidas">
 						<li><a href="minhasDuvidas">Minhas Dúvidas</a></li>
-						<li><a href="listarDuvidas">Todas as Dúvidas</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -89,10 +89,10 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Todas as Dúvidas</li>
+				<li class="breadcrumb-item active">Dúvidas</li>
 			</ol>
 			<div class="mb-0 mt-4">
-				<i class="fa fa-question"></i> Dúvidas
+				<i class="fa fa-question"></i> Dúvidas da Atividade - ${atividade.titulo}
 			</div>
 			<hr class="mt-2">
 			<div class="row">
@@ -109,15 +109,32 @@
 										</div>
 										<div class="card-body">
 											<p class="row ml-1">
-												Aluno: ${d.aluno.nome}
-												/ Turma: ${d.item.atividade.turmaDisciplina.turma.identificacao} <br >
-												Disciplina: ${d.item.atividade.turmaDisciplina.disciplina.nome}
+												Aluno: ${d.aluno.nome} / Turma:
+												${d.item.atividade.turmaDisciplina.turma.identificacao} <br>
+												Disciplina:
+												${d.item.atividade.turmaDisciplina.disciplina.nome}
 												<fmt:parseDate value="${d.dataCadastro}"
 													pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
-												/ Data: <fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" />
+												/ Data:
+												<fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" />
+												<br> Visibilidade: ${d.visibilidade.visibilidadeDuvida}
 											</p>
 											<p>Item: ${d.item.enunciado}</p>
-											<p>Dúvida: <br><strong>${d.duvida}</strong></p>
+											<p>
+												Dúvida: <br>
+												<strong>${d.duvida}</strong>
+											</p>
+										</div>
+										<hr class="my-0">
+										<div class="card-body">
+											<form:form action="responderDuvida" modelAttribute="resposta" method="POST">
+												<div class="form-group">
+													<form:textarea class="form-control" id="inputResposta" path="resposta" maxlength="400" />
+													<form:errors path="resposta" cssClass="text-danger" />
+													<form:input hidden="true" path="duvida" value="${d.id}" />
+													<button type="submit" class="btn btn-sm btn-primary mt-2">Responder</button>
+												</div>
+											</form:form>
 										</div>
 									</div>
 								</div>

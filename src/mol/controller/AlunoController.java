@@ -35,6 +35,7 @@ import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
 import mol.model.curso.atividade.TipoSubmissao;
 import mol.model.curso.atividade.duvida.Duvida;
+import mol.model.curso.atividade.duvida.RespostaDuvida;
 import mol.model.curso.atividade.duvida.VisibilidadeDuvida;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
@@ -314,13 +315,15 @@ public class AlunoController {
 		return mav;
 	}
 	
-	@RequestMapping("listarDuvidas")
-	public ModelAndView listaDuvidas(HttpSession session) {
-		ModelAndView mav = new ModelAndView("aluno/todasDuvidas");
-		
+	@RequestMapping("verDuvidas-{id}")
+	public ModelAndView listaDuvidas(@PathVariable Integer id, HttpSession session) {
+		ModelAndView mav = new ModelAndView("aluno/duvidasAtividade");
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
-		
-		mav.addObject("duvidas", dDAO.consultarDuvidasPublicas());
+		Atividade atv = aDAO.consultarPorId(id);
+		mav.addObject("atividade", atv);
+		mav.addObject("duvidas", dDAO.consultarDuvidasPublicasPorAtividade(atv));
+		mav.addObject("resposta", new RespostaDuvida());
 		
 		return mav;
 	}

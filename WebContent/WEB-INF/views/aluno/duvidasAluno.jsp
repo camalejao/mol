@@ -66,7 +66,6 @@
 							Dúvidas </span></a>
 					<ul class="sidenav-second-level collapse" id="collapseDuvidas">
 						<li><a href="minhasDuvidas">Minhas Dúvidas</a></li>
-						<li><a href="listarDuvidas">Todas as Dúvidas</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">

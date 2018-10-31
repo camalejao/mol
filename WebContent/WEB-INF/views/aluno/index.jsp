@@ -66,7 +66,6 @@
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseDuvidas">
 						<li><a href="minhasDuvidas">Minhas Dúvidas</a></li>
-						<li><a href="listarDuvidas">Todas as Dúvidas</a></li>
 					</ul></li>
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
@@ -146,7 +145,11 @@
 											<div class="media">
 												<div class="media-body">
 													<p class="card-title mb-1">
-														<h6><strong>${nr.titulo}</strong> - Nível ${nr.nivelAprendizagem}</h6>
+														<h6><strong>${nr.titulo}</strong> - Nível ${nr.nivelAprendizagem}
+															<c:if test="${nr.mudancaNivel == true}">
+																<span class="badge badge-primary">Mudança de nível</span>
+															</c:if>
+														</h6>
 														<h6>Disciplina: ${nr.turmaDisciplina.disciplina.nome}</h6>
 														<h6>Prazo:
 															<fmt:parseDate value="${nr.dataExpiracao}"
@@ -163,6 +166,8 @@
 																<span class="btn btn-sm btn-danger">Expirada</span>
 															</c:otherwise>
 														</c:choose>
+														<a class="btn btn-secondary btn-sm"
+															href="verDuvidas-${nr.id}"> Ver Dúvidas </a>
 													</p>
 												</div>
 											</div>
@@ -196,7 +201,11 @@
 											<div class="media">
 												<div class="media-body">
 													<p class="card-title mb-1">
-														<h6><strong>${r.titulo}</strong> - Nível ${r.nivelAprendizagem}</h6>
+														<h6><strong>${r.titulo}</strong> - Nível ${r.nivelAprendizagem}
+															<c:if test="${nr.mudancaNivel == true}">
+																<span class="badge badge-primary">Mudança de nível</span>
+															</c:if>
+														</h6>
 														<h6>Disciplina: ${r.turmaDisciplina.disciplina.nome}</h6>
 														<h6>Prazo:
 															<fmt:parseDate value="${r.dataExpiracao}"
@@ -218,6 +227,8 @@
 																</a>
 															</c:when>
 														</c:choose>
+														<a class="btn btn-secondary btn-sm"
+															href="verDuvidas-${nr.id}"> Ver Dúvidas </a>
 													</p>
 												</div>
 											</div>
