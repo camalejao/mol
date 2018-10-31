@@ -36,10 +36,14 @@ public class MonitorController {
     }
 	
 	@RequestMapping("acompanharDuvidas")
-	public ModelAndView duvidas() {
+	public ModelAndView duvidas(HttpSession session) {
+		
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
+		IMonitorDAO mDAO = DAOFactory.getMonitorDAO();
+		Monitor m = mDAO.consultarPorAluno(a);
 		ModelAndView mav = new ModelAndView("monitor/listaDuvidas");
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
-		mav.addObject("duvidas", dDAO.consultarTodos());
+		mav.addObject("duvidas", dDAO.consultarDuvidasPorDisciplina(m.getDisciplina()));
 		return mav;
 	}
 	
