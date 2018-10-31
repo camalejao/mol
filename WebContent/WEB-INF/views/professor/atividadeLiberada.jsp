@@ -90,6 +90,9 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fa fa-file-text"></i> Informações Gerais
+							<c:if test="${atividade.mudancaNivel == true}">
+								<span class="badge badge-primary">Mudança de nível</span>
+							</c:if>
 						</div>
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item">
