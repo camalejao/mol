@@ -88,7 +88,7 @@
 				<div class="col-12">
 					<c:choose>
 						<c:when test="${not empty duvidas}">
-							<c:forEach items="${duvidas}" var="d">
+							<c:forEach items="${duvidas}" var="d" varStatus="loop">
 								<div class="col-6">
 									<div class="card mb-3">
 										<div class="card-header">
@@ -138,15 +138,15 @@
 											</c:if>
 										</c:forEach>
 										</div>
-										<div class="card-body">
-											<form:form action="responderDuvida" modelAttribute="resposta" method="POST">
-												<div class="form-group">
-													<form:textarea class="form-control" id="inputResposta" path="resposta" maxlength="400" />
-													<form:errors path="resposta" cssClass="text-danger" />
-													<form:input hidden="true" path="duvida" value="${d.id}" />
-													<button type="submit" class="btn btn-sm btn-primary mt-2">Responder</button>
-												</div>
-											</form:form>
+										<hr class="my-0">
+										<div class="card-body bg-light">
+											<div class="form-group">
+												<textarea class="form-control" id="inputResposta-${loop.index}"
+													name="resposta" maxlength="400"></textarea>
+												<input hidden="true" name="duvida" value="${d.id}" />
+												<button onClick="submitResposta(${loop.index},${d.id},event)" class="btn btn-sm btn-primary mt-2">
+													Responder</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -210,6 +210,8 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
+		<!-- script para responder duvidas -->
+		<script src="resources/scripts/responderDuvida.js"></script>
 	</div>
 </body>
 </html>

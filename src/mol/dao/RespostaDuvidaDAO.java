@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.duvida.RespostaDuvida;
+import mol.model.curso.disciplina.Disciplina;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.user.Aluno;
 
@@ -46,6 +47,18 @@ public class RespostaDuvidaDAO extends DAOGenerico<RespostaDuvida> implements IR
 		try {
 			TypedQuery<RespostaDuvida> query = getEntityManager().createQuery("select r from RespostaDuvida r where r.duvida.aluno = :a", RespostaDuvida.class);
 			query.setParameter("a", a);
+            return query.getResultList();
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
+
+	@Override
+	public List<RespostaDuvida> consultarPorDisciplina(Disciplina disciplina) {
+		try {
+			TypedQuery<RespostaDuvida> query = getEntityManager().createQuery("select r from RespostaDuvida r where r.duvida.item.atividade.turmaDisciplina.disciplina = :d", RespostaDuvida.class);
+			query.setParameter("d", disciplina);
             return query.getResultList();
         } catch (RuntimeException re) {
             re.printStackTrace();

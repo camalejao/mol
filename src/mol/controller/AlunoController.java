@@ -314,7 +314,6 @@ public class AlunoController {
 		
 		mav.addObject("duvidas", dDAO.consultarDuvidasPorAluno(a));
 		mav.addObject("respostas", rdDAO.consultarPorAluno(a));
-		mav.addObject("resposta", new RespostaDuvida());
 		
 		return mav;
 	}
@@ -329,7 +328,6 @@ public class AlunoController {
 		mav.addObject("atividade", atv);
 		mav.addObject("duvidas", dDAO.consultarDuvidasPublicasPorAtividade(atv));
 		mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
-		mav.addObject("resposta", new RespostaDuvida());
 		
 		return mav;
 	}
