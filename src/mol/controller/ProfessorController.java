@@ -1,10 +1,5 @@
 package mol.controller;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,38 +8,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 
 import mol.dao.DAOFactory;
-import mol.dao.IAlternativaDAO;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IDuvidaDAO;
-import mol.dao.IItemAtividadeDAO;
-import mol.dao.IMaterialDidaticoDAO;
-import mol.dao.INivelAprendizagemDAO;
-import mol.dao.IRespostaDAO;
 import mol.dao.IRespostaDuvidaDAO;
-import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
-import mol.model.curso.atividade.Alternativa;
 import mol.model.curso.atividade.Atividade;
-import mol.model.curso.atividade.ItemAtividade;
-import mol.model.curso.atividade.Resposta;
-import mol.model.curso.atividade.StatusAtividade;
-import mol.model.curso.atividade.StatusResposta;
-import mol.model.curso.atividade.TipoItem;
-import mol.model.curso.atividade.TipoSubmissao;
-import mol.model.curso.atividade.Unidades;
+
 import mol.model.curso.atividade.duvida.RespostaDuvida;
-import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
-import mol.model.materialDidatico.MaterialDidatico;
-import mol.model.materialDidatico.TipoMaterialDidatico;
 import mol.model.user.Professor;
 import mol.model.user.Usuario;
 
@@ -100,9 +76,11 @@ public class ProfessorController {
 		ModelAndView mav = new ModelAndView("professor/duvidasAtividade");
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
 		Atividade atv = aDAO.consultarPorId(id);
 		mav.addObject("atividade", atv);
 		mav.addObject("duvidas", dDAO.consultarDuvidasPorAtividade(atv));
+		mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
 		mav.addObject("resposta", new RespostaDuvida());
 		return mav;
 	}
@@ -112,9 +90,11 @@ public class ProfessorController {
 		ModelAndView mav = new ModelAndView("professor/listaDuvidas");
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO(); 
 		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
 		mav.addObject("turmaDisc", turmaDisc);
 		mav.addObject("duvidas", dDAO.consultarDuvidasPorTurmaDisciplina(turmaDisc));
+		mav.addObject("respostas", rdDAO.consultarPorTurmaDisciplina(turmaDisc));
 		mav.addObject("resposta", new RespostaDuvida());
 		return mav;
 	}

@@ -23,6 +23,7 @@ import mol.dao.IDuvidaDAO;
 import mol.dao.IItemAtividadeDAO;
 import mol.dao.IItemRespostaDAO;
 import mol.dao.IRespostaDAO;
+import mol.dao.IRespostaDuvidaDAO;
 import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
@@ -308,9 +309,12 @@ public class AlunoController {
 		ModelAndView mav = new ModelAndView("aluno/duvidasAluno");
 		
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
 		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		
 		mav.addObject("duvidas", dDAO.consultarDuvidasPorAluno(a));
+		mav.addObject("respostas", rdDAO.consultarPorAluno(a));
+		mav.addObject("resposta", new RespostaDuvida());
 		
 		return mav;
 	}
@@ -320,9 +324,11 @@ public class AlunoController {
 		ModelAndView mav = new ModelAndView("aluno/duvidasAtividade");
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
+		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
 		Atividade atv = aDAO.consultarPorId(id);
 		mav.addObject("atividade", atv);
 		mav.addObject("duvidas", dDAO.consultarDuvidasPublicasPorAtividade(atv));
+		mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
 		mav.addObject("resposta", new RespostaDuvida());
 		
 		return mav;
