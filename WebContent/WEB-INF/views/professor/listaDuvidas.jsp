@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -96,24 +97,47 @@
 											</h6>
 										</div>
 										<div class="card-body">
-											<p class="row ml-1">
-												Aluno: ${d.aluno.nome} / Turma:
-												${d.item.atividade.turmaDisciplina.turma.identificacao} <br>
-												Disciplina:
-												${d.item.atividade.turmaDisciplina.disciplina.nome}
+											<h6>${d.aluno.nome} -
+												${d.item.atividade.turmaDisciplina.turma.identificacao} /
+												${d.item.atividade.turmaDisciplina.disciplina.nome}</h6>
+											<p style="margin: 0;" class="mb-2">
+												<span>Item: ${d.item.enunciado}</span>
+												<c:if test="${d.item.tipoItem == 'MULTIPLA_ESCOLHA'}">
+													<c:set var="letras"
+														value="${fn:split('a, b, c, d, e', ',')}" />
+													<br>
+													<span>Alternativas:</span>
+													<c:forEach items="${d.item.alternativas}" var="alt"
+														varStatus="i">
+														<p style="margin: 0;">
+															<c:out value="${letras[i.index]})" />${alt.enunciado}
+														</p>
+													</c:forEach>
+												</c:if>
+											</p>
+											<p style="margin: 0;">
+												Dúvida: <strong>${d.duvida}</strong>
 												<fmt:parseDate value="${d.dataCadastro}"
 													pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
-												/ Data:
-												<fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" />
-												<br> Visibilidade: ${d.visibilidade.visibilidadeDuvida}
-											</p>
-											<p>Item: ${d.item.enunciado}</p>
-											<p>
-												Dúvida: <br>
-												<strong>${d.duvida}</strong>
+												<br> <small class="text-muted">
+													${d.visibilidade.visibilidadeDuvida} - <fmt:formatDate
+														value="${data}" pattern="dd/MM/yyyy HH:mm" />
+												</small>
 											</p>
 										</div>
-										<hr class="my-0">
+										<div class="list-group list-group-flush">
+										<c:forEach items="${respostas}" var="r">
+											<c:if test="${r.duvida.id == d.id}">
+												<div class="list-group-item">
+														<h6>${r.autor.nome} <span class="badge badge-primary">${r.autor.tipo.tipoUsuario}</span></h6>
+														<span>${r.resposta}</span><br >
+														<fmt:parseDate value="${r.dataCadastro}"
+															pattern="yyyy-MM-dd'T'HH:mm" var="data" type="both" />
+														<small class="text-muted"><fmt:formatDate value="${data}" pattern="dd/MM/yyyy HH:mm" /></small>
+												</div>
+											</c:if>
+										</c:forEach>
+										</div>
 										<div class="card-body">
 											<form:form action="responderDuvida" modelAttribute="resposta" method="POST">
 												<div class="form-group">

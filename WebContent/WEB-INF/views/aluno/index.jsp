@@ -202,7 +202,7 @@
 												<div class="media-body">
 													<p class="card-title mb-1">
 														<h6><strong>${r.titulo}</strong> - Nível ${r.nivelAprendizagem}
-															<c:if test="${nr.mudancaNivel == true}">
+															<c:if test="${r.mudancaNivel == true}">
 																<span class="badge badge-primary">Mudança de nível</span>
 															</c:if>
 														</h6>
@@ -228,7 +228,7 @@
 															</c:when>
 														</c:choose>
 														<a class="btn btn-secondary btn-sm"
-															href="verDuvidas-${nr.id}"> Ver Dúvidas </a>
+															href="verDuvidas-${r.id}"> Ver Dúvidas </a>
 													</p>
 												</div>
 											</div>
