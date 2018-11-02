@@ -23,7 +23,7 @@ public class MailSender {
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("monitoriaonline.ifal@gmail.com", "");
+				return new PasswordAuthentication(ParametrosGlobais.ENDERECO_EMAIL, ParametrosGlobais.SENHA_EMAIL);
 			}
 		});
 
@@ -34,7 +34,7 @@ public class MailSender {
 
 	public static void enviarEmail(String destino, String assunto, String mensagem) {
 		try {
-			String remetente = "monitoriaonline.ifal@gmail.com";
+			String remetente = ParametrosGlobais.ENDERECO_EMAIL;
 			String nome = "Monitoria On-Line IFAL";
 			Message message = new MimeMessage(criarSessionEmail());
 			Address[] toAddress = InternetAddress.parse(destino.trim().toLowerCase());

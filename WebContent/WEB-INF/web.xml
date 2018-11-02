@@ -3,7 +3,7 @@
   <display-name>mol</display-name>
          
   <session-config>
-    	<session-timeout>15</session-timeout>
+    	<session-timeout>60</session-timeout>
   </session-config>
   
   <servlet>
