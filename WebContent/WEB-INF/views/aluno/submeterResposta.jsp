@@ -252,14 +252,19 @@
 						</form>
 						<div id="formDuvida" hidden="true">
 							<form:form modelAttribute="duvida" action="adicionarDuvida" method="POST">
-								<label for="inputDuvida">Descreva sua dúvida</label>
-								<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+								<div class="form-group">
+									<label for="inputDuvida">Descreva sua dúvida</label>
+									<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+								</div>
 								<form:input id="itemDuvida" hidden="true" path="item" />
-								<form:select path="visibilidade" class="form-control">
-									<c:forEach items="${visibilidade}" var="v">
-										<form:option value="${v}">${v.visibilidadeDuvida}</form:option>
-									</c:forEach>
-								</form:select>
+								<div class="form-group">
+									<label for="selectVisibilidade">Visibilidade</label>
+									<form:select path="visibilidade" id="selectVisibilidade" class="form-control">
+										<c:forEach items="${visibilidade}" var="v">
+											<form:option value="${v}">${v.visibilidadeDuvida}</form:option>
+										</c:forEach>
+									</form:select>
+								</div>
 								<div class="modal-footer">
 									<form:button type="submit" class="btn btn-primary">Enviar Dúvida</form:button>
 								</div>
