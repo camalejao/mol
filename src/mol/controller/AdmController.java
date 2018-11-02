@@ -253,7 +253,7 @@ public class AdmController {
 			@RequestParam("email") String email, @RequestParam("matricula") String matricula, HttpSession session) {
 		
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-		if(nome.length()>=10 && nome.length()<=50)
+		if(nome.length()>=10 && nome.length()<=40)
 			u.setNome(nome);
 		if(email.length()<=50 && uDAO.verificarPorEmail(email))
 			u.setEmail(email);

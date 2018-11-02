@@ -90,6 +90,10 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("duvidasTurmaDisciplina-{id}", TipoUsuario.PROFESSOR));
 		lp.add(new Permissoes("responderDuvida", TipoUsuario.MONITOR));
 		lp.add(new Permissoes("responderDuvida", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("editarDados", TipoUsuario.ALUNO));
+		lp.add(new Permissoes("editarDados", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("editarDados", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("editarDados", TipoUsuario.MONITOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);

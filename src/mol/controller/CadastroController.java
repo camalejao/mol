@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,7 @@ import mol.model.StatusEntidade;
 import mol.model.user.Aluno;
 import mol.model.user.Professor;
 import mol.model.user.TipoUsuario;
+import mol.model.user.Usuario;
 import mol.util.MailSender;
 import mol.util.PasswordGenerator;
 
@@ -103,5 +105,39 @@ public class CadastroController {
 		IDisciplinaDAO dDAO = DAOFactory.getDisciplinaDAO();
 		
 		return dDAO.verificarPorSigla(sigla).toString();
+	}
+
+	@RequestMapping("editarDados")
+	@ResponseBody
+	public String editaDados(String nome, String email, String senha, String confirmacao, @RequestParam Usuario usuario, HttpSession session) {
+		
+		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
+		if(nome.length()>=10 && nome.length()<=40 && !nome.trim().isEmpty())
+			usuario.setNome(nome);
+		if(email.length()<=50 && !email.trim().isEmpty() && uDAO.verificarPorEmail(email))
+			usuario.setEmail(email);
+		if(!senha.trim().isEmpty() && !confirmacao.trim().isEmpty() && senha.equals(confirmacao)) {
+			usuario.setSenha(senha);
+			usuario.setSenha(usuario.senhaSHA());
+		}
+		
+		if(usuario.getTipo() == TipoUsuario.ADMINISTRADOR) {
+			uDAO.alterar(usuario);
+		}
+		else if(usuario.getTipo() == TipoUsuario.ALUNO || usuario.getTipo() == TipoUsuario.MONITOR) {
+			IAlunoDAO aDAO = DAOFactory.getAlunoDAO();
+			Aluno a = (Aluno) usuario;
+			aDAO.alterar(a);
+		}
+		else if(usuario.getTipo() == TipoUsuario.PROFESSOR) {
+			IProfessorDAO pDAO = DAOFactory.getProfessorDAO();
+			Professor p = (Professor) usuario;
+			pDAO.alterar(p);
+		}
+		
+		session.setAttribute("usuarioLogado", usuario);
+		
+		return "sucesso";
+			
 	}
 }

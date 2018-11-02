@@ -87,12 +87,62 @@ function confirmaSenha(){
 	var senha = document.getElementById("inputSenha");
 	var confirmacao = document.getElementById("confirmacaoSenha");
 	
+	if(senha.value.length < 6){
+		$("#inputSenha").toggleClass('is-invalid',true);
+		$("#erroDigitos").remove();
+		$("#inputSenha").after("<span id='erroDigitos' class='text-danger'>A senha deve ter 6 dígitos</span>");
+		$("#btnSalvarDados").attr("disabled",true);
+	} else{
+		$("#inputSenha").toggleClass('is-invalid',false);
+		$("#erroDigitos").remove();
+		$("#btnSalvarDados").attr("disabled",false);
+	}
+	
 	if(senha.value != confirmacao.value){
 			$("#confirmacaoSenha").toggleClass('is-invalid',true);
 			$("#naoCorresp").remove();
 			$("#confirmacaoSenha").after("<span id='naoCorresp' class='text-danger'>Senhas devem corresponder!</span>");
+			$("#btnSalvarDados").attr("disabled",true);
 		} else{
 			$("#confirmacaoSenha").toggleClass('is-invalid',false);
 			$("#naoCorresp").remove();
+			$("#btnSalvarDados").attr("disabled",false);
 		}
+}
+
+function showDivAlterarSenha(){
+	$("#divAlterarSenha").attr("hidden", false);
+}
+
+function editarDados(){
+	
+	var erro = false;
+	
+	if($("#inputEditarNome").val().trim().length == 0){
+		$("#inputEditarNome").toggleClass('is-invalid',true);
+		erro = true;
+	}else{
+		$("#inputEditarNome").toggleClass('is-invalid',false);
+	}
+	
+	if($("#inputEditarEmail").val().trim().length == 0){
+		$("#inputEditarEmail").toggleClass('is-invalid',true);
+		erro = true;
+	}else{
+		$("#inputEditarEmail").toggleClass('is-invalid',false);
+	}
+	
+	if(!erro){
+		$.post("editarDados", {
+			"nome" : $("#inputEditarNome").val(),
+			"email" : $("#inputEditarEmail").val(),
+			"senha" : $("#inputSenha").val(),
+			"confirmacao" : $("#confirmacaoSenha").val(),
+			"usuario" : $("#inputId").val()
+		}, function(response){
+			if(response == 'sucesso'){
+				location.reload(true);
+			}
+		});
+	}
 }
