@@ -21,25 +21,34 @@ import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.materialDidatico.MaterialDidatico;
 import mol.model.materialDidatico.TipoMaterialDidatico;
+import mol.model.user.Professor;
 import mol.model.user.Usuario;
 
 @Controller
 public class ProfessorSumarioController {
 	
 	@RequestMapping("editarSumario-{id}")
-	public ModelAndView sumario(@PathVariable Integer id) {
-		ModelAndView mav = new ModelAndView("professor/sumario");
+	public ModelAndView sumario(@PathVariable Integer id, HttpSession session) {
+		
+		ModelAndView mav;
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		ITopicoDAO tDAO = DAOFactory.getTopicoDAO();
 		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
-		List<Topico> topicos = tDAO.consultarPorTurma(turmaDisc);
-		mav.addObject("turmaDisc", turmaDisc);
-		mav.addObject("topicos", topicos);
-		mav.addObject("novoTopico", new Topico());
-		mav.addObject("novoMaterialDidatico", new MaterialDidatico());
-		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
-		mav.addObject("tiposMaterial", Arrays.asList(TipoMaterialDidatico.values()));
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
+		
+		if(turmaDisc != null && turmaDisc.getProfessor().getId() == p.getId()) {
+			mav = new ModelAndView("professor/sumario");
+			List<Topico> topicos = tDAO.consultarPorTurma(turmaDisc);
+			mav.addObject("turmaDisc", turmaDisc);
+			mav.addObject("topicos", topicos);
+			mav.addObject("novoTopico", new Topico());
+			mav.addObject("novoMaterialDidatico", new MaterialDidatico());
+			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+			mav.addObject("tiposMaterial", Arrays.asList(TipoMaterialDidatico.values()));
 
+			return mav;
+		}
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
 	}
 

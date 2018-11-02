@@ -45,27 +45,48 @@ public class ProfessorController {
 		
 	@RequestMapping("duvidasAtividade-{id}")
 	public ModelAndView duvidasAtividade(@PathVariable Integer id, HttpSession session) {
-		ModelAndView mav = new ModelAndView("professor/duvidasAtividade");
+		
+		ModelAndView mav;
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
 		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
+		
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
 		Atividade atv = aDAO.consultarPorId(id);
-		mav.addObject("atividade", atv);
-		mav.addObject("duvidas", dDAO.consultarDuvidasPorAtividade(atv));
-		mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
+		
+		if(atv!=null && atv.getTurmaDisciplina().getProfessor().getId() == p.getId()) {
+			mav = new ModelAndView("professor/duvidasAtividade");
+			mav.addObject("atividade", atv);
+			mav.addObject("duvidas", dDAO.consultarDuvidasPorAtividade(atv));
+			mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
+			return mav;
+		}
+		
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
 	}
 	
 	@RequestMapping("duvidasTurmaDisciplina-{id}")
 	public ModelAndView duvidasTurmaDisciplina(@PathVariable Integer id, HttpSession session) {
-		ModelAndView mav = new ModelAndView("professor/listaDuvidas");
+		
+		ModelAndView mav;
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
 		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO(); 
+		
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
 		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
-		mav.addObject("turmaDisc", turmaDisc);
-		mav.addObject("duvidas", dDAO.consultarDuvidasPorTurmaDisciplina(turmaDisc));
-		mav.addObject("respostas", rdDAO.consultarPorTurmaDisciplina(turmaDisc));
+		
+		if(turmaDisc!=null && turmaDisc.getProfessor().getId() == p.getId()) {
+			mav = new ModelAndView("professor/listaDuvidas");
+			mav.addObject("turmaDisc", turmaDisc);
+			mav.addObject("duvidas", dDAO.consultarDuvidasPorTurmaDisciplina(turmaDisc));
+			mav.addObject("respostas", rdDAO.consultarPorTurmaDisciplina(turmaDisc));
+			
+			return mav;
+		}
+		
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
 	}
 }

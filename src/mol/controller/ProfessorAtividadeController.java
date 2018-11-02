@@ -36,30 +36,48 @@ public class ProfessorAtividadeController {
 	@RequestMapping("listarAtividades-{id}")
 	public ModelAndView listaAtividades(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("professor/listaAtividades");
+		
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		TurmaDisciplina td =  tdDAO.consultarPorId(id);
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
+		
+		if(td != null) {
+			if(td.getProfessor().getId() != p.getId())
+				return new ModelAndView("redirect:listarTurmas");
+		} else if(td == null)
+			return new ModelAndView("redirect:listarTurmas");
+		
 		mav.addObject("atividades", aDAO.consultarPorTurmaDisciplina(td));
 		mav.addObject("td", td);
+		
 		return mav;
 	}
 	
 	@RequestMapping("adicionarAtividade-{id}")
-	public ModelAndView adicionarAtividade(@PathVariable Integer id) {
-		ModelAndView mav = new ModelAndView("professor/formAtividade");
+	public ModelAndView adicionarAtividade(@PathVariable Integer id, HttpSession session) {
+		
+		ModelAndView mav;
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
 		TurmaDisciplina td = tdDAO.consultarPorId(id);
-		mav.addObject("novaAtividade", new Atividade());
-		mav.addObject("turmaDisciplina", td);
-		mav.addObject("unidades", Arrays.asList(Unidades.values()));
-		mav.addObject("niveis", naDAO.consultarPorTurmaDisciplina(td));
-		mav.addObject("status", Arrays.asList(StatusEntidade.values()));
-		mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
-		mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
-		mav.addObject("tiposItem", Arrays.asList(TipoItem.values()));
-
+		
+		if(td != null && td.getProfessor().getId() == p.getId()) {
+			mav = new ModelAndView("professor/formAtividade");
+			mav.addObject("novaAtividade", new Atividade());
+			mav.addObject("turmaDisciplina", td);
+			mav.addObject("unidades", Arrays.asList(Unidades.values()));
+			mav.addObject("niveis", naDAO.consultarPorTurmaDisciplina(td));
+			mav.addObject("status", Arrays.asList(StatusEntidade.values()));
+			mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
+			mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
+			mav.addObject("tiposItem", Arrays.asList(TipoItem.values()));
+		}
+		
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
+
 	}
 
 	@RequestMapping("cadastraAtividade")
@@ -104,18 +122,22 @@ public class ProfessorAtividadeController {
 
 	@RequestMapping("editarAtividade-{id}")
 	public ModelAndView editarAtividade(@PathVariable Integer id, HttpSession session) {
+		
+		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
+		INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
+		
 		ModelAndView mav;
-		if (id != null && id > 0) {
-			IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
-			ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
-			IItemAtividadeDAO iDAO = DAOFactory.getItemAtividadeDAO();
-			INivelAprendizagemDAO naDAO = DAOFactory.getNivelAprendizagemDAO();
-			Professor p = (Professor) session.getAttribute("usuarioLogado");
-			Atividade atv = aDAO.consultarPorId(id);
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
+		Atividade atv = aDAO.consultarPorId(id);
+		
+		if (atv != null && atv.getTurmaDisciplina().getProfessor().getId() == p.getId()) {
 			if(atv.getStatusAtividade() == StatusAtividade.CONSTRUCAO)
 				mav = new ModelAndView("professor/edicaoAtividade");
 			else
 				mav = new ModelAndView("professor/atividadeLiberada");
+
 			mav.addObject("atividade", atv);
 			mav.addObject("turmaDisciplinas", tdDAO.consultarPorProfessor(p));
 			mav.addObject("unidades", Arrays.asList(Unidades.values()));
@@ -126,10 +148,12 @@ public class ProfessorAtividadeController {
 			mav.addObject("itens", iDAO.consultarPorAtividade(atv));
 			mav.addObject("item", new ItemAtividade());
 			mav.addObject("alternativa", new Alternativa());
+			
+			return mav;
+		} else {
+			mav = new ModelAndView("redirect:listarTurmas");
 			return mav;
 		}
-		mav = new ModelAndView("redirect:listarTurmas");
-		return mav;
 	}
 
 	@RequestMapping("editaAtividade-{id}")

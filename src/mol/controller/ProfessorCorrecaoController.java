@@ -2,6 +2,8 @@ package mol.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +22,29 @@ import mol.model.curso.atividade.Resposta;
 import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.analiseDesempenho.DesempenhoAluno;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
+import mol.model.user.Professor;
 import mol.util.ParametrosGlobais;
 
 @Controller
 public class ProfessorCorrecaoController {
 	
 	@RequestMapping("respostasAtividade-{id}")
-	public ModelAndView listaRespostas(@PathVariable Integer id) {
-		ModelAndView mav = new ModelAndView("professor/respostas");
+	public ModelAndView listaRespostas(@PathVariable Integer id, HttpSession session) {
+		
+		ModelAndView mav;
 		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
+		Professor p = (Professor) session.getAttribute("usuarioLogado");
 		Atividade atv = aDAO.consultarPorId(id);
-		mav.addObject("respostas", rDAO.consultarPorAtividade(atv));
-		mav.addObject("atividade", atv);
-
+		
+		if(atv!=null && atv.getTurmaDisciplina().getProfessor().getId() == p.getId()) {
+			mav = new ModelAndView("professor/respostas");
+			mav.addObject("respostas", rDAO.consultarPorAtividade(atv));
+			mav.addObject("atividade", atv);
+			return mav;
+		}
+		
+		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
 	}
 

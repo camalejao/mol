@@ -1,19 +1,15 @@
 package mol.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,13 +32,11 @@ import mol.model.curso.atividade.StatusResposta;
 import mol.model.curso.atividade.TipoItem;
 import mol.model.curso.atividade.TipoSubmissao;
 import mol.model.curso.atividade.duvida.Duvida;
-import mol.model.curso.atividade.duvida.RespostaDuvida;
 import mol.model.curso.atividade.duvida.VisibilidadeDuvida;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
-import mol.model.user.Usuario;
 import mol.util.MailSender;
 
 @Controller
@@ -90,9 +84,17 @@ public class AlunoController {
 		
 		session.setAttribute("idAtv", id);
 		
-		Atividade atv = atvDAO.consultarPorId(id);
+		Atividade atv;
+		TurmaDisciplinaAluno tda = null;
 		Aluno a = (Aluno)session.getAttribute("usuarioLogado");
-		TurmaDisciplinaAluno tda = tdaDAO.consultarPorAlunoETurmaDisciplina(a, atv.getTurmaDisciplina());		
+		
+		if(id == null)
+			return new ModelAndView("redirect:home");
+		else {
+			atv = atvDAO.consultarPorId(id);
+			if(atv != null)
+				tda = tdaDAO.consultarPorAlunoETurmaDisciplina(a, atv.getTurmaDisciplina());
+		}
 		
 		//verifica se o aluno é da turma da atividade e se é adequada para o nível dele
 		if(tda==null || tda.getNivelAtual()<atv.getNivelAprendizagem())
@@ -215,20 +217,29 @@ public class AlunoController {
 		List<Resposta> respostas = rDAO.consultarCorrigidas(turmaDisc, aluno);
 				
 		mav.addObject("turmaDisc", turmaDisc);
-		mav.addObject("respostas", respostas);	
+		mav.addObject("respostas", respostas);
 		
 		return mav;
 	}
 
 	@RequestMapping("sumario-{id}")
-	public ModelAndView sumario(@PathVariable Integer id) {
+	public ModelAndView sumario(@PathVariable Integer id, HttpSession session) {
+		
 		ModelAndView mav = new ModelAndView("aluno/sumario");
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
 		ITopicoDAO tDAO = DAOFactory.getTopicoDAO();
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		TurmaDisciplina turmaDisc = tdDAO.consultarPorId(id);
+		
+		if(turmaDisc == null || tdaDAO.consultarPorAlunoETurmaDisciplina(a, turmaDisc)==null)
+			return new ModelAndView("redirect:disciplinas");
+		
 		List<Topico> topicos = tDAO.consultarPorTurma(turmaDisc);
+		
 		mav.addObject("turmaDisc", turmaDisc);
 		mav.addObject("topicos", topicos);
+		
 		return mav;
 	}
 		
@@ -321,10 +332,23 @@ public class AlunoController {
 	@RequestMapping("verDuvidas-{id}")
 	public ModelAndView listaDuvidas(@PathVariable Integer id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("aluno/duvidasAtividade");
+		
 		IAtividadeDAO aDAO = DAOFactory.getAtividadeDAO();
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
 		IRespostaDuvidaDAO rdDAO = DAOFactory.getRespostaDuvidaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
+		
+		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		Atividade atv = aDAO.consultarPorId(id);
+		TurmaDisciplinaAluno tda;
+		
+		if(atv != null) {
+			tda = tdaDAO.consultarPorAlunoETurmaDisciplina(a, atv.getTurmaDisciplina());
+			if(tda == null)
+				return new ModelAndView("redirect:homeAluno");
+		} else if(atv == null)
+			return new ModelAndView("redirect:homeAluno");
+		
 		mav.addObject("atividade", atv);
 		mav.addObject("duvidas", dDAO.consultarDuvidasPublicasPorAtividade(atv));
 		mav.addObject("respostas", rdDAO.consultarPorAtividade(atv));
