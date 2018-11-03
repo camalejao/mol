@@ -117,7 +117,7 @@
 									</div>
 									<div class="list-group list-group-flush">
 										<a class="list-group-item list-group-item-action" href="#">
-											<strong>Nota: </strong> -
+											<strong>Nível: </strong> ${td.nivelAtual} / ${td.turmaDisciplina.quantidadeNiveis}
 										</a>
 										<a class="list-group-item list-group-item-action" href="sumario-${td.turmaDisciplina.id}">
 											<strong>Ver sumário</strong>
