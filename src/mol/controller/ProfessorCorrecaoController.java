@@ -16,6 +16,7 @@ import mol.dao.IDesempenhoAlunoDAO;
 import mol.dao.IItemRespostaDAO;
 import mol.dao.IRespostaDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
+import mol.model.StatusEntidade;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.ItemResposta;
 import mol.model.curso.atividade.Resposta;
@@ -126,6 +127,7 @@ public class ProfessorCorrecaoController {
 			
 			double percentual = (resposta.getNota() / resposta.getAtividade().getValorMaximo()) * 100;
 			DesempenhoAluno da = new DesempenhoAluno();
+			da.setStatus(StatusEntidade.ATIVO);
 			da.setPercentual(percentual);
 			da.setNivel(resposta.getAtividade().getNivelAprendizagem());
 			da.setTurmaDisciplinaAluno(tda);

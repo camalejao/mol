@@ -73,6 +73,7 @@ public class ProfessorAtividadeController {
 			mav.addObject("statusAtividade", Arrays.asList(StatusAtividade.values()));
 			mav.addObject("tipoSubmissao", Arrays.asList(TipoSubmissao.values()));
 			mav.addObject("tiposItem", Arrays.asList(TipoItem.values()));
+			return mav;
 		}
 		
 		mav = new ModelAndView("redirect:listarTurmas");
