@@ -47,7 +47,7 @@
 					<ul class="sidenav-second-level collapse" id="collapseTurmas">
 						<li><a href="turmasDisciplina">Minhas Turmas</a></li>
 					</ul></li>
-				
+					
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
 					title="Dúvidas"><a
 					class="nav-link nav-link-collapse collapsed" data-toggle="collapse"
@@ -66,14 +66,27 @@
 			</ul>
 			
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
-						<c:out value="${sessionScope.usuarioLogado.nome}" />
-				</span></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="modal"
-					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
-				</a></li>
+				<li class="nav-item dropdown show">
+					<span class="nav-link dropdown-toggle mr-lg-2" data-toggle="dropdown">
+						<c:out value="${sessionScope.usuarioLogado.nome}"/></span>
+					<div class="dropdown-menu dropdown-menu-right">
+						<h6 class="dropdown-header">${sessionScope.usuarioLogado.tipo.tipoUsuario}</h6>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="homeAluno">
+							<i class="fa fa-fw fa-graduation-cap"></i> Página do Aluno
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="" data-toggle="modal" data-target="#editarDadosModal">
+							<i class="fa fa-fw fa-id-card"></i> Editar dados
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="" data-toggle="modal" data-target="#exampleModal">
+							<i class="fa fa-fw fa-sign-out"></i>Sair
+						</a>
+					</div>
+				</li>
+				<li class="nav-item"></li>
 			</ul>
-			
 		</div>
 	</nav>
 	

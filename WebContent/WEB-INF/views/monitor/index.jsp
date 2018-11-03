@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -68,6 +69,10 @@
 						<c:out value="${sessionScope.usuarioLogado.nome}"/></span>
 					<div class="dropdown-menu dropdown-menu-right">
 						<h6 class="dropdown-header">${sessionScope.usuarioLogado.tipo.tipoUsuario}</h6>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="homeAluno">
+							<i class="fa fa-fw fa-graduation-cap"></i> Página do Aluno
+						</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="" data-toggle="modal" data-target="#editarDadosModal">
 							<i class="fa fa-fw fa-id-card"></i> Editar dados
