@@ -136,7 +136,7 @@
 				</div>
 			</div>
 		</div>
-				<!-- Modal editar dados -->
+		<!-- Modal editar dados -->
 		<div class="modal fade" id="editarDadosModal" tabindex="-1"
 			role="dialog" aria-labelledby="editarDadosModalLabel"
 			aria-hidden="true">

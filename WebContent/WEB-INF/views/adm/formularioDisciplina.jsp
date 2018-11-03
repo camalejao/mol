@@ -38,7 +38,7 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
+				<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -68,12 +68,23 @@
 				</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><span class="navbar-text mr-5">Bem-vindo(a),
+				<li class="nav-item dropdown show"><span
+					class="nav-link dropdown-toggle mr-lg-2" data-toggle="dropdown">
 						<c:out value="${sessionScope.usuarioLogado.nome}" />
-				</span></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="modal"
-					data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
-				</a></li>
+				</span>
+					<div class="dropdown-menu dropdown-menu-right">
+						<h6 class="dropdown-header">${sessionScope.usuarioLogado.tipo.tipoUsuario}</h6>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="" data-toggle="modal"
+							data-target="#editarDadosModal"> <i
+							class="fa fa-fw fa-id-card"></i> Editar dados
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="" data-toggle="modal"
+							data-target="#exampleModal"> <i class="fa fa-fw fa-sign-out"></i>Sair
+						</a>
+					</div></li>
+				<li class="nav-item"></li>
 			</ul>
 		</div>
 	</nav>
@@ -143,6 +154,52 @@
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
 						<a class="btn btn-primary" href="logout">Sair</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal editar dados -->
+		<div class="modal fade" id="editarDadosModal" tabindex="-1"
+			role="dialog" aria-labelledby="editarDadosModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editarDadosModalLabel">Editar
+							Usuário</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="inputEditarNome">Nome</label> <input class="form-control"
+								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
+								placeholder="Digite o nome do Usuário" maxlength="50" />
+						</div>
+						<div class="form-group">
+							<label for="inputEditarEmail">Email</label> <input class="form-control"
+								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
+								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
+						</div>
+						<input id="inputId" name="usuario" hidden="true" value="${sessionScope.usuarioLogado.id}" />
+						<div class="form-group" id="divAlterarSenha" hidden="true">
+							<div class="form-row">
+								<div class="col-md-6">
+									<label for="inputSenha">Nova Senha</label>
+									<input id="inputSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+								</div>
+								<div class="col-md-6">
+									<label for="confirmacaoSenha">Confirmar Senha</label>
+									<input id="confirmacaoSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
+						</div>
 					</div>
 				</div>
 			</div>
