@@ -16,8 +16,9 @@ public class Sumario extends Entidade {
 	
 	@OneToOne(mappedBy="sumarioTurma")
 	private TurmaDisciplina turmaDisciplina;
-		
 	
+	
+
 	public Disciplina getDisciplina() {
 		return disciplina;
 	}

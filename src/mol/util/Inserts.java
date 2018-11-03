@@ -31,12 +31,9 @@ public class Inserts {
 		IProfessorDAO pDAO = DAOFactory.getProfessorDAO();
 		ISumarioDAO sDAO = DAOFactory.getSumarioDAO();
 		ITopicoDAO topDAO = DAOFactory.getTopicoDAO();
-		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		ITurmaDAO turmaDAO = DAOFactory.getTurmaDAO();
 		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
 		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
-		IRespostaDAO rDAO = DAOFactory.getRespostaDAO();
-		IMaterialDidaticoDAO mdDAO = DAOFactory.getMaterialDidaticoDAO();
 		IPeriodoDAO peDAO = DAOFactory.getPeriodoDAO();
 		ICursoDAO cDAO = DAOFactory.getCursoDAO();
 		
@@ -46,6 +43,12 @@ public class Inserts {
 		s2.setStatus(StatusEntidade.ATIVO);
 		Sumario s3 = new Sumario();
 		s3.setStatus(StatusEntidade.ATIVO);
+		Sumario s4 = new Sumario();
+		s4.setStatus(StatusEntidade.ATIVO);
+		Sumario s5 = new Sumario();
+		s5.setStatus(StatusEntidade.ATIVO);
+		Sumario s6 = new Sumario();
+		s6.setStatus(StatusEntidade.ATIVO);
 		
 		Topico t1d1 = new Topico();
 		t1d1.setDescricao("Estruturas de decisão");
@@ -80,22 +83,22 @@ public class Inserts {
 		d1.setNome("Algoritmos");
 		d1.setSigla("ALGO");
 		d1.setStatus(StatusEntidade.ATIVO);
-		d1.setSumario(s1);
+		d1.setSumario(s4);
 		Disciplina d2 = new Disciplina();
 		d2.setNome("Estrutura de Dados");
 		d2.setSigla("ESTD");
 		d2.setStatus(StatusEntidade.ATIVO);
-		d1.setSumario(s2);
+		d1.setSumario(s5);
 		Disciplina d3 = new Disciplina();
 		d3.setNome("Redes de Computadores");
 		d3.setSigla("RECO");
 		d3.setStatus(StatusEntidade.ATIVO);
-		d1.setSumario(s3);
+		d1.setSumario(s6);
 		
 		Aluno a = new Aluno();
 		a.setNome("Pedro Santos");
 		a.setEmail("pedro@gmail.com");
-		a.setSenha("123");
+		a.setSenha("mol123");
 		a.setSenha(a.senhaSHA());
 		a.setStatus(StatusEntidade.ATIVO);
 		a.setMatricula("15126586");
@@ -104,7 +107,7 @@ public class Inserts {
 		Aluno a2 = new Aluno();
 		a2.setNome("Afonso Alves");
 		a2.setEmail("afonso@gmail.com");
-		a2.setSenha("123");
+		a2.setSenha("mol123");
 		a2.setSenha(a2.senhaSHA());
 		a2.setStatus(StatusEntidade.ATIVO);
 		a2.setMatricula("15115520");
@@ -113,7 +116,7 @@ public class Inserts {
 		Professor p = new Professor();
 		p.setNome("Julia Silva");
 		p.setEmail("julia@gmail.com");
-		p.setSenha("123");
+		p.setSenha("mol123");
 		p.setSenha(p.senhaSHA());
 		p.setMatricula("10102020");
 		p.setStatus(StatusEntidade.ATIVO);
@@ -123,7 +126,7 @@ public class Inserts {
 		p2.setNome("José Araújo");
 		p2.setEmail("jose@gmail.com");
 		p2.setMatricula("11102220");
-		p2.setSenha("123");
+		p2.setSenha("mol123");
 		p2.setSenha(p2.senhaSHA());
 		p2.setStatus(StatusEntidade.ATIVO);
 		p2.setTipo(TipoUsuario.PROFESSOR);
@@ -131,14 +134,14 @@ public class Inserts {
 		Aluno a3 = new Aluno();
 		a3.setNome("Jorge Souza");
 		a3.setEmail("jorge@gmail.com");
-		a3.setSenha("123");
+		a3.setSenha("mol123");
 		a3.setSenha(a3.senhaSHA());
 		a3.setMatricula("15109319");
 		a3.setStatus(StatusEntidade.ATIVO);
 		a3.setTipo(TipoUsuario.ALUNO);
 		
 		Aluno a4 = new Aluno();
-		a4.setNome("João");
+		a4.setNome("João Victor");
 		a4.setEmail("joao.falcao@icloud.com");
 		a4.setSenha("mol123");
 		a4.setSenha(a4.senhaSHA());
@@ -146,9 +149,18 @@ public class Inserts {
 		a4.setMatricula("15106586");
 		a4.setTipo(TipoUsuario.ALUNO);
 		
+		Aluno a5 = new Aluno();
+		a5.setNome("Alexandre Costa");
+		a5.setEmail("joao.falcao@icloud.com");
+		a5.setSenha("mol123");
+		a5.setSenha(a5.senhaSHA());
+		a5.setStatus(StatusEntidade.ATIVO);
+		a5.setMatricula("15150037");
+		a5.setTipo(TipoUsuario.ALUNO);
+		
 		Usuario u = new Usuario();
-		u.setNome("Adm");
-		u.setSenha("123");
+		u.setNome("Administrador");
+		u.setSenha("mol123");
 		u.setSenha(u.senhaSHA());
 		u.setEmail("adm@mol.com");
 		u.setStatus(StatusEntidade.ATIVO);
@@ -214,7 +226,8 @@ public class Inserts {
 		td1.setTurma(t1);
 		td1.setProfessor(p);
 		td1.setDisciplina(d1);
-		td1.setSumarioTurma(d1.getSumario());
+		td1.setSumarioTurma(s1);
+		td1.setQuantidadeNiveis(0);
 		td1.setTipoCalculo(TipoCalculo.ARITMETICA);
 		td1.setStatus(StatusEntidade.ATIVO);
 		
@@ -223,7 +236,8 @@ public class Inserts {
 		td2.setTurma(t1);
 		td2.setProfessor(p2);
 		td2.setDisciplina(d2);
-		td2.setSumarioTurma(d2.getSumario());
+		td2.setSumarioTurma(s2);
+		td2.setQuantidadeNiveis(0);
 		td2.setTipoCalculo(TipoCalculo.SOMA);
 		td2.setStatus(StatusEntidade.ATIVO);
 		
@@ -232,59 +246,44 @@ public class Inserts {
 		td3.setTurma(t3);
 		td3.setProfessor(p2);
 		td3.setDisciplina(d3);
-		td3.setSumarioTurma(d3.getSumario());
+		td3.setSumarioTurma(s3);
+		td3.setQuantidadeNiveis(0);
 		td3.setTipoCalculo(TipoCalculo.PONDERADA);
 		td3.setStatus(StatusEntidade.ATIVO);
 		
 		TurmaDisciplinaAluno tda1 = new TurmaDisciplinaAluno();
 		tda1.setAluno(a3);
 		tda1.setTurmaDisciplina(td3);
+		tda1.setNivelAtual(1);
 		tda1.setStatus(StatusEntidade.ATIVO);
 		TurmaDisciplinaAluno tda2 = new TurmaDisciplinaAluno();
 		tda2.setAluno(a2);
 		tda2.setTurmaDisciplina(td1);
+		tda2.setNivelAtual(1);
 		tda2.setStatus(StatusEntidade.ATIVO);
 		TurmaDisciplinaAluno tda3 = new TurmaDisciplinaAluno();
 		tda3.setAluno(a);
 		tda3.setTurmaDisciplina(td1);
+		tda3.setNivelAtual(1);
 		tda3.setStatus(StatusEntidade.ATIVO);
 		TurmaDisciplinaAluno tda4 = new TurmaDisciplinaAluno();
 		tda4.setAluno(a4);
 		tda4.setTurmaDisciplina(td3);
+		tda4.setNivelAtual(1);
 		tda4.setStatus(StatusEntidade.ATIVO);
-		
-		MaterialDidatico md = new MaterialDidatico();
-		md.setTitulo("slide if/else");
-		md.setTipo(TipoMaterialDidatico.ARQUIVO);
-		md.setDescricao("Aula sobre estruturas de decisão");
-		md.setStatus(StatusEntidade.ATIVO);
-		List<MaterialDidatico> lmd = new ArrayList<>();
-		lmd.add(md);
-		
-		Atividade atv1 = new Atividade();
-		atv1.setTurmaDisciplina(td1);
-		atv1.setTitulo("Lista de Excercicios em Python - 1");
-		//atv1.setPeso(1);
-		atv1.setStatus(StatusEntidade.ATIVO);
-		atv1.setUnidade(Unidades.UM);
-		atv1.setDataExpiracao(LocalDateTime.of(2018, 07, 05, 22, 00));
-		atv1.setValorMaximo(4);
-		
-		Atividade atv2 = new Atividade();
-		atv2.setTurmaDisciplina(td3);
-		atv2.setTitulo("Pesquisa - protocolos de redes");
-		//atv2.setPeso(2);
-		atv2.setStatus(StatusEntidade.ATIVO);
-		atv2.setUnidade(Unidades.DOIS);
-		atv2.setDataExpiracao(LocalDateTime.of(2018, 07, 15, 19, 00));
-		atv2.setValorMaximo(2);
-		
-		Resposta r = new Resposta();
-		r.setAluno(a3);
+		TurmaDisciplinaAluno tda5 = new TurmaDisciplinaAluno();
+		tda5.setAluno(a5);
+		tda5.setTurmaDisciplina(td2);
+		tda5.setNivelAtual(1);
+		tda5.setStatus(StatusEntidade.ATIVO);
+			
 		
 		sDAO.inserir(s1);
 		sDAO.inserir(s2);
 		sDAO.inserir(s3);
+		sDAO.inserir(s4);
+		sDAO.inserir(s5);
+		sDAO.inserir(s6);
 				
 		topDAO.inserir(t1d1);
 		topDAO.inserir(t2d1);
@@ -293,11 +292,7 @@ public class Inserts {
 		topDAO.inserir(t3d2);
 		topDAO.inserir(t1d3);
 		topDAO.inserir(t2d3);
-		
-		mdDAO.inserir(md);
-		t1d1.setMateriaisDidaticos(lmd);
-		topDAO.alterar(t1d1);
-		
+				
 		discDAO.inserir(d1);
 		discDAO.inserir(d2);
 		discDAO.inserir(d3); 
@@ -338,9 +333,7 @@ public class Inserts {
 		tdaDAO.inserir(tda2);
 		tdaDAO.inserir(tda3);
 		tdaDAO.inserir(tda4); 
-		
-		atvDAO.inserir(atv1);
-		atvDAO.inserir(atv2);
+
 	}
 
 }
