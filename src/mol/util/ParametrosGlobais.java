@@ -2,13 +2,15 @@ package mol.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ParametrosGlobais {
 	
 	private static Properties getProp() throws IOException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Properties props = new Properties();
-        FileInputStream file = new FileInputStream("./src/META-INF/dados.properties");
+        InputStream file = classLoader.getResourceAsStream("META-INF/dados.properties");
         props.load(file);
         return props;
     }
