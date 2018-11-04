@@ -18,7 +18,7 @@ public class TopicoDAO extends DAOGenerico<Topico> implements ITopicoDAO {
 	public List<Topico> consultarPorTurma(TurmaDisciplina td){
 		try {
 			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null", Topico.class);
-			query.setParameter("s", td.getDisciplina().getSumario());
+			query.setParameter("s", td.getSumarioTurma());
             return query.getResultList();
             		
         } catch (RuntimeException re) {
