@@ -42,4 +42,16 @@ public class TurmaDisciplinaAlunoDAO extends DAOGenerico<TurmaDisciplinaAluno>
         }
 		return null;
 	}
+
+	@Override
+	public List<TurmaDisciplinaAluno> consultarPorTurmaDisciplina(TurmaDisciplina td) {
+		try {
+			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.turmaDisciplina = :turmad", TurmaDisciplinaAluno.class);
+			query.setParameter("turmad", td);
+            return query.getResultList();		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
 }

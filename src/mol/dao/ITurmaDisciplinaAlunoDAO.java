@@ -12,4 +12,6 @@ public interface ITurmaDisciplinaAlunoDAO extends IDAOGenerico<TurmaDisciplinaAl
 	
 	TurmaDisciplinaAluno consultarPorAlunoETurmaDisciplina(Aluno a, TurmaDisciplina td);
 
+	List<TurmaDisciplinaAluno> consultarPorTurmaDisciplina(TurmaDisciplina td);
+
 }

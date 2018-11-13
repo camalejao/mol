@@ -145,7 +145,10 @@
 										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
 										<td>${td.turma.turno.turno}</td>
 										<td>${td.cargaHoraria}</td>
-										<td>-</td>
+										<td>
+											<a class="btn btn-sm btn-primary" href="alunosTurma-${td.id}">
+											Alunos</a>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

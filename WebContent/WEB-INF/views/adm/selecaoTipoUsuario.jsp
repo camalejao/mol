@@ -58,6 +58,7 @@
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
+						<li><a href="turmasDisciplinas">Listar Turmas/Disciplinas</a></li>
 						<li><a href="listarUsuarios">Listar Usuários</a></li>
 					</ul></li>
 			</ul>

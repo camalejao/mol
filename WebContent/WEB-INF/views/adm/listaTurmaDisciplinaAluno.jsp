@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -22,18 +22,15 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-<!-- Bootstrap select CSS -->
-<link
-	href="webjars/bootstrap-select/1.13.1/dist/css/bootstrap-select.min.css"
-	rel="stylesheet">
-<!-- Tempus Dominus CSS -->
-<link
-	href="webjars/tempusdominus-bootstrap-4/5.0.0/css/tempusdominus-bootstrap-4.min.css"
-	rel="stylesheet">
 </head>
+
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
@@ -46,7 +43,7 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
+		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -101,80 +98,46 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item"><a href="cadastrarUsuario">Cadastro
-						de Usuário</a></li>
-				<li class="breadcrumb-item active">Cadastro de Monitor</li>
+				<li class="breadcrumb-item"><a href="homeAdm">Página
+						Inicial</a></li>
+				<li class="breadcrumb-item"><a href="turmasDisciplinas">Listar Turmas/Disciplinas</a></li>
+				<li class="breadcrumb-item active">Alunos da Turma</li>
 			</ol>
-			<div class="row">
-				<div class="col-12">
-					<div class="card card-register mx-auto mt-5">
-						<div class="card-header">Cadastrar Monitor</div>
-						<div class="card-body">
-							<form:form modelAttribute="monitor" action="insereMonitor"
-								method="POST">
-								<div class="form-group">
-									<div>
-										<label for="selectDisciplina">Disciplina</label>
-										<form:select class="selectpicker form-control"
-											title="Sigla ou nome" data-live-search="true" path="disciplina"
-											type="text" id="selectDisciplina">
-											<c:forEach items="${disciplinas}" var="d">
-												<form:option value="${d.sigla}">${d.sigla} - ${d.nome}</form:option>
-											</c:forEach>
-										</form:select>
-									</div>
-								</div>
-								<div class="form-group">
-									<div>
-										<label for="selectAluno">Aluno</label>
-										<form:select class="selectpicker form-control"
-											data-live-search="true" title="Nome ou matrícula"
-											path="aluno" id="selectAluno" type="text">
-											<c:forEach items="${alunos}" var="a">
-												<form:option value="${a.matricula}">${a.nome} - ${a.matricula}</form:option>
-											</c:forEach>
-										</form:select>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="form-group col-md-6">
-										<label for="dateTermino">Data de início</label>
-										<div class="input-group date" id="datetimepickerInicio"
-											data-target-input="nearest">
-											<form:input type="text" path="dataInicioContrato"
-												class="form-control datetimepicker-input"
-												data-target="#datetimepickerInicio" id="dateInicio" />
-											<div class="input-group-append"
-												data-target="#datetimepickerInicio"
-												data-toggle="datetimepicker">
-												<div class="input-group-text">
-													<i class="fa fa-calendar"></i>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group col-md-6">
-										<label for="dateTermino">Data de término</label>
-										<div class="input-group date" id="datetimepickerTermino"
-											data-target-input="nearest">
-											<form:input type="text" path="dataTerminoContrato"
-												class="form-control datetimepicker-input"
-												data-target="#datetimepickerTermino" id="dateTermino" />
-											<div class="input-group-append"
-												data-target="#datetimepickerTermino"
-												data-toggle="datetimepicker">
-												<div class="input-group-text">
-													<i class="fa fa-calendar"></i>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
-							</form:form>
-						</div>
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-table"></i> Alunos - ${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.nome}
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th>Aluno</th>
+									<th>Matrícula</th>
+									<th>Nível</th>
+									<th>Ações</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Aluno</th>
+									<th>Matrícula</th>
+									<th>Nível</th>
+									<th>Ações</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<c:forEach items="${alunos}" var="a">
+									<tr>
+										<td>${a.aluno.nome}</td>
+										<td>${a.aluno.matricula}</td>
+										<td>${a.nivelAtual}/${turmaDisciplina.quantidadeNiveis}</td>
+										<td>-</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -230,31 +193,39 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
-								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
+							<label for="inputEditarNome">Nome</label> <input
+								class="form-control" id="inputEditarNome" name="nome"
+								type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
-								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
-								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
+							<label for="inputEditarEmail">Email</label> <input
+								class="form-control" id="inputEditarEmail" name="email"
+								type="email" placeholder="email@exemplo.com" maxlength="50"
+								onChange="verificaEmail(this.value)"
+								value="${sessionScope.usuarioLogado.email}" />
 						</div>
-						<input id="inputId" name="usuario" hidden="true" value="${sessionScope.usuarioLogado.id}" />
+						<input id="inputId" name="usuario" hidden="true"
+							value="${sessionScope.usuarioLogado.id}" />
 						<div class="form-group" id="divAlterarSenha" hidden="true">
 							<div class="form-row">
 								<div class="col-md-6">
-									<label for="inputSenha">Nova Senha</label>
-									<input id="inputSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="inputSenha">Nova Senha</label> <input
+										id="inputSenha" onKeyUp="confirmaSenha()" type="password"
+										class="form-control" />
 								</div>
 								<div class="col-md-6">
-									<label for="confirmacaoSenha">Confirmar Senha</label>
-									<input id="confirmacaoSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="confirmacaoSenha">Confirmar Senha</label> <input
+										id="confirmacaoSenha" onKeyUp="confirmaSenha()"
+										type="password" class="form-control" />
 								</div>
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
-							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
+							<button class="btn btn-secondary btn-block"
+								onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-primary btn-block" onClick="editarDados()"
+								id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>
 				</div>
@@ -268,46 +239,18 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
+		<!-- Custom scripts for this page-->
+		<script
+			src="resources/scripts/datatables-PT-BR.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		<!-- Tempus Dominus scripts -->
-		<script src="webjars/momentjs/2.22.2/min/moment-with-locales.min.js"></script>
-		<script
-			src="webjars/tempusdominus-bootstrap-4/5.0.0/js/tempusdominus-bootstrap-4.min.js"></script>
-		<!-- Bootstrap select scripts -->
-		<script
-			src="webjars/bootstrap-select/1.13.1/dist/js/bootstrap-select.min.js"></script>
-		<script
-			src="webjars/bootstrap-select/1.13.1/dist/js/i18n/defaults-pt_BR.min.js"></script>
-		<!-- Validação com Ajax -->
+		<!--  script validacao/edicao de dados do usuario -->
 		<script src="resources/scripts/validacaoAjax.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$('#datetimepickerInicio').datetimepicker({
-					minDate : new Date(),
-					format : 'L',
-					locale : 'pt-br'
-				});
-				$('#datetimepickerTermino').datetimepicker({
-					minDate : new Date(),
-					format : 'L',
-					locale : 'pt-br',
-					useCurrent : false
-				});
-				$("#datetimepickerInicio").on(
-						"change.datetimepicker",
-						function(e) {
-							$('#datetimepickerTermino').datetimepicker(
-									'minDate', e.date);
-						});
-				$("#datetimepickerTermino").on(
-						"change.datetimepicker",
-						function(e) {
-							$('#datetimepickerInicio').datetimepicker(
-									'maxDate', e.date);
-						});
-			});
-		</script>
 	</div>
 </body>
 
