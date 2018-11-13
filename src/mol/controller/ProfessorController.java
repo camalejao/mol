@@ -11,6 +11,7 @@ import mol.dao.DAOFactory;
 import mol.dao.IAtividadeDAO;
 import mol.dao.IDuvidaDAO;
 import mol.dao.IRespostaDuvidaDAO;
+import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.curso.atividade.Atividade;
 import mol.model.curso.atividade.duvida.RespostaDuvida;
@@ -88,5 +89,20 @@ public class ProfessorController {
 		
 		mav = new ModelAndView("redirect:listarTurmas");
 		return mav;
+	}
+	
+	@RequestMapping("verAlunos-{id}")
+	public ModelAndView listaAlunos(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("professor/listaAlunosTurma");
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
+		TurmaDisciplina td = tdDAO.consultarPorId(id);
+		
+		if(td!=null) {
+			mav.addObject("turmaDisciplina", td);
+			mav.addObject("alunos", tdaDAO.consultarPorTurmaDisciplina(td));
+			return mav;
+		} else
+			return new ModelAndView("redirect:listarTurmas");
 	}
 }

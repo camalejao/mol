@@ -2,8 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +13,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>MOL - Gerenciar Atividades</title>
+<title>MOL - Professor</title>
 <!-- Bootstrap core CSS-->
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/bootstrap/css/bootstrap.min.css"
@@ -27,8 +29,8 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-
 </head>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -85,18 +87,17 @@
 			</ul>
 		</div>
 	</nav>
-
 	<div class="content-wrapper">
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
-				<li class="breadcrumb-item active">Minhas Turmas</li>
+				<li class="breadcrumb-item"><a href="listarTurmas">Minhas Turmas</a></li>
+				<li class="breadcrumb-item active">Alunos da Turma</li>
 			</ol>
-
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-book"></i> Turmas / Disciplinas
+					<i class="fa fa-table"></i> Alunos - ${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.nome}
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -104,42 +105,27 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso / Período</th>
-									<th>Turno</th>
-									<th>Cálculo Média</th>
+									<th>Aluno</th>
+									<th>Matrícula</th>
+									<th>Nível</th>
 									<th>Ações</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso / Período</th>
-									<th>Turno</th>
-									<th>Cálculo Média</th>
+									<th>Aluno</th>
+									<th>Matrícula</th>
+									<th>Nível</th>
 									<th>Ações</th>
 								</tr>
 							</tfoot>
 							<tbody>
-								<c:forEach items="${turmasDisciplinas}" var="td">
+								<c:forEach items="${alunos}" var="a">
 									<tr>
-										<td>${td.turma.identificacao}/ ${td.disciplina.sigla} -
-											${td.disciplina.nome}</td>
-										<td>${td.turma.curso.nome}-
-											${td.turma.periodo.toString()}</td>
-										<td>${td.turma.turno.turno}</td>
-										<td>${td.tipoCalculo.tipoCalculo}</td>
-										<td><a href="editarSumario-${td.id}"
-											class="btn btn-sm btn-primary mb-1"><i class="fa fa-list-ul"></i>
-												Sumário</a> <a class="btn btn-primary btn-sm mb-1"
-											href="listarAtividades-${td.id}"><i
-												class="fa fa-file-text "></i> Atividades</a>
-											<a class="btn btn-primary btn-sm mb-1"
-											href="duvidasTurmaDisciplina-${td.id}"><i
-												class="fa fa-question "></i> Dúvidas</a>
-											<a class="btn btn-primary btn-sm mb-1" href="verAlunos-${td.id}">
-												Ver Alunos</a>
-										</td>
+										<td>${a.aluno.nome}</td>
+										<td>${a.aluno.matricula}</td>
+										<td>${a.nivelAtual}/${turmaDisciplina.quantidadeNiveis}</td>
+										<td>-</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -147,7 +133,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->
@@ -200,31 +185,39 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
-								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
+							<label for="inputEditarNome">Nome</label> <input
+								class="form-control" id="inputEditarNome" name="nome"
+								type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
-								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
-								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
+							<label for="inputEditarEmail">Email</label> <input
+								class="form-control" id="inputEditarEmail" name="email"
+								type="email" placeholder="email@exemplo.com" maxlength="50"
+								onChange="verificaEmail(this.value)"
+								value="${sessionScope.usuarioLogado.email}" />
 						</div>
-						<input id="inputId" name="usuario" hidden="true" value="${sessionScope.usuarioLogado.id}" />
+						<input id="inputId" name="usuario" hidden="true"
+							value="${sessionScope.usuarioLogado.id}" />
 						<div class="form-group" id="divAlterarSenha" hidden="true">
 							<div class="form-row">
 								<div class="col-md-6">
-									<label for="inputSenha">Nova Senha</label>
-									<input id="inputSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="inputSenha">Nova Senha</label> <input
+										id="inputSenha" onKeyUp="confirmaSenha()" type="password"
+										class="form-control" />
 								</div>
 								<div class="col-md-6">
-									<label for="confirmacaoSenha">Confirmar Senha</label>
-									<input id="confirmacaoSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="confirmacaoSenha">Confirmar Senha</label> <input
+										id="confirmacaoSenha" onKeyUp="confirmaSenha()"
+										type="password" class="form-control" />
 								</div>
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" id="btnAltSenha" onClick="showDivAlterarSenha()">Alterar Senha</button>
-							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
+							<button class="btn btn-secondary btn-block"
+								onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-primary btn-block" onClick="editarDados()"
+								id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>
 				</div>
@@ -243,10 +236,11 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
+		<!-- Custom scripts for this page-->
+		<script
+			src="resources/scripts/datatables-PT-BR.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		<!-- Custom scripts for this page-->
-		<script src="resources/scripts/datatables-PT-BR.js"></script>
 		<!--  script validacao/edicao de dados do usuario -->
 		<script src="resources/scripts/validacaoAjax.js"></script>
 	</div>
