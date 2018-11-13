@@ -112,6 +112,7 @@ function confirmaSenha(){
 
 function showDivAlterarSenha(){
 	$("#divAlterarSenha").attr("hidden", false);
+	$("#btnAltSenha").attr("hidden", true);
 }
 
 function editarDados(){
