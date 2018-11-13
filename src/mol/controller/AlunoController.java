@@ -131,7 +131,7 @@ public class AlunoController {
 		if((controle!=null) && (controle.getAtividade().verificaExpiracao()==false))
 			return "redirect:home";
 		
-		if(listaIA!=null) {
+		if(listaIA!=null && atv.getTipoSubmissao()==TipoSubmissao.ITENS) {
 			if(listaIA.size() != irDAO.consultarNaoEnviadosPorAlunoAtividade(a, atv).size())
 				return "redirect:responderAtividade-" + id;
 		}
