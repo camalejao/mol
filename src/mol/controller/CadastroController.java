@@ -44,7 +44,7 @@ public class CadastroController {
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("formAluno", "aluno", aluno);
 		}
-		aluno.setStatus(StatusEntidade.ATIVO);
+		aluno.setStatus(StatusEntidade.INATIVO);
 		aluno.setTipo(TipoUsuario.ALUNO);
 		String senha = PasswordGenerator.generatePassword(6);
 		aluno.setSenha(senha);
@@ -63,7 +63,7 @@ public class CadastroController {
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("formProfessor", "professor", professor);
 		}
-		professor.setStatus(StatusEntidade.ATIVO);
+		professor.setStatus(StatusEntidade.INATIVO);
 		professor.setTipo(TipoUsuario.PROFESSOR);
 		String senha = PasswordGenerator.generatePassword(6);
 		professor.setSenha(senha);

@@ -51,8 +51,13 @@ public class LoginController {
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		Usuario controle = uDAO.consultarPorEmail(usuario.getEmail());
 
-		if ((controle != null) && (controle.getStatus()==StatusEntidade.ATIVO) && (controle.getSenha().equals(usuario.senhaSHA()))) {
-
+		if (controle != null && controle.getSenha().equals(usuario.senhaSHA())) {
+			
+			if((controle.getStatus()==StatusEntidade.INATIVO)) {
+				controle.setStatus(StatusEntidade.ATIVO);
+				uDAO.alterar(controle);
+			}
+			
 			session.setAttribute("usuarioLogado", controle);
 
 			switch (controle.getTipo()) {

@@ -130,7 +130,7 @@ public class AdmController {
 		aluno.setSenha(senha);
 		aluno.setSenha(aluno.senhaSHA());
 		aluno.setTipo(TipoUsuario.ALUNO);
-		aluno.setStatus(StatusEntidade.ATIVO);
+		aluno.setStatus(StatusEntidade.INATIVO);
 
 		IAlunoDAO alunoDAO = DAOFactory.getAlunoDAO();
 		alunoDAO.inserir(aluno);
@@ -165,7 +165,7 @@ public class AdmController {
 		adm.setSenha(senha);
 		adm.setSenha(adm.senhaSHA());
 		adm.setTipo(TipoUsuario.ADMINISTRADOR);
-		adm.setStatus(StatusEntidade.ATIVO);
+		adm.setStatus(StatusEntidade.INATIVO);
 
 		IUsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
 		uDAO.inserir(adm);
@@ -199,7 +199,7 @@ public class AdmController {
 		professor.setSenha(senha);
 		professor.setSenha(professor.senhaSHA());
 		professor.setTipo(TipoUsuario.PROFESSOR);
-		professor.setStatus(StatusEntidade.ATIVO);
+		professor.setStatus(StatusEntidade.INATIVO);
 
 		IProfessorDAO professorDAO = DAOFactory.getProfessorDAO();
 		professorDAO.inserir(professor);
