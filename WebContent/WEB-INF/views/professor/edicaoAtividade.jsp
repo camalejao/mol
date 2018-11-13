@@ -421,7 +421,7 @@
 							<div class="form-group">
 								<label for="inputValorD">Valor</label>
 								<form:input path="valor" id="inputValorD" class="form-control"
-									type="number" step="0.01" min="0" />
+									type="number" step="0.25" min="0.25" />
 
 								<form:input path="atividade" id="idAtividadeItemDiscursivo"
 									type="text" hidden="true" />
@@ -466,7 +466,7 @@
 
 								<label for="editValorD">Valor</label>
 								<form:input path="valor" id="editValorD" class="form-control"
-									type="number" step="0.01" min="0" />
+									type="number" step="0.25" min="0.25" />
 
 								<form:input path="atividade" id="idEdicaoAtividadeID"
 									type="text" hidden="true" />
@@ -507,14 +507,14 @@
 							<div class="form-group">
 								<label for="enunciadoME">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
-									maxlength="400" rows="3" type="text" id="enunciadoME"
+									maxlength="600" rows="3" type="text" id="enunciadoME"
 									placeholder="Digite o enunciado do item" />
 							</div>
 							
 							<div class="form-group">
 								<label for="inputValorME">Valor</label>
 								<form:input path="valor" id="inputValorME" class="form-control"
-									type="number" step="0.01" min="0" />
+									type="number" step="0.25" min="0.25" />
 							</div>
 
 							<div class="form-group">
@@ -522,34 +522,34 @@
 									<label for="alternativaA">A)</label>
 									<form:input class="form-control"
 										path="alternativas[0].enunciado" type="text" id="alternativaA"
-										placeholder="Alternativa A" />
+										placeholder="Alternativa A" maxlength="255" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaB">B)</label>
 									<form:input class="form-control"
 										path="alternativas[1].enunciado" type="text" id="alternativaB"
-										placeholder="Alternativa B" />
+										placeholder="Alternativa B" maxlength="255" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaC">C)</label>
 									<form:input class="form-control"
 										path="alternativas[2].enunciado" type="text" id="alternativaC"
-										placeholder="Alternativa C" />
+										placeholder="Alternativa C" maxlength="255" />
 								</div>
 
 								<div class="form-row">
 									<label for="alternativaD">D)</label>
 									<form:input class="form-control"
 										path="alternativas[3].enunciado" type="text" id="alternativaD"
-										placeholder="Alternativa D" />
+										placeholder="Alternativa D" maxlength="255" />
 								</div>
 								<div class="form-row">
 									<label for="alternativaE">E)</label>
 									<form:input class="form-control"
 										path="alternativas[4].enunciado" type="text" id="alternativaE"
-										placeholder="Alternativa E" />
+										placeholder="Alternativa E" maxlength="255" />
 								</div>
 							</div>
 
@@ -600,12 +600,12 @@
 							<div class="form-group">
 								<label for="editaEnunciadoME">Enunciado</label>
 								<form:textarea class="form-control" path="enunciado"
-									maxlength="400" rows="3" type="text" id="editaEnunciadoME"
+									maxlength="600" rows="3" type="text" id="editaEnunciadoME"
 									placeholder="Digite o enunciado do item" />
 
 								<label for="editValorME">Valor</label>
 								<form:input id="editValorME" path="valor" class="form-control"
-									type="number" step="0.01" min="0" />
+									type="number" step="0.01" min="0.25" />
 							</div>
 							<form:input path="atividade" id="idEdicaoAtividadeME" type="text"
 								hidden="true" />
@@ -641,7 +641,8 @@
 							<div class="form-group">
 								<label for="editaEnunciadoAlt">Enunciado</label>
 								<form:input class="form-control" path="enunciado" type="text"
-									id="editaEnunciadoAlt" placeholder="Digite a alternativa" />
+									id="editaEnunciadoAlt" placeholder="Digite a alternativa"
+									maxlength="255" />
 							</div>
 							<form:input path="item" id="idEditaItemAlt" type="text"
 								hidden="true" />

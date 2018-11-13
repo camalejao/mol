@@ -3,6 +3,7 @@ package mol.model.curso.atividade;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -10,6 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,6 +29,8 @@ public class ItemAtividade extends Entidade {
 	@ManyToOne
 	private Atividade atividade;
 	
+	@NotEmpty @NotBlank
+	@Column(length=600, nullable=false)
 	private String enunciado;
 	
 	@JsonManagedReference
