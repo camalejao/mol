@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -20,9 +22,15 @@
 <link
 	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+<!-- Page level plugin CSS-->
+<link
+	href="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
+</head>
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -93,12 +101,56 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="homeAdm">Página
 						Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item active">Listar Turmas/Disciplinas</li>
 			</ol>
-			<div class="row">
-				<div class="col-12">
-					<h1>Bem-vindo</h1>
-					<p>Página Inicial</p>
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-table"></i> Lista de Turmas/Disciplinas
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%"
+							cellspacing="0">
+							<thead>
+								<tr>
+									<th>Turma</th>
+									<th>Disciplina</th>
+									<th>Professor</th>
+									<th>Curso</th>
+									<th>Período</th>
+									<th>Turno</th>
+									<th>C.H.</th>
+									<th>Ações</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>Turma</th>
+									<th>Disciplina</th>
+									<th>Professor</th>
+									<th>Curso</th>
+									<th>Período</th>
+									<th>Turno</th>
+									<th>C.H.</th>
+									<th>Ações</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<c:forEach items="${turmasDisciplinas}" var="td">
+									<tr>
+										<td>${td.turma.identificacao}</td>
+										<td>${td.disciplina.nome}</td>
+										<td>${td.professor.nome}</td>
+										<td>${td.turma.curso.nome}</td>
+										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
+										<td>${td.turma.turno.turno}</td>
+										<td>${td.cargaHoraria}</td>
+										<td>-</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -153,31 +205,39 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
-								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
+							<label for="inputEditarNome">Nome</label> <input
+								class="form-control" id="inputEditarNome" name="nome"
+								type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
-								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
-								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
+							<label for="inputEditarEmail">Email</label> <input
+								class="form-control" id="inputEditarEmail" name="email"
+								type="email" placeholder="email@exemplo.com" maxlength="50"
+								onChange="verificaEmail(this.value)"
+								value="${sessionScope.usuarioLogado.email}" />
 						</div>
-						<input id="inputId" name="usuario" hidden="true" value="${sessionScope.usuarioLogado.id}" />
+						<input id="inputId" name="usuario" hidden="true"
+							value="${sessionScope.usuarioLogado.id}" />
 						<div class="form-group" id="divAlterarSenha" hidden="true">
 							<div class="form-row">
 								<div class="col-md-6">
-									<label for="inputSenha">Nova Senha</label>
-									<input id="inputSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="inputSenha">Nova Senha</label> <input
+										id="inputSenha" onKeyUp="confirmaSenha()" type="password"
+										class="form-control" />
 								</div>
 								<div class="col-md-6">
-									<label for="confirmacaoSenha">Confirmar Senha</label>
-									<input id="confirmacaoSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
+									<label for="confirmacaoSenha">Confirmar Senha</label> <input
+										id="confirmacaoSenha" onKeyUp="confirmaSenha()"
+										type="password" class="form-control" />
 								</div>
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
-							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
+							<button class="btn btn-secondary btn-block"
+								onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-primary btn-block" onClick="editarDados()"
+								id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>
 				</div>
@@ -191,6 +251,14 @@
 		<!-- Core plugin JavaScript-->
 		<script
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Page level plugin JavaScript-->
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/datatables/dataTables.bootstrap4.js"></script>
+		<!-- Custom scripts for this page-->
+		<script
+			src="resources/scripts/datatables-PT-BR.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!--  script validacao/edicao de dados do usuario -->
