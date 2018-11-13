@@ -97,12 +97,12 @@ public class AlunoController {
 		}
 		
 		//verifica se o aluno é da turma da atividade e se é adequada para o nível dele
-		if(tda==null || tda.getNivelAtual()<atv.getNivelAprendizagem())
+		if(tda==null || tda.getNivelAtual()<atv.getNivelAprendizagem() || !atv.verificaExpiracao())
 			return new ModelAndView("redirect:home");
 		
 		mav.addObject("atividade", atv);
 		mav.addObject("resposta", new Resposta());
-		mav.addObject("duvida", new Duvida());
+		mav.addObject("novaDuvida", new Duvida());
 		mav.addObject("aluno", a);
 		mav.addObject("itens", iaDAO.consultarPorAtividade(atv));
 		mav.addObject("respostaItens", irDAO.consultarNaoEnviadosPorAlunoAtividade(a, atv));
@@ -305,7 +305,7 @@ public class AlunoController {
 	}
 	
 	@RequestMapping("adicionarDuvida")
-	public String adicionarDuvida(@ModelAttribute("duvida") Duvida duvida, HttpSession session) {
+	public String adicionarDuvida(@ModelAttribute("novaDuvida") Duvida duvida, HttpSession session) {
 		IDuvidaDAO dDAO = DAOFactory.getDuvidaDAO();
 		Aluno a = (Aluno) session.getAttribute("usuarioLogado");
 		duvida.setStatus(StatusEntidade.ATIVO);

@@ -1,5 +1,6 @@
 package mol.model.curso.atividade.duvida;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,7 +26,7 @@ public class Duvida extends Entidade {
 	@ManyToOne
 	private Aluno aluno;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	private ItemAtividade item;
 
 	@Enumerated(EnumType.STRING)

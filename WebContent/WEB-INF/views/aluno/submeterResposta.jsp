@@ -150,12 +150,14 @@
 															resposta </label>
 														<form:input class="form-control-file" path="upload"
 															id="uploadArquivo" type="file" />
+														<a href="" class="btn btn-warning mt-2 mb-2" data-toggle="modal"
+															data-target="#duvidaModal">Dúvida</a>
 													</div>
 												</c:if>
 											</div>
 										</div>
 										<c:choose>
-											<c:when test="${not empty itens}" >
+											<c:when test="${not empty itens && atividade.tipoSubmissao=='ITENS'}">
 												<h5>Itens</h5>
 												<c:forEach items="${itens}" var="item" varStatus="i">
 													<c:forEach items="${respostaItens}" var="itemResp" varStatus="j">
@@ -180,11 +182,11 @@
 											</c:when>
 										</c:choose>
 										<c:choose>
-											<c:when test="${itens.size() == respostaItens.size()}">
-												<button class="btn btn-primary btn-block mt-3" type="submit">Finalizar Resposta</button>
+											<c:when test="${itens.size() == respostaItens.size() || atividade.tipoSubmissao=='ARQUIVO'}">
+												<button class="btn btn-primary btn-block mt-5" type="submit">Finalizar Resposta</button>
 											</c:when>
 											<c:otherwise>
-												<button class="btn btn-disabled btn-block mt-3" disabled type="submit">Finalizar Resposta</button>
+												<button class="btn btn-disabled btn-block mt-5" disabled type="submit">Finalizar Resposta</button>
 											</c:otherwise>
 										</c:choose>
 									</form:form>
@@ -226,6 +228,43 @@
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
 						<a class="btn btn-primary" href="logout">Sair</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Duvida Modal-->
+		<div class="modal fade" id="duvidaModal" tabindex="-1" role="dialog"
+			aria-labelledby="duvidaModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="duvidaModalLabel">Dúvida</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form:form modelAttribute="novaDuvida" action="adicionarDuvida" method="POST">
+							<div class="form-group">
+								<label for="inputDuvida">Descreva sua dúvida</label>
+								<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+							</div>
+							<form:input value="${atividade.id}" hidden="true" path="item.atividade" />
+							<form:input value="${atividade.descricao}" hidden="true" path="item.enunciado" />
+							<form:input value="1" hidden="true" path="item.valor" />
+							<div class="form-group">									<label for="selectVisibilidade">Visibilidade</label>
+								<form:select path="visibilidade" id="selectVisibilidade" class="form-control">
+									<c:forEach items="${visibilidade}" var="v">
+										<form:option value="${v}">${v.visibilidadeDuvida}</form:option>
+									</c:forEach>
+								</form:select>
+							</div>
+							<div class="modal-footer">
+								<form:button type="submit" class="btn btn-primary">Enviar Dúvida</form:button>
+							</div>
+						</form:form>
 					</div>
 				</div>
 			</div>
@@ -278,7 +317,7 @@
 							</div>
 						</form>
 						<div id="formDuvida" hidden="true">
-							<form:form modelAttribute="duvida" action="adicionarDuvida" method="POST">
+							<form:form modelAttribute="novaDuvida" action="adicionarDuvida" method="POST">
 								<div class="form-group">
 									<label for="inputDuvida">Descreva sua dúvida</label>
 									<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>

@@ -122,6 +122,7 @@
 											<h6>${d.aluno.nome} -
 												${d.item.atividade.turmaDisciplina.turma.identificacao} /
 												${d.item.atividade.turmaDisciplina.disciplina.nome}</h6>
+											<h6>Atividade: ${d.item.atividade.titulo}</h6>
 											<p style="margin: 0;" class="mb-2">
 												<span>Item: ${d.item.enunciado}</span>
 												<c:if test="${d.item.tipoItem == 'MULTIPLA_ESCOLHA'}">
