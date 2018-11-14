@@ -29,6 +29,10 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
+<!-- Bootstrap select CSS -->
+<link
+	href="webjars/bootstrap-select/1.13.1/dist/css/bootstrap-select.min.css"
+	rel="stylesheet">
 </head>
 
 
@@ -103,6 +107,7 @@
 				<li class="breadcrumb-item"><a href="turmasDisciplinas">Listar Turmas/Disciplinas</a></li>
 				<li class="breadcrumb-item active">Alunos da Turma</li>
 			</ol>
+			<button class="btn btn-primary mb-2" data-toggle="modal" data-target="#addAlunoModal">Adicionar Aluno</button>
 			<div class="card mb-3">
 				<div class="card-header">
 					<i class="fa fa-table"></i> Alunos - ${turmaDisciplina.turma.identificacao} / ${turmaDisciplina.disciplina.nome}
@@ -173,6 +178,38 @@
 						<button class="btn btn-secondary" type="button"
 							data-dismiss="modal">Cancelar</button>
 						<a class="btn btn-primary" href="logout">Sair</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Logout Modal-->
+		<div class="modal fade" id="addAlunoModal" tabindex="-1" role="dialog"
+			aria-labelledby="addAlunoModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addAlunoModalLabel">Adicionar Aluno</h5>
+						<button class="close" type="button" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form action="adicionarTurmaDisciplinaAluno" method="POST">
+							<input name="turmaDisciplina" value="${turmaDisciplina.id}" hidden="true" />
+							<label for="selectAluno">Selecione o Aluno</label>
+							<select id="selectAluno" class="selectpicker form-control" data-live-search="true"
+								title="Nome ou matrícula" multiple="multiple" name="alunos">
+								<c:forEach items="${novosAlunos}" var="a">
+									<option value="${a.matricula}">${a.matricula} - ${a.nome}</option>
+								</c:forEach>
+							</select>
+							<div class="modal-footer">
+								<button class="btn btn-secondary" type="button"
+									data-dismiss="modal">Cancelar</button>
+								<button class="btn btn-primary" type="submit">Salvar</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -251,6 +288,11 @@
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
 		<!--  script validacao/edicao de dados do usuario -->
 		<script src="resources/scripts/validacaoAjax.js"></script>
+		<!-- Bootstrap select scripts -->
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/bootstrap-select.min.js"></script>
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/i18n/defaults-pt_BR.min.js"></script>
 	</div>
 </body>
 

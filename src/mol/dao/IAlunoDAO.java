@@ -2,6 +2,7 @@ package mol.dao;
 
 import java.util.List;
 
+import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.user.Aluno;
 
 public interface IAlunoDAO extends IDAOGenerico<Aluno> {
@@ -12,5 +13,7 @@ public interface IAlunoDAO extends IDAOGenerico<Aluno> {
 	 
 	 public List<Aluno> consultarPossiveisMonitores();
 
-	public Boolean verificarPorMatricula(String mat);
+	 public Boolean verificarPorMatricula(String mat);
+
+	 public List<Aluno> consultarAlunosNaoInseridosNaTurma(TurmaDisciplina td);
 }

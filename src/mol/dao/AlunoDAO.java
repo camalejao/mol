@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import mol.model.StatusEntidade;
+import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.user.Aluno;
 import mol.model.user.TipoUsuario;
 
@@ -65,6 +66,20 @@ public class AlunoDAO extends DAOGenerico<Aluno> implements IAlunoDAO{
 			b = true;
 			return b;
 		}
+	}
+
+	@Override
+	public List<Aluno> consultarAlunosNaoInseridosNaTurma(TurmaDisciplina td) {
+		try {
+			TypedQuery<Aluno> query = getEntityManager().createQuery("select a from Aluno a where a.status='ATIVO'"
+					+ "and not exists (select tda from TurmaDisciplinaAluno tda where tda.turmaDisciplina = :td and tda.aluno = a)", Aluno.class);
+			query.setParameter("td", td);
+            return query.getResultList();
+            		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
 	}
 
 }
