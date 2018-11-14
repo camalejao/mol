@@ -286,6 +286,7 @@
 										<div class="row">
 											<div class="col-md-10">
 												<h5 style="white-space:pre-wrap">${index.index + 1}. ${item.enunciado} (${item.valor})</h5>
+												<input hidden="true" id="enunciado-${index.index}" value="${item.enunciado}"/>
 											</div>
 											<c:choose>
 												<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">
@@ -293,7 +294,7 @@
 														<div class="row">
 															<button class="btn btn-sm btn-secondary"
 																data-toggle="modal" data-target="#editaItemMEModal" title="Editar"
-																onclick="editaItemME(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+																onclick="editaItemME(${atividade.id},${item.id},${index.index},${item.valor},event)">
 																<i class="fa fa-pencil-square" aria-hidden="true"></i>
 															</button>
 															&nbsp;
@@ -313,7 +314,7 @@
 														<div class="row">
 															<button class="btn btn-sm btn-secondary"
 																data-toggle="modal" data-target="#editaIDModal" title="Editar"
-																onclick="editaItemD(${atividade.id},${item.id},'${item.enunciado}',${item.valor},event)">
+																onclick="editaItemD(${atividade.id},${item.id},${index.index},${item.valor},event)">
 																<i class="fa fa-pencil-square" aria-hidden="true"></i>
 															</button>
 															&nbsp;

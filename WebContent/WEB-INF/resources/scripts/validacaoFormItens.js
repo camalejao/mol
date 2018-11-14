@@ -90,14 +90,14 @@ function itemMultiplaEscolha(id, e) {
 function editaItemD(id_atv, id_item, enunciado, valor, e) {
 	$("#idEdicaoAtividadeID").attr("value", id_atv);
 	$("#idEdicaoID").attr("value", id_item);
-	$("#editaEnunciadoDiscursivo").val(enunciado);
+	$("#editaEnunciadoDiscursivo").val($('#enunciado-'+enunciado).attr("value"));
 	$("#editValorD").val(valor);
 	e.preventDefault();
 }
 function editaItemME(id_atv, id_item, enunciado, valor, e) {
 	$("#idEdicaoAtividadeME").attr("value", id_atv);
 	$("#idEdicaoME").attr("value", id_item);
-	$("#editaEnunciadoME").val(enunciado);
+	$("#editaEnunciadoME").val($('#enunciado-'+enunciado).attr("value"));
 	$("#editValorME").val(valor);
 	e.preventDefault();
 }
