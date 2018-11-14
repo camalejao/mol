@@ -285,7 +285,7 @@
 									<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-10">
-												<h5>${index.index + 1}.${item.enunciado} (${item.valor})</h5>
+												<h5 style="white-space:pre-wrap">${index.index + 1}. ${item.enunciado} (${item.valor})</h5>
 											</div>
 											<c:choose>
 												<c:when test="${item.tipoItem == 'MULTIPLA_ESCOLHA'}">

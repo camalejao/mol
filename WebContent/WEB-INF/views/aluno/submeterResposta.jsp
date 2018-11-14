@@ -283,7 +283,7 @@
 						</button>
 					</div>
 					<div class="modal-body" id="formItem">
-						<h5 id="enunciado"></h5>
+						<h5 style="white-space:pre-wrap" id="enunciado"></h5>
 						<form action="salvarRespostaItem" method="POST">
 							<input id="idItem" name="item" type="text" value="" hidden="true" />
 							<textarea id="respDisc" class="form-control" name="texto" ></textarea>
