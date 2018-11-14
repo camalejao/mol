@@ -40,6 +40,7 @@
 				</bean>
 				<bean class="mol.converter.DisciplinaConverter" />
 				<bean class="mol.converter.TurmaDisciplinaConverter" />
+				<bean class="mol.converter.TurmaDisciplinaAlunoConverter" />
 				<bean class="mol.converter.AlunoConverter" />
 				<bean class="mol.converter.MaterialDidaticoConverter" />
 				<bean class="mol.converter.SumarioConverter" />

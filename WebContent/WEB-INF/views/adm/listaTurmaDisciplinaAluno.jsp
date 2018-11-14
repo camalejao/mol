@@ -121,6 +121,7 @@
 									<th>Aluno</th>
 									<th>Matrícula</th>
 									<th>Nível</th>
+									<th>Status</th>
 									<th>Ações</th>
 								</tr>
 							</thead>
@@ -129,6 +130,7 @@
 									<th>Aluno</th>
 									<th>Matrícula</th>
 									<th>Nível</th>
+									<th>Status</th>
 									<th>Ações</th>
 								</tr>
 							</tfoot>
@@ -138,7 +140,21 @@
 										<td>${a.aluno.nome}</td>
 										<td>${a.aluno.matricula}</td>
 										<td>${a.nivelAtual}/${turmaDisciplina.quantidadeNiveis}</td>
-										<td>-</td>
+										<td>${a.status}</td>
+										<td>
+											<c:if test="${a.status == 'ATIVO'}">
+												<form action="inativarTurmaDisciplinaAluno" method="POST">
+													<input name="turmaDisciplinaAluno" value="${a.id}" hidden="true"/>
+													<button class="btn btn-sm btn-danger mb-2">Inativar</button>
+												</form>	
+											</c:if>
+											<c:if test="${a.status == 'INATIVO'}">
+												<form action="reativarTurmaDisciplinaAluno" method="POST">
+													<input name="turmaDisciplinaAluno" value="${a.id}" hidden="true"/>
+													<button class="btn btn-sm btn-secondary mb-2">Reativar</button>
+												</form>	
+											</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

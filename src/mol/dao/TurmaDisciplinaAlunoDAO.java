@@ -19,7 +19,7 @@ public class TurmaDisciplinaAlunoDAO extends DAOGenerico<TurmaDisciplinaAluno>
 	@Override
 	public List<TurmaDisciplinaAluno> consultarPorAluno(Aluno a) {
 		try {
-			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.aluno = :aluno", TurmaDisciplinaAluno.class);
+			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.aluno = :aluno and tda.status='ATIVO'", TurmaDisciplinaAluno.class);
 			query.setParameter("aluno", a);
             return query.getResultList();
             		
@@ -32,7 +32,7 @@ public class TurmaDisciplinaAlunoDAO extends DAOGenerico<TurmaDisciplinaAluno>
 	@Override
 	public TurmaDisciplinaAluno consultarPorAlunoETurmaDisciplina(Aluno a, TurmaDisciplina td) {
 		try {
-			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.aluno = :aluno and tda.turmaDisciplina = :turmad", TurmaDisciplinaAluno.class);
+			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.aluno = :aluno and tda.turmaDisciplina = :turmad and tda.status='ATIVO'", TurmaDisciplinaAluno.class);
 			query.setParameter("aluno", a);
 			query.setParameter("turmad", td);
             return query.getSingleResult();
@@ -45,6 +45,18 @@ public class TurmaDisciplinaAlunoDAO extends DAOGenerico<TurmaDisciplinaAluno>
 
 	@Override
 	public List<TurmaDisciplinaAluno> consultarPorTurmaDisciplina(TurmaDisciplina td) {
+		try {
+			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.turmaDisciplina = :turmad and tda.status='ATIVO'", TurmaDisciplinaAluno.class);
+			query.setParameter("turmad", td);
+            return query.getResultList();		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
+	
+	@Override
+	public List<TurmaDisciplinaAluno> consultarAtivosEInativosPorTurmaDisciplina(TurmaDisciplina td) {
 		try {
 			TypedQuery<TurmaDisciplinaAluno> query = getEntityManager().createQuery("select tda from TurmaDisciplinaAluno tda where tda.turmaDisciplina = :turmad", TurmaDisciplinaAluno.class);
 			query.setParameter("turmad", td);

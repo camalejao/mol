@@ -44,7 +44,7 @@ public class AdmTurmaDisciplinaController {
 		
 		if(td!=null) {
 			mav.addObject("turmaDisciplina", td);
-			mav.addObject("alunos", tdaDAO.consultarPorTurmaDisciplina(td));
+			mav.addObject("alunos", tdaDAO.consultarAtivosEInativosPorTurmaDisciplina(td));
 			mav.addObject("novosAlunos", aDAO.consultarAlunosNaoInseridosNaTurma(td));
 			return mav;
 		} else
@@ -68,6 +68,32 @@ public class AdmTurmaDisciplinaController {
 			tda.setStatus(StatusEntidade.ATIVO);
 			tdaDAO.inserir(tda);
 		}
+		return mav;
+	}
+	
+	@RequestMapping("inativarTurmaDisciplinaAluno")
+	public ModelAndView inativaTurmaDiscAluno(@RequestParam TurmaDisciplinaAluno turmaDisciplinaAluno, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("redirect:alunosTurma-"+turmaDisciplinaAluno.getTurmaDisciplina().getId());
+		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
+		turmaDisciplinaAluno.setStatus(StatusEntidade.INATIVO);
+		turmaDisciplinaAluno.setUsuarioLogado(u);
+		tdaDAO.alterar(turmaDisciplinaAluno);
+		
+		return mav;
+	}
+	
+	@RequestMapping("reativarTurmaDisciplinaAluno")
+	public ModelAndView reativaTurmaDiscAluno(@RequestParam TurmaDisciplinaAluno turmaDisciplinaAluno, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("redirect:alunosTurma-"+turmaDisciplinaAluno.getTurmaDisciplina().getId());
+		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
+		turmaDisciplinaAluno.setStatus(StatusEntidade.ATIVO);
+		turmaDisciplinaAluno.setUsuarioLogado(u);
+		tdaDAO.alterar(turmaDisciplinaAluno);
+		
 		return mav;
 	}
 	
