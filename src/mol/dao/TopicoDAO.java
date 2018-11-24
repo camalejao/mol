@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import mol.model.curso.disciplina.Sumario;
 import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TurmaDisciplina;
 
@@ -32,6 +33,19 @@ public class TopicoDAO extends DAOGenerico<Topico> implements ITopicoDAO {
 		try {
 			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico != null", Topico.class);
 			query.setParameter("s", td.getSumarioTurma());
+            return query.getResultList();
+            		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
+
+	@Override
+	public List<Topico> consultarPorSumario(Sumario sumario) {
+		try {
+			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null", Topico.class);
+			query.setParameter("s", sumario);
             return query.getResultList();
             		
         } catch (RuntimeException re) {
