@@ -1,10 +1,16 @@
 package mol.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,9 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import mol.dao.DAOFactory;
 import mol.dao.IAlunoDAO;
+import mol.dao.IDisciplinaDAO;
+import mol.dao.IProfessorDAO;
+import mol.dao.ISumarioDAO;
+import mol.dao.ITopicoDAO;
+import mol.dao.ITurmaDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
+import mol.model.curso.disciplina.Sumario;
+import mol.model.curso.disciplina.Topico;
+import mol.model.curso.turma.TipoCalculo;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
 import mol.model.user.Aluno;
@@ -97,4 +111,40 @@ public class AdmTurmaDisciplinaController {
 		return mav;
 	}
 	
+	@RequestMapping("cadastroTurmaDisciplina")
+	public ModelAndView cadastroTD() {
+		
+		ModelAndView mav = new ModelAndView("adm/formularioTurmaDisciplina");
+		IDisciplinaDAO dDAO = DAOFactory.getDisciplinaDAO();
+		ITurmaDAO tDAO = DAOFactory.getTurmaDAO();
+		IProfessorDAO pDAO = DAOFactory.getProfessorDAO();
+		mav.addObject("disciplinas", dDAO.consultarTodos());
+		mav.addObject("turmas", tDAO.consultarTodos());
+		mav.addObject("professores", pDAO.consultarTodos());
+		mav.addObject("tiposCalculo", Arrays.asList(TipoCalculo.values()));
+		mav.addObject("turmaDisciplina", new TurmaDisciplina());
+				
+		return mav;
+	}
+	
+	@RequestMapping("insereTurmaDisciplina")
+	public ModelAndView insereTurmaDisciplina(@Valid @ModelAttribute("turmaDisciplina") TurmaDisciplina turmaDisciplina,
+			HttpSession session) {
+				
+		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
+		Usuario u = (Usuario) session.getAttribute("usuarioLogado");
+		Sumario sumarioTurma = new Sumario();
+		
+		sumarioTurma.setTurmaDisciplina(turmaDisciplina);
+		sumarioTurma.setUsuarioLogado(u);
+		sumarioTurma.setStatus(StatusEntidade.ATIVO);
+		
+		turmaDisciplina.setSumarioTurma(sumarioTurma);
+		turmaDisciplina.setUsuarioLogado(u);
+		turmaDisciplina.setStatus(StatusEntidade.ATIVO);
+		
+		tdDAO.inserir(turmaDisciplina);
+		
+		return new ModelAndView("redirect:turmasDisciplinas");
+	}
 }

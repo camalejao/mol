@@ -1,5 +1,6 @@
 package mol.model.curso.turma;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,7 +37,7 @@ public class TurmaDisciplina extends Entidade {
 	@Enumerated(EnumType.STRING)
 	private TipoCalculo tipoCalculo;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="sumario_id")
 	private Sumario sumarioTurma;
 	

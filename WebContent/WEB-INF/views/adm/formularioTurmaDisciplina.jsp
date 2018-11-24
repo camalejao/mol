@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -23,6 +25,10 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
+<!-- Bootstrap select CSS -->
+<link
+	href="webjars/bootstrap-select/1.13.1/dist/css/bootstrap-select.min.css"
+	rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -36,7 +42,7 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
+				<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -46,9 +52,7 @@
 						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
-						<li><a href="cadastroTurma">Cadastrar Turma</a></li>
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
-						<li><a href="cadastroTurmaDisciplina">Cadastrar Turma/Disciplina</a></li>
 						<li><a href="cadastrarUsuario">Cadastrar Usuário</a></li>
 					</ul></li>
 
@@ -93,14 +97,76 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="homeAdm">Página
-						Inicial</a></li>
-				<li class="breadcrumb-item active">Página inicial</li>
+				<li class="breadcrumb-item"><a href="home">Página Inicial</a></li>
+				<li class="breadcrumb-item active">Cadastro de Turma/Disciplina</li>
 			</ol>
 			<div class="row">
 				<div class="col-12">
-					<h1>Bem-vindo</h1>
-					<p>Página Inicial</p>
+					<div class="card card-register mx-auto mt-5 mb-2">
+						<div class="card-header">Cadastrar Turma/Disciplina</div>
+						<div class="card-body">
+							<form:form modelAttribute="turmaDisciplina" action="insereTurmaDisciplina"
+								method="POST">
+								<div class="form-group">
+									<div>
+										<label for="selectDisciplina">Disciplina</label>
+										<form:select required="true" class="selectpicker form-control"
+											title="Sigla ou nome" data-live-search="true" path="disciplina"
+											type="text" id="selectDisciplina">
+											<c:forEach items="${disciplinas}" var="d">
+												<form:option value="${d.sigla}">${d.sigla} - ${d.nome}</form:option>
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+								<div class="form-group">
+									<div>
+										<label for="selectTurma">Turma</label>
+										<form:select required="true" class="selectpicker form-control"
+											title="Ex: 912-A" data-live-search="true" path="turma"
+											type="text" id="selectTurma">
+											<c:forEach items="${turmas}" var="t">
+												<form:option value="${t.id}">${t.identificacao} - ${t.curso.nome} - ${t.curso.modalidade.descricao} 
+												- ${t.periodo.ano}.${t.periodo.entrada.semestre}</form:option>
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+								<div class="form-group">
+									<div>
+										<label for="selectProfessor">Professor</label>
+										<form:select required="true" class="selectpicker form-control"
+											data-live-search="true" title="Nome ou matrícula"
+											path="professor" id="selectProfessor" type="text">
+											<c:forEach items="${professores}" var="p">
+												<form:option value="${p.id}">${p.nome} - ${p.matricula}</form:option>
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="form-row">
+										<div class="col-md-6">
+											<label for="inputCargaHoraria">Carga Horária</label>
+											<form:input required="true" class="form-control" type="number" value="40" min="20" step="10" path="cargaHoraria" />
+										</div>
+										<div class="col-md-6">
+											<label for="selectTipoCalculo">Tipo de Cálculo</label>
+											<form:select class="form-control" path="tipoCalculo">
+												<c:forEach items="${tiposCalculo}" var="tc">
+													<form:option value="${tc}">${tc.tipoCalculo}</form:option>
+												</c:forEach>
+											</form:select>
+										</div>
+									</div>									
+								</div>
+								
+								<form:input value="0" type="number" path="quantidadeNiveis" hidden="true" />
+								
+								<button class="btn btn-primary btn-block" type="submit">Cadastrar</button>
+							</form:form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -195,7 +261,14 @@
 			src="webjars/startbootstrap-sb-admin/4.0.0/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="webjars/startbootstrap-sb-admin/4.0.0/js/sb-admin.min.js"></script>
-		<!--  script validacao/edicao de dados do usuario -->
+		<script
+			src="webjars/tempusdominus-bootstrap-4/5.0.0/js/tempusdominus-bootstrap-4.min.js"></script>
+		<!-- Bootstrap select scripts -->
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/bootstrap-select.min.js"></script>
+		<script
+			src="webjars/bootstrap-select/1.13.1/dist/js/i18n/defaults-pt_BR.min.js"></script>
+		<!-- Validação com Ajax -->
 		<script src="resources/scripts/validacaoAjax.js"></script>
 	</div>
 </body>
