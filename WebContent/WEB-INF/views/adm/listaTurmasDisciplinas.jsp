@@ -120,6 +120,7 @@
 									<th>Período</th>
 									<th>Turno</th>
 									<th>C.H.</th>
+									<th>Cálculo Média</th>
 									<th>Ações</th>
 								</tr>
 							</thead>
@@ -132,6 +133,7 @@
 									<th>Período</th>
 									<th>Turno</th>
 									<th>C.H.</th>
+									<th>Cálculo Média</th>
 									<th>Ações</th>
 								</tr>
 							</tfoot>
@@ -145,6 +147,7 @@
 										<td>${td.turma.periodo.ano}.${td.turma.periodo.entrada.semestre}</td>
 										<td>${td.turma.turno.turno}</td>
 										<td>${td.cargaHoraria}</td>
+										<td>${td.tipoCalculo.tipoCalculo}</td>
 										<td>
 											<a class="btn btn-sm btn-primary" href="alunosTurma-${td.id}">
 											Alunos</a>

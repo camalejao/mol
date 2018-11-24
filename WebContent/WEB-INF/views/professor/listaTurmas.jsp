@@ -104,18 +104,24 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso / Período</th>
+									<th>Turma</th>
+									<th>Disciplina</th>
+									<th>Curso</th>
+									<th>Período</th>
 									<th>Turno</th>
+									<th>C.H.</th>
 									<th>Cálculo Média</th>
 									<th>Ações</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>Turma / Disciplina</th>
-									<th>Curso / Período</th>
+									<th>Turma</th>
+									<th>Disciplina</th>
+									<th>Curso</th>
+									<th>Período</th>
 									<th>Turno</th>
+									<th>C.H.</th>
 									<th>Cálculo Média</th>
 									<th>Ações</th>
 								</tr>
@@ -123,11 +129,12 @@
 							<tbody>
 								<c:forEach items="${turmasDisciplinas}" var="td">
 									<tr>
-										<td>${td.turma.identificacao}/ ${td.disciplina.sigla} -
-											${td.disciplina.nome}</td>
-										<td>${td.turma.curso.nome}-
-											${td.turma.periodo.toString()}</td>
+										<td>${td.turma.identificacao}</td>
+										<td>${td.disciplina.nome}</td>
+										<td>${td.turma.curso.nome}</td>
+										<td>${td.turma.periodo.toString()}</td>
 										<td>${td.turma.turno.turno}</td>
+										<td>${td.cargaHoraria}</td>
 										<td>${td.tipoCalculo.tipoCalculo}</td>
 										<td><a href="editarSumario-${td.id}"
 											class="btn btn-sm btn-primary mb-1"><i class="fa fa-list-ul"></i>
