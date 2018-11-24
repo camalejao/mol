@@ -39,9 +39,11 @@
 					<constructor-arg value="dd/MM/yyyy" />
 				</bean>
 				<bean class="mol.converter.DisciplinaConverter" />
+				<bean class="mol.converter.TurmaConverter" />
 				<bean class="mol.converter.TurmaDisciplinaConverter" />
 				<bean class="mol.converter.TurmaDisciplinaAlunoConverter" />
 				<bean class="mol.converter.AlunoConverter" />
+				<bean class="mol.converter.ProfessorConverter" />
 				<bean class="mol.converter.MaterialDidaticoConverter" />
 				<bean class="mol.converter.SumarioConverter" />
 				<bean class="mol.converter.TopicoConverter" />
