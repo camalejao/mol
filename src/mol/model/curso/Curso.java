@@ -6,12 +6,16 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import mol.model.Entidade;
 
 @Entity
 @Table(name="t_curso")
 public class Curso extends Entidade {
 	
+	@NotEmpty @NotBlank
 	@Column(length=30, nullable=false)
 	private String nome;
 	

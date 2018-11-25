@@ -20,7 +20,7 @@ public class Periodo extends Entidade {
 	private EntradaPeriodo entrada;
 	
 	@Column(name="data_inicio")
-	private LocalDate dataIncio;
+	private LocalDate dataInicio;
 	
 	@Column(name="data_fim")
 	private LocalDate dataFim;
@@ -43,12 +43,12 @@ public class Periodo extends Entidade {
 		this.entrada = entrada;
 	}
 
-	public LocalDate getDataIncio() {
-		return dataIncio;
+	public LocalDate getDataInicio() {
+		return dataInicio;
 	}
 
-	public void setDataIncio(LocalDate dataIncio) {
-		this.dataIncio = dataIncio;
+	public void setDataInicio(LocalDate dataIncio) {
+		this.dataInicio = dataIncio;
 	}
 
 	public LocalDate getDataFim() {
