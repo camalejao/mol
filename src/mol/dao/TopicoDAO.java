@@ -18,7 +18,7 @@ public class TopicoDAO extends DAOGenerico<Topico> implements ITopicoDAO {
 	@Override
 	public List<Topico> consultarPorTurma(TurmaDisciplina td){
 		try {
-			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null", Topico.class);
+			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null order by id", Topico.class);
 			query.setParameter("s", td.getSumarioTurma());
             return query.getResultList();
             		
@@ -31,7 +31,7 @@ public class TopicoDAO extends DAOGenerico<Topico> implements ITopicoDAO {
 	@Override
 	public List<Topico> consultarSubtopicosPorTurma(TurmaDisciplina td){
 		try {
-			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico != null", Topico.class);
+			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico != null order by id", Topico.class);
 			query.setParameter("s", td.getSumarioTurma());
             return query.getResultList();
             		
@@ -44,7 +44,7 @@ public class TopicoDAO extends DAOGenerico<Topico> implements ITopicoDAO {
 	@Override
 	public List<Topico> consultarPorSumario(Sumario sumario) {
 		try {
-			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null", Topico.class);
+			TypedQuery<Topico> query = getEntityManager().createQuery("select t from Topico t where t.sumario = :s and t.topico = null order by id", Topico.class);
 			query.setParameter("s", sumario);
             return query.getResultList();
             		

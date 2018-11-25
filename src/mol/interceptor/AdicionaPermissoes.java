@@ -119,7 +119,7 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("insereTurmaDisciplina", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("listarCursos", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("listarPeriodos", TipoUsuario.ADMINISTRADOR));
-		lp.add(new Permissoes("cadastrarCurso", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastroCurso", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("insereCurso", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("inserePeriodo", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("cadastrarPeriodo", TipoUsuario.ADMINISTRADOR));

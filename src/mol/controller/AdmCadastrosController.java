@@ -40,7 +40,7 @@ import mol.util.PasswordGenerator;
 @Controller
 public class AdmCadastrosController {
 	
-	@RequestMapping("cadastrarCurso")
+	@RequestMapping("cadastroCurso")
 	public ModelAndView formCurso() {
 
 		ModelAndView mav = new ModelAndView("adm/formularioCurso");

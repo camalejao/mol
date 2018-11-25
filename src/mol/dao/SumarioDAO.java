@@ -16,7 +16,7 @@ public class SumarioDAO extends DAOGenerico<Sumario> implements ISumarioDAO {
 	@Override
 	public Sumario consultarPorDisciplina(Disciplina disciplina) {
 		try {
-			TypedQuery<Sumario> query = getEntityManager().createQuery("select s from Sumario s where s.disciplina = :d", Sumario.class);
+			TypedQuery<Sumario> query = getEntityManager().createQuery("select s from Sumario s where s.disciplina = :d order by id", Sumario.class);
 			query.setParameter("d", disciplina);
             return query.getSingleResult();
             		

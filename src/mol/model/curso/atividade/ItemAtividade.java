@@ -7,11 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -34,6 +33,7 @@ public class ItemAtividade extends Entidade {
 	private String enunciado;
 	
 	@JsonManagedReference
+	@OrderBy(clause = "id ASC")
 	@OneToMany(mappedBy="item", cascade=CascadeType.ALL)
 	private List<Alternativa> alternativas;
 		

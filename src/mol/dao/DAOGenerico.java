@@ -99,7 +99,7 @@ public abstract class DAOGenerico<Entidade> implements IDAOGenerico<Entidade> {
  
     public List<Entidade> consultarTodos() {
         try {
-            String sql = "from " + classePersistente.getSimpleName();
+            String sql = "from " + classePersistente.getSimpleName() + " order by id";
             TypedQuery<Entidade> query = getEntityManager().createQuery(sql, classePersistente);
             return query.getResultList();
             

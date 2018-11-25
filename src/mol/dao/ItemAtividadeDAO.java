@@ -17,7 +17,7 @@ public class ItemAtividadeDAO extends DAOGenerico<ItemAtividade> implements IIte
 	@Override
 	public List<ItemAtividade> consultarPorAtividade(Atividade atividade) {
 		try {
-			TypedQuery<ItemAtividade> query = getEntityManager().createQuery("select i from ItemAtividade i where i.atividade = :atv", ItemAtividade.class);
+			TypedQuery<ItemAtividade> query = getEntityManager().createQuery("select i from ItemAtividade i where i.atividade = :atv order by id", ItemAtividade.class);
 			query.setParameter("atv", atividade);
             return query.getResultList();
             		
