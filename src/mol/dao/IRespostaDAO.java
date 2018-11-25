@@ -16,4 +16,6 @@ public interface IRespostaDAO extends IDAOGenerico<Resposta> {
 	List<Resposta> consultarCorrigidas(TurmaDisciplina td, Aluno a);
 
 	public Resposta consultarPorAtividadeAluno(Atividade atv, Aluno a);
+
+	public List<Resposta> consultarCorrigidasPorAtividade(Atividade atividade);
 }

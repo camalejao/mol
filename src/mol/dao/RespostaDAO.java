@@ -69,5 +69,18 @@ public class RespostaDAO extends DAOGenerico<Resposta> implements IRespostaDAO {
         }
 		return null;
 	}
+
+	@Override
+	public List<Resposta> consultarCorrigidasPorAtividade(Atividade atividade) {
+		try {
+			TypedQuery<Resposta> query = getEntityManager().createQuery("select r from Resposta r where r.atividade = :atv and r.statusResposta='CORRIGIDA'", Resposta.class);
+			query.setParameter("atv", atividade);
+            return query.getResultList();
+            		
+        } catch (RuntimeException re) {
+            re.printStackTrace();
+        }
+		return null;
+	}
 	
 }

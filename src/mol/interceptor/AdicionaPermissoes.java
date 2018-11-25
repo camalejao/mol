@@ -111,6 +111,24 @@ public class AdicionaPermissoes {
 		lp.add(new Permissoes("editarDados", TipoUsuario.MONITOR));
 		lp.add(new Permissoes("alunosTurma-{id}", TipoUsuario.ADMINISTRADOR));
 		lp.add(new Permissoes("verAlunos-{id}", TipoUsuario.PROFESSOR));
+		lp.add(new Permissoes("turmasDisciplinas", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("adicionaTurmaDisciplinaAluno", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("inativarTurmaDisciplinaAluno", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("reativarTurmaDisciplinaAluno", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastroTurmaDisciplina", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("insereTurmaDisciplina", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("listarCursos", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("listarPeriodos", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastrarCurso", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("insereCurso", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("inserePeriodo", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastrarPeriodo", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("listaTurmas", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("cadastroTurma", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("insereTurma", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("graficoAtividade-{id}", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("getDadosNotas", TipoUsuario.ADMINISTRADOR));
+		lp.add(new Permissoes("getDadosSubmissoes", TipoUsuario.ADMINISTRADOR));
 		
 		for(Permissoes p : lp) {
 			pDAO.inserir(p);
