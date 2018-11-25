@@ -2,13 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
+
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 <title>MOL - Administrador</title>
 <!-- Bootstrap core CSS-->
 <link
@@ -25,7 +29,6 @@
 <!-- Custom styles for this template-->
 <link href="webjars/startbootstrap-sb-admin/4.0.0/css/sb-admin.css"
 	rel="stylesheet">
-
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -39,7 +42,7 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
+		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -101,24 +104,24 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="home">Página
+				<li class="breadcrumb-item"><a href="homeAdm">Página
 						Inicial</a></li>
-				<li class="breadcrumb-item active">Listar Usuários</li>
+				<li class="breadcrumb-item active">Listar Cursos</li>
 			</ol>
 			<div class="card mb-3">
 				<div class="card-header">
-					<i class="fa fa-table"></i> Lista de Usuários
+					<i class="fa fa-table"></i> Lista de Cursos
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
+
 						<table class="table table-bordered" id="dataTable" width="100%"
 							cellspacing="0">
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Email</th>
-									<th>Tipo</th>
-									<th>Status</th>
+									<th>Modalidade</th>
+									<th>C.H.</th>
 									<th>Data de cadastro</th>
 									<th>Ações</th>
 								</tr>
@@ -126,60 +129,38 @@
 							<tfoot>
 								<tr>
 									<th>Nome</th>
-									<th>Email</th>
-									<th>Tipo</th>
-									<th>Status</th>
+									<th>Modalidade</th>
+									<th>C.H.</th>
 									<th>Data de cadastro</th>
 									<th>Ações</th>
 								</tr>
 							</tfoot>
 							<tbody>
-								<c:forEach items="${usuarios}" var="usuario">
+								<c:forEach items="${cursos}" var="c">
 									<tr>
-										<td>${usuario.nome}</td>
-										<td>${usuario.email}</td>
-										<td>${usuario.tipo}</td>
-										<td>${usuario.status}</td>
-										<fmt:parseDate value="${usuario.dataCadastro}"
+										<td>${c.nome}</td>
+										<td>${c.modalidade.descricao}</td>
+										<td>${c.cargaHoraria}</td>
+										<fmt:parseDate value="${c.dataCadastro}"
 											pattern="yyyy-MM-dd" var="parsedDate" type="date" />
 										<td><fmt:formatDate value="${parsedDate}"
 												pattern="dd/MM/yyyy" /></td>
-										<td>
-											<div class="row">
-												<c:if test="${usuario.tipo == 'ADMINISTRADOR'}">
-													<button class="btn btn-sm btn-secondary ml-2 mr-1"
-														data-toggle="modal" data-target="#editaAdmModal"
-														title="Editar"
-														onclick="editaAdm(${usuario.id},'${usuario.nome}','${usuario.email}',event)">
-														<i class="fa fa-pencil-square" aria-hidden="true"></i>
-													</button>	
-												</c:if>
-												<c:if test="${usuario.tipo == 'ALUNO' || usuario.tipo == 'PROFESSOR' || usuario.tipo == 'MONITOR'}">
-													<button class="btn btn-sm btn-secondary ml-2 mr-1"
-														data-toggle="modal" data-target="#editaAlunoProfModal"
-														title="Editar"
-														onclick="editaAlunoProf(${usuario.id},'${usuario.nome}','${usuario.email}','${usuario.matricula}',event)">
-														<i class="fa fa-pencil-square" aria-hidden="true"></i>
-													</button>	
-												</c:if>
-												<form action="excluirUsuario" method="POST"
+										<td>-
+											<!-- <div class="row">
+												<button class="btn btn-sm btn-secondary ml-2 mr-1" data-toggle="modal"
+													data-target="#editaDisciplinaModal" title="Editar"
+													onclick="editaDisciplina(${disciplina.id},'${disciplina.nome}','${disciplina.sigla}',event)">
+													<i class="fa fa-pencil-square" aria-hidden="true"></i>
+												</button>
+												<form action="excluirDisciplina" method="POST"
 													onsubmit="return confirm('Confirma a exclusão?');">
-													<input name="usuario" value="${usuario.id}" type="text"
+													<input name="disciplina" value="${disciplina.sigla}" type="text"
 															hidden="true" />
-													<button class="btn btn-sm btn-danger mr-1" title="Excluir" type="submit">
+													<button class="btn btn-sm btn-danger" title="Excluir" type="submit">
 														<i class="fa fa-trash" aria-hidden="true"></i>
 													</button>
 												</form>
-												<c:if test="${usuario.tipo == 'MONITOR'}">
-													<form action="removerMonitor" method="POST"
-														onsubmit="return confirm('Confirma a remoção do monitor?');">
-														<input name="usuario" value="${usuario.id}" type="text"
-															hidden="true" />
-														<button class="btn btn-sm btn-danger mr-1" title="remover Monitor"
-															type="submit">Remover Monitor</button>
-													</form>
-												</c:if>
-											</div>
+											</div> -->
 										</td>
 									</tr>
 								</c:forEach>
@@ -209,13 +190,13 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Já vai?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Já Vai?</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
-					<div class="modal-body">Selecione "Sair" se deseja encerrar a
+					<div class="modal-body">Selecione "sair" se deseja encerrar a
 						sessão atual.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button"
@@ -225,34 +206,31 @@
 				</div>
 			</div>
 		</div>
-		<!-- Modal EDITAR adm -->
-		<div class="modal fade" id="editaAdmModal" tabindex="-1"
-			role="dialog" aria-labelledby="editaAdmModalLabel"
-			aria-hidden="true">
+		<!-- Modal EDITAR Disciplina -->
+		<!--  <div class="modal fade" id="editaDisciplinaModal" tabindex="-1" role="dialog"
+			aria-labelledby="editaDisciplinaModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="editaAdmModalLabel">Editar
-							Usuário</h5>
+						<h5 class="modal-title" id="editaDisciplinaModalLabel">Editar Disciplina</h5>
 						<button class="close" type="button" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form action="editarUsuario" method="POST">
+						<form action="editaDisciplina" method="POST">
 							<div class="form-group">
-								<label for="inputNomeAdm">Nome</label> <input class="form-control"
-									id="inputNomeAdm" name="nome" type="text"
-									placeholder="Digite o nome do Usuário" maxlength="50" />
+								<label for="inputNome">Nome</label>
+								<input class="form-control" id="inputNome" name="nome"
+									type="text" placeholder="Digite o nome da Disciplina" maxlength="40" />
 							</div>
 							<div class="form-group">
-								<label for="inputEmailAdm">Email</label> <input class="form-control"
-									id="inputEmailAdm" name="email" type="email" placeholder="email@exemplo.com"
-									maxlength="50" />
+								<label for="inputNome">Sigla</label>
+								<input class="form-control" id="inputSigla" name="sigla"
+									type="text" placeholder="Ex: ESTD" maxlength="5" />
 							</div>
-							<input id="inputIdAdm" name="usuario" hidden="true" />
-							<input id="inputMatAdm" name="matricula" hidden="true" value="" />
+							<input id="inputId" name="id" hidden="true" />
 							<div>
 								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
 							</div>
@@ -260,48 +238,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Modal EDITAR aluno/professor -->
-		<div class="modal fade" id="editaAlunoProfModal" tabindex="-1"
-			role="dialog" aria-labelledby="editaAlunoProfModalLabel"
-			aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="editaAlunoProfModalLabel">Editar
-							Usuário</h5>
-						<button class="close" type="button" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form action="editarUsuario" method="POST">
-							<div class="form-group">
-								<label for="inputNome">Nome</label> <input class="form-control"
-									id="inputNome" name="nome" type="text"
-									placeholder="Digite o nome do Usuário" maxlength="50" />
-							</div>
-							<div class="form-group">
-								<label for="inputEmail">Email</label> <input class="form-control"
-									id="inputEmail" name="email" type="email" placeholder="email@exemplo.com"
-									maxlength="50" />
-							</div>
-							<div class="form-group">
-								<label for="inputMatricula">Matrícula</label> <input class="form-control"
-									id="inputMatricula" name="matricula" type="text"
-									maxlength="10" />
-							</div>
-							<input id="inputId" name="usuario" hidden="true" />
-							<div>
-								<button class="btn btn-primary btn-block" type="submit">Salvar</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modal editar dados -->
+		</div> -->
+		<!-- Modal editar dados usuário -->
 		<div class="modal fade" id="editarDadosModal" tabindex="-1"
 			role="dialog" aria-labelledby="editarDadosModalLabel"
 			aria-hidden="true">
@@ -365,23 +303,16 @@
 		<!-- Custom scripts for this page-->
 		<script
 			src="resources/scripts/datatables-PT-BR.js"></script>
-		<!--  script validacao/edicao de dados do usuario -->
+		<!-- Validação com Ajax -->
 		<script src="resources/scripts/validacaoAjax.js"></script>
-		<script>
-			function editaAdm(id, nome, email, e){
-				$("#inputIdAdm").attr("value", id);
-				$("#inputNomeAdm").val(nome);
-				$("#inputEmailAdm").val(email);
-				e.preventDefault();
-			}
-			function editaAlunoProf(id, nome, email, matricula, e){
+		<!--<script>
+			function editaDisciplina(id, nome, sigla, e){
 				$("#inputId").attr("value", id);
 				$("#inputNome").val(nome);
-				$("#inputEmail").val(email);
-				$("#inputMatricula").val(matricula);
+				$("#inputSigla").val(sigla);
 				e.preventDefault();
 			}
-		</script>
+		</script> -->
 	</div>
 </body>
 </html>

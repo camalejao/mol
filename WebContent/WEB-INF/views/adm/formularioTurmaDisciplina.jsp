@@ -52,7 +52,11 @@
 						class="fa fa-fw fa-id-card"></i> <span class="nav-link-text">Cadastros
 					</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseCadastros">
+						<li><a href="cadastroCurso">Cadastrar Curso</a></li>
+						<li><a href="cadastrarPeriodo">Cadastrar Período</a></li>
+						<li><a href="cadastroTurma">Cadastrar Turma</a></li>
 						<li><a href="cadastrarDisciplina">Cadastrar Disciplina</a></li>
+						<li><a href="cadastroTurmaDisciplina">Cadastrar Turma/Disciplina</a></li>
 						<li><a href="cadastrarUsuario">Cadastrar Usuário</a></li>
 					</ul></li>
 
@@ -62,6 +66,9 @@
 					href="#collapseListas" data-parent="#exampleAccordion"> <i
 						class="fa fa-fw fa-table"></i> <span class="nav-link-text">Listagens</span></a>
 					<ul class="sidenav-second-level collapse" id="collapseListas">
+						<li><a href="listarCursos">Listar Cursos</a></li>
+						<li><a href="listarPeriodos">Listar Períodos</a></li>
+						<li><a href="listaTurmas">Listar Turmas</a></li>
 						<li><a href="listarDisciplinas">Listar Disciplinas</a></li>
 						<li><a href="turmasDisciplinas">Listar Turmas/Disciplinas</a></li>
 						<li><a href="listarUsuarios">Listar Usuários</a></li>
@@ -102,7 +109,7 @@
 			</ol>
 			<div class="row">
 				<div class="col-12">
-					<div class="card card-register mx-auto mt-5 mb-2">
+					<div class="card card-register mx-auto mt-2 mb-2">
 						<div class="card-header">Cadastrar Turma/Disciplina</div>
 						<div class="card-body">
 							<form:form modelAttribute="turmaDisciplina" action="insereTurmaDisciplina"
@@ -158,7 +165,7 @@
 												</c:forEach>
 											</form:select>
 										</div>
-									</div>									
+									</div>					
 								</div>
 								
 								<form:input value="0" type="number" path="quantidadeNiveis" hidden="true" />
