@@ -1,6 +1,5 @@
 package mol.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +17,11 @@ import mol.dao.DAOFactory;
 import mol.dao.IAlunoDAO;
 import mol.dao.IDisciplinaDAO;
 import mol.dao.IProfessorDAO;
-import mol.dao.ISumarioDAO;
-import mol.dao.ITopicoDAO;
 import mol.dao.ITurmaDAO;
 import mol.dao.ITurmaDisciplinaAlunoDAO;
 import mol.dao.ITurmaDisciplinaDAO;
 import mol.model.StatusEntidade;
 import mol.model.curso.disciplina.Sumario;
-import mol.model.curso.disciplina.Topico;
 import mol.model.curso.turma.TipoCalculo;
 import mol.model.curso.turma.TurmaDisciplina;
 import mol.model.curso.turma.TurmaDisciplinaAluno;
@@ -36,17 +30,7 @@ import mol.model.user.Usuario;
 
 @Controller
 public class AdmTurmaDisciplinaController {
-	
-	@RequestMapping("turmasDisciplinas")
-	public ModelAndView turmasDisciplinas() {
 		
-		ModelAndView mav = new ModelAndView("adm/listaTurmasDisciplinas");
-		ITurmaDisciplinaDAO tdDAO = DAOFactory.getTurmaDisciplinaDAO();
-		mav.addObject("turmasDisciplinas", tdDAO.consultarTodos());
-				
-		return mav;
-	}
-	
 	@RequestMapping("alunosTurma-{id}")
 	public ModelAndView alunosTurmaDisciplina(@PathVariable Integer id) {
 		
