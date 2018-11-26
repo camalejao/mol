@@ -328,12 +328,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -351,7 +351,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>

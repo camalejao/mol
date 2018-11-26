@@ -136,7 +136,7 @@
 									<div>
 										<label for="selectAluno">Aluno</label>
 										<form:select class="selectpicker form-control"
-											data-live-search="true" title="Nome ou matrícula"
+											data-live-search="true" title="Nome ou matrícula" required="true"
 											path="aluno" id="selectAluno" type="text">
 											<c:forEach items="${alunos}" var="a">
 												<form:option value="${a.matricula}">${a.nome} - ${a.matricula}</form:option>
@@ -150,7 +150,7 @@
 										<div class="input-group date" id="datetimepickerInicio"
 											data-target-input="nearest">
 											<form:input type="text" path="dataInicioContrato"
-												class="form-control datetimepicker-input"
+												class="form-control datetimepicker-input" required="true"
 												data-target="#datetimepickerInicio" id="dateInicio" />
 											<div class="input-group-append"
 												data-target="#datetimepickerInicio"
@@ -166,7 +166,7 @@
 										<div class="input-group date" id="datetimepickerTermino"
 											data-target-input="nearest">
 											<form:input type="text" path="dataTerminoContrato"
-												class="form-control datetimepicker-input"
+												class="form-control datetimepicker-input" required="true"
 												data-target="#datetimepickerTermino" id="dateTermino" />
 											<div class="input-group-append"
 												data-target="#datetimepickerTermino"
@@ -237,12 +237,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -260,7 +260,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>

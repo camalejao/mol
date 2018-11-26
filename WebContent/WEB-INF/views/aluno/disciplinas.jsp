@@ -108,7 +108,7 @@
 				<c:choose>
 					<c:when test="${not empty turmasDisc}">
 						<c:forEach items="${turmasDisc}" var="td">
-							<div class="col-2">
+							<div class="col-4">
 								<div class="card mb-3">
 									<div class="card-header">
 										<h6>
@@ -117,7 +117,12 @@
 									</div>
 									<div class="list-group list-group-flush">
 										<a class="list-group-item list-group-item-action" href="#">
-											<strong>Nível: </strong> ${td.nivelAtual} / ${td.turmaDisciplina.quantidadeNiveis}
+											<c:if test="${turmaDisciplina.quantidadeNiveis > 0}">
+												<strong>Nível: </strong> ${td.nivelAtual} / ${td.turmaDisciplina.quantidadeNiveis}
+											</c:if>
+											<c:if test="${turmaDisciplina.quantidadeNiveis == 0}">
+												<strong>Nível: </strong> ${td.nivelAtual} / -
+											</c:if>
 										</a>
 										<a class="list-group-item list-group-item-action" href="sumario-${td.turmaDisciplina.id}">
 											<strong>Ver sumário</strong>
@@ -133,10 +138,8 @@
 					<c:otherwise>
 						<div class="card">
 							<div class="card-body">
-								<div class="list-group-item list-group-item-action">
-									<h6 class="card-title mb-1">Você não está cadastrado em
-										nenhuma disciplina.</h6>
-								</div>
+								<h6 class="card-title mb-1">Você não está cadastrado em
+									nenhuma disciplina.</h6>
 							</div>
 						</div>
 					</c:otherwise>
@@ -194,12 +197,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -217,7 +220,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>

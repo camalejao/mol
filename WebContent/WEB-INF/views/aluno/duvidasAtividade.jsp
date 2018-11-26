@@ -164,7 +164,7 @@
 										<div class="card-body bg-light">
 											<div class="form-group">
 												<textarea class="form-control" id="inputResposta-${loop.index}"
-													name="resposta" maxlength="400"></textarea>
+													name="resposta" maxlength="400" required="required"></textarea>
 												<input hidden="true" name="duvida" value="${d.id}" />
 												<button onClick="submitResposta(${loop.index},${d.id},event)" class="btn btn-sm btn-primary mt-2">
 													Responder</button>
@@ -238,12 +238,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -261,7 +261,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>

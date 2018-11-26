@@ -218,39 +218,31 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input
-								class="form-control" id="inputEditarNome" name="nome"
-								type="text" value="${sessionScope.usuarioLogado.nome}"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
+								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input
-								class="form-control" id="inputEditarEmail" name="email"
-								type="email" placeholder="email@exemplo.com" maxlength="50"
-								onChange="verificaEmail(this.value)"
-								value="${sessionScope.usuarioLogado.email}" />
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
+								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
+								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
-						<input id="inputId" name="usuario" hidden="true"
-							value="${sessionScope.usuarioLogado.id}" />
+						<input id="inputId" name="usuario" hidden="true" value="${sessionScope.usuarioLogado.id}" />
 						<div class="form-group" id="divAlterarSenha" hidden="true">
 							<div class="form-row">
 								<div class="col-md-6">
-									<label for="inputSenha">Nova Senha</label> <input
-										id="inputSenha" onKeyUp="confirmaSenha()" type="password"
-										class="form-control" />
+									<label for="inputSenha">Nova Senha</label>
+									<input id="inputSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
 								</div>
 								<div class="col-md-6">
-									<label for="confirmacaoSenha">Confirmar Senha</label> <input
-										id="confirmacaoSenha" onKeyUp="confirmaSenha()"
-										type="password" class="form-control" />
+									<label for="confirmacaoSenha">Confirmar Senha</label>
+									<input id="confirmacaoSenha" onKeyUp="confirmaSenha()" type="password" class="form-control" />
 								</div>
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block"
-								onClick="showDivAlterarSenha()">Alterar Senha</button>
-							<button class="btn btn-primary btn-block" onClick="editarDados()"
-								id="btnSalvarDados">Salvar</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
+							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>
 				</div>

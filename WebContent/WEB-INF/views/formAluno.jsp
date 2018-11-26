@@ -32,14 +32,14 @@
 						<div class="form-row">
 							<div class="col-md-6">
 								<label for="inputNome">Nome</label> <form:input path="nome"
-									class="form-control" id="inputNome" type="text"
+									class="form-control" id="inputNome" type="text" required="true"
 									aria-describedby="nameHelp" placeholder="Digite seu nome" />
 								<form:errors path="nome" cssClass="text-danger" />
 							</div>
 							<div class="col-md-6">
 								<label for="inputMatricula">Matrícula</label> <form:input
 									path="matricula" class="form-control" id="inputMatricula"
-									type="text" aria-describedby="nameHelp" maxlength="8"
+									type="text" aria-describedby="nameHelp" maxlength="8" required="true"
 									placeholder="Ex: 12345678" onchange="verificaMatAluno(this.value)"/>
 								<form:errors path="matricula" cssClass="text-danger" />
 							</div>
@@ -47,7 +47,7 @@
 					</div>
 					<div class="form-group" id="divEmail">
 						<label for="inputEmail">Email</label> <form:input path="email"
-							class="form-control" id="inputEmail" type="email"
+							class="form-control" id="inputEmail" type="email" required="true"
 							aria-describedby="emailHelp" placeholder="Ex: exemplo@email.com"
 							onchange="verificaEmail(this.value)" />
 						<form:errors path="email" cssClass="text-danger" />

@@ -116,7 +116,7 @@
 										<div class="col-md-6">
 											<label for="inputNome">Nome</label>
 											<form:input path="nome" class="form-control" id="inputNome"
-												type="text" aria-describedby="nameHelp"
+												type="text" aria-describedby="nameHelp" required="true"
 												placeholder="Digite seu nome" />
 											<form:errors path="nome" cssClass="text-danger" />
 										</div>
@@ -124,7 +124,7 @@
 											<label for="inputMatricula">Matrícula</label>
 											<form:input path="matricula" class="form-control"
 												id="inputMatricula" type="text" aria-describedby="nameHelp"
-												placeholder="Ex: 12345678" maxlength="8"
+												placeholder="Ex: 12345678" maxlength="8" required="true"
 												onchange="verificaMatAluno(this.value)" />
 											<form:errors path="matricula" cssClass="text-danger" />
 										</div>
@@ -133,7 +133,7 @@
 								<div class="form-group">
 									<label for="inputEmail">Email</label>
 									<form:input path="email" class="form-control" id="inputEmail"
-										type="email" aria-describedby="emailHelp"
+										type="email" aria-describedby="emailHelp" required="true"
 										placeholder="Ex: exemplo@email.com"
 										onchange="verificaEmail(this.value)" />
 									<form:errors path="email" cssClass="text-danger" />
@@ -198,14 +198,14 @@
 							<span aria-hidden="true">×</span>
 						</button>
 					</div>
-					<div class="modal-body">
+										<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -223,7 +223,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>

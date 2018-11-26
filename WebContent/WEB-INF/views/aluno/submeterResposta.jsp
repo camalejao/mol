@@ -149,7 +149,7 @@
 														<label for="uploadArquivo">Selecione o arquivo de
 															resposta </label>
 														<form:input class="form-control-file" path="upload"
-															id="uploadArquivo" type="file" />
+															id="uploadArquivo" type="file" required="true" />
 														<a href="" class="btn btn-warning mt-2 mb-2" data-toggle="modal"
 															data-target="#duvidaModal">Dúvida</a>
 													</div>
@@ -249,12 +249,13 @@
 						<form:form modelAttribute="novaDuvida" action="adicionarDuvida" method="POST">
 							<div class="form-group">
 								<label for="inputDuvida">Descreva sua dúvida</label>
-								<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+								<form:textarea id="inputDuvida" maxlength="400" class="form-control" path="duvida" required="true"></form:textarea>
 							</div>
 							<form:input value="${atividade.id}" hidden="true" path="item.atividade" />
 							<form:input value="${atividade.descricao}" hidden="true" path="item.enunciado" />
 							<form:input value="1" hidden="true" path="item.valor" />
-							<div class="form-group">									<label for="selectVisibilidade">Visibilidade</label>
+							<div class="form-group">
+								<label for="selectVisibilidade">Visibilidade</label>
 								<form:select path="visibilidade" id="selectVisibilidade" class="form-control">
 									<c:forEach items="${visibilidade}" var="v">
 										<form:option value="${v}">${v.visibilidadeDuvida}</form:option>
@@ -320,7 +321,7 @@
 							<form:form modelAttribute="novaDuvida" action="adicionarDuvida" method="POST">
 								<div class="form-group">
 									<label for="inputDuvida">Descreva sua dúvida</label>
-									<form:textarea id="inputDuvida" class="form-control" path="duvida" ></form:textarea>
+									<form:textarea id="inputDuvida" class="form-control" maxlength="400" path="duvida" required="true"></form:textarea>
 								</div>
 								<form:input id="itemDuvida" hidden="true" path="item" />
 								<div class="form-group">
@@ -356,12 +357,12 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="inputEditarNome">Nome</label> <input class="form-control"
+							<label for="inputEditarNome">Nome</label> <input class="form-control" required="required"
 								id="inputEditarNome" name="nome" type="text" value="${sessionScope.usuarioLogado.nome}"
 								placeholder="Digite o nome do Usuário" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label for="inputEditarEmail">Email</label> <input class="form-control"
+							<label for="inputEditarEmail">Email</label> <input class="form-control" required="required"
 								id="inputEditarEmail" name="email" type="email" placeholder="email@exemplo.com"
 								maxlength="50" onChange="verificaEmail(this.value)" value="${sessionScope.usuarioLogado.email}" />
 						</div>
@@ -379,7 +380,7 @@
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()">Alterar Senha</button>
+							<button class="btn btn-secondary btn-block" onClick="showDivAlterarSenha()" id="btnAltSenha">Alterar Senha</button>
 							<button class="btn btn-primary btn-block" onClick="editarDados()" id="btnSalvarDados">Salvar</button>
 						</div>
 					</div>
