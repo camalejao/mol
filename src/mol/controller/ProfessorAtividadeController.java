@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -260,10 +259,13 @@ public class ProfessorAtividadeController {
 		List<Resposta> listaRespostasCorrigidas = respDAO.consultarCorrigidasPorAtividade(atividade);
 		List<TurmaDisciplinaAluno> listaAlunos = tdaDAO.consultarPorTurmaDisciplina(atividade.getTurmaDisciplina());
 		
+		 
+		
 		if(listaRespostasCorrigidas!=null) {
-			double[] dados = {listaAlunos.size(), listaTodasRespostas.size(), listaRespostasCorrigidas.size()};
+			int numeroAlunosNaoResponderam = listaAlunos.size() - listaTodasRespostas.size(); 
+			double[] dados = {numeroAlunosNaoResponderam, listaTodasRespostas.size(), listaRespostasCorrigidas.size()};
 			dataset.setData(dados);
-		} 
+		}
 		else if(listaTodasRespostas!=null && listaRespostasCorrigidas==null) {
 			double[] dados = {listaAlunos.size(), listaTodasRespostas.size(), 0};
 			dataset.setData(dados);
@@ -280,10 +282,10 @@ public class ProfessorAtividadeController {
 		dataset.setBackgroundColor("rgba(2,117,216,1)");
 		dataset.setBorderColor("rgba(2,117,216,1)");
 		dataset.setLabel(atividade.getTitulo());
-		String[] labels = {"Número de Alunos", "Respostas Submetidas", "Respostas Analisadas"};
+		String[] labels = {"Alunos que não responderam", "Respostas Submetidas", "Respostas Analisadas"};
 		
 		ticks.setBeginAtZero(true);
-		ticks.setMax(listaAlunos.size());
+		ticks.setMax(listaAlunos.size()+1);
 		ticks.setMaxTicksLimit(5);
 		yAxes.setTicks(ticks);
 		xAxes.setCategoryPercentage(0.5);
@@ -300,8 +302,7 @@ public class ProfessorAtividadeController {
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(grafico);
-		
-		System.out.println(json);
+
 		return json;
 	}
 	
@@ -320,15 +321,17 @@ public class ProfessorAtividadeController {
 		
 		IAtividadeDAO atvDAO = DAOFactory.getAtividadeDAO();
 		IRespostaDAO respDAO = DAOFactory.getRespostaDAO();
+		ITurmaDisciplinaAlunoDAO tdaDAO = DAOFactory.getTurmaDisciplinaAlunoDAO();
 		Atividade atividade = atvDAO.consultarPorId(idAtv);
 		List<Resposta> listaRespostasCorrigidas = respDAO.consultarCorrigidasPorAtividade(atividade);
+		List<TurmaDisciplinaAluno> listaAlunos = tdaDAO.consultarPorTurmaDisciplina(atividade.getTurmaDisciplina());
 		double media = 0.0;
 		
 		if(listaRespostasCorrigidas.size() > 0) {
 			for(Resposta r : listaRespostasCorrigidas) {
 				media += r.getNota();
 			}
-			media = media/listaRespostasCorrigidas.size();
+			media = media/listaAlunos.size();
 			double[] dados = {atividade.getValorMaximo(), media};
 			dataset.setData(dados);
 		}
@@ -343,7 +346,7 @@ public class ProfessorAtividadeController {
 		String[] labels = {"Valor da Atividade", "Média da Turma"};
 		
 		ticks.setBeginAtZero(true);
-		ticks.setMax(atividade.getValorMaximo());
+		ticks.setMax(atividade.getValorMaximo()+1);
 		ticks.setMaxTicksLimit(5);
 		yAxes.setTicks(ticks);
 		xAxes.setCategoryPercentage(0.5);
@@ -361,7 +364,6 @@ public class ProfessorAtividadeController {
 		Gson gson = new Gson();
 		String json = gson.toJson(grafico);
 		
-		System.out.println(json);
 		return json;
 	}
 }

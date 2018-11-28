@@ -202,7 +202,17 @@
 											<button class="btn btn-primary btn-block" type="submit">Enviar Avaliação</button>
 										</c:when>
 										<c:otherwise>
-											<button disabled class="btn btn-primary btn-block">Enviar Avaliação</button>
+											<div class="row">
+												<div class="col-md-10">
+													<button disabled class="btn btn-primary btn-block">Enviar Avaliação</button>
+												</div>
+												<div class="col-md-2">
+													<span class="btn btn-block btn-warning" data-toggle="tooltip" data-placement="top" title="A correção poderá ser enviada aos alunos
+														somente após o término do prazo da atividade.">
+														<i class="fa fa-question-circle" aria-hidden="true"></i>
+													</span>
+												</div>
+											</div>
 										</c:otherwise>
 									</c:choose>
 								</form>

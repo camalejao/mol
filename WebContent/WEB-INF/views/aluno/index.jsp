@@ -115,10 +115,10 @@
 											<div class="media">
 												<div class="media-body">
 													<h6 class="card-title mb-1">
-														<c:if test="${turmaDisciplina.quantidadeNiveis > 0}">
+														<c:if test="${td.turmaDisciplina.quantidadeNiveis > 0}">
 															<strong>${td.turmaDisciplina.disciplina.nome} | Nível ${td.nivelAtual}/${td.turmaDisciplina.quantidadeNiveis}</strong>
 														</c:if>
-														<c:if test="${turmaDisciplina.quantidadeNiveis == 0}">
+														<c:if test="${td.turmaDisciplina.quantidadeNiveis == 0}">
 															<strong>${td.turmaDisciplina.disciplina.nome} | Nível ${td.nivelAtual}/-</strong>
 														</c:if>
 													</h6>

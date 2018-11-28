@@ -156,7 +156,7 @@
 												class="fa fa-download"></i></a>
 										</c:if>
 										<a class="btn btn-secondary btn-sm" href="graficoAtividade-${atividade.id}">
-											Ver Gráfico</a>
+											Estatísticas</a>
 									</p>
 								</li>
 							</c:if>

@@ -122,7 +122,7 @@
 											<strong>Feedback:</strong> ${r.observacoesProfessor}
 										</h6>
 										<h6>
-											<strong>Nota:</strong>${r.nota}/${r.atividade.valorMaximo}</h6>
+											<strong>Nota:</strong> ${r.nota}/${r.atividade.valorMaximo}</h6>
 									</div>
 								</div>
 							</div>

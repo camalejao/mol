@@ -112,15 +112,16 @@
 								<div class="card mb-3">
 									<div class="card-header">
 										<h6>
-											<strong>${td.turmaDisciplina.disciplina.nome}</strong>
+											<strong>${td.turmaDisciplina.disciplina.nome}</strong> - ${td.turmaDisciplina.turma.periodo.toString()}
 										</h6>
+										<h6>Professor ${td.turmaDisciplina.professor.nome}</h6>
 									</div>
 									<div class="list-group list-group-flush">
 										<a class="list-group-item list-group-item-action" href="#">
-											<c:if test="${turmaDisciplina.quantidadeNiveis > 0}">
+											<c:if test="${td.turmaDisciplina.quantidadeNiveis > 0}">
 												<strong>Nível: </strong> ${td.nivelAtual} / ${td.turmaDisciplina.quantidadeNiveis}
 											</c:if>
-											<c:if test="${turmaDisciplina.quantidadeNiveis == 0}">
+											<c:if test="${td.turmaDisciplina.quantidadeNiveis == 0}">
 												<strong>Nível: </strong> ${td.nivelAtual} / -
 											</c:if>
 										</a>
