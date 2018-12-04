@@ -124,7 +124,7 @@
 											<label for="inputMatricula">Matrícula</label>
 											<form:input path="matricula" class="form-control"
 												id="inputMatricula" type="text" aria-describedby="nameHelp"
-												placeholder="Ex: 12345678" maxlength="8" required="true"
+												placeholder="Ex: 12345678" maxlength="10" required="true"
 												onchange="verificaMatAluno(this.value)" />
 											<form:errors path="matricula" cssClass="text-danger" />
 										</div>

@@ -15,8 +15,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Aluno extends Usuario {
 	
 	@NotEmpty @NotBlank
-	@Size(min=8, max=8)
-	@Column(length=8, nullable=false, unique = true)
+	@Size(min=8, max=10)
+	@Column(length=10, nullable=false, unique = true)
 	private String matricula;
 	
 	
