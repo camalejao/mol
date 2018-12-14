@@ -33,7 +33,7 @@ public class ItemRespostaDAO extends DAOGenerico<ItemResposta> implements IItemR
 	@Override
 	public List<ItemResposta> consultarEnviadosPorAlunoAtividade(Aluno aluno, Atividade atividade) {
 		try {
-			TypedQuery<ItemResposta> query = getEntityManager().createQuery("select ir from ItemResposta ir where ir.aluno = :a and ir.item.atividade = :atv and enviado=1", ItemResposta.class);
+			TypedQuery<ItemResposta> query = getEntityManager().createQuery("select ir from ItemResposta ir where ir.aluno = :a and ir.item.atividade = :atv and ir.enviado=true", ItemResposta.class);
 			query.setParameter("a", aluno);
 			query.setParameter("atv", atividade);
             return query.getResultList();
