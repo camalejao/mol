@@ -115,9 +115,9 @@
 						<div class="card-body">
 							<form:form modelAttribute="turma" action="insereTurma" method="POST">
 								<div class="form-group">
-									<label for="inputNome">Identificação</label>
+									<label for="inputIdentificacao">Identificação</label>
 									<form:input path="identificacao" class="form-control" id="inputIdentificacao" required="true"
-										type="text" placeholder="Ex: 913-B" required="true" minlength="3" maxlegth="8" />
+										type="text" placeholder="Ex: 913-B" minlength="3" maxlegth="8" />
 								</div>
 								<div class="form-group">
 									<label for="selectCurso">Curso</label>
